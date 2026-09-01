@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under The Hood - Networking Masterclass</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Deep, dark immersive background */
+            --bg-base: #030509;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            /* Neon Accents */
+            --cyan: #00f2fe;
+            --cyan-glow: rgba(0, 242, 254, 0.5);
+            --purple: #a855f7;
+            --purple-glow: rgba(168, 85, 247, 0.5);
+            --emerald: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.5);
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(20, 25, 35, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+            
+            /* Smooth easing */
+            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            width: 100%; height: 100%;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        /* Dynamic Ambient Background */
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #0a0f1a 0%, var(--bg-base) 100%);
+        }
+        
+        .glow-orb {
+            position: absolute;
+            width: 60vmax; height: 60vmax;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            transition: all 1.5s var(--ease-smooth);
+            transform: translate(-50%, -50%);
+        }
+
+        /* Presentation Layout */
+        #deck {
+            position: relative;
+            width: 100%; height: 100%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%; height: 100%;
+            padding: clamp(2rem, 5vw, 5rem);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            /* Entrance state */
+            transform: scale(0.98) translateY(20px);
+            transition: opacity 0.6s var(--ease-smooth), transform 0.8s var(--ease-smooth), visibility 0.8s;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: all;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Responsive Container for Content */
+        .slide-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            padding: clamp(1.5rem, 3vw, 3rem);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            opacity: 0.5;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+        }
+
+        .title-massive {
+            font-size: clamp(4rem, 8vw, 9rem);
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .slide-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            margin-bottom: clamp(1.5rem, 3vw, 3rem);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Gradients */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .grad-cyan { background-image: linear-gradient(135deg, #fff 0%, var(--cyan) 100%); }
+        .grad-purple { background-image: linear-gradient(135deg, #fff 0%, var(--purple) 100%); }
+        .grad-emerald { background-image: linear-gradient(135deg, #fff 0%, var(--emerald) 100%); }
+        .grad-rose { background-image: linear-gradient(135deg, #fff 0%, var(--rose) 100%); }
+        .grad-amber { background-image: linear-gradient(135deg, #fff 0%, var(--amber) 100%); }
+
+        /* Staggered Entrance Animations */
+        .stagger {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s var(--ease-smooth);
+        }
+        
+        .slide.active .stagger {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide.active .d-1 { transition-delay: 0.1s; }
+        .slide.active .d-2 { transition-delay: 0.2s; }
+        .slide.active .d-3 { transition-delay: 0.3s; }
+        .slide.active .d-4 { transition-delay: 0.4s; }
+        .slide.active .d-5 { transition-delay: 0.5s; }
+
+        /* Speaker Tag */
+        .speaker-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 24px 8px 8px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .speaker-avatar {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-size: 1.2rem;
+        }
+
+        /* Grids */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(1rem, 2vw, 2rem); }
+
+        /* Lists */
+        .sleek-list { list-style: none; }
+        .sleek-list li {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+            color: var(--text-main);
+        }
+        .sleek-list li i {
+            position: absolute;
+            left: 0; top: 4px;
+            font-size: 1.5rem;
+        }
+
+        /* Terminal Window */
+        .terminal {
+            background: rgba(5, 5, 10, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+            font-family: 'JetBrains Mono', monospace;
+            backdrop-filter: blur(20px);
+        }
+        .term-header {
+            background: rgba(255,255,255,0.05);
+            padding: 12px 20px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .term-dot { width: 14px; height: 14px; border-radius: 50%; }
+        .dot-r { background: #ff5f56; } .dot-y { background: #ffbd2e; } .dot-g { background: #27c93f; }
+        .term-body { padding: clamp(1.5rem, 3vw, 2.5rem); font-size: clamp(1rem, 1.5vw, 1.4rem); line-height: 1.7; color: #a9b7c6; }
+        .cmd::before { content: 'uday@college-laptop:~$ '; color: var(--emerald); font-weight: bold; }
+        .cmd-root::before { content: 'root@vps:~# '; color: var(--rose); font-weight: bold; }
+        .hl-cyan { color: var(--cyan); } .hl-amber { color: var(--amber); }
+
+        /* Animated Charts */
+        .chart-row { margin-bottom: 1.5rem; }
+        .chart-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: 'JetBrains Mono'; font-size: 1rem; font-weight: 700; text-transform: uppercase; }
+        .chart-track { width: 100%; height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+        .chart-fill { height: 100%; width: 0; border-radius: 8px; transition: width 1.5s var(--ease-spring); }
+        
+        /* Specific widths triggered on active */
+        .slide.active .fill-95 { width: 95%; }
+        .slide.active .fill-60 { width: 60%; }
+        .slide.active .fill-25 { width: 25%; }
+
+        /* Flow Diagrams */
+        .diagram-flex {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .node {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            min-width: 180px;
+        }
+        .node i { font-size: 2.5rem; margin-bottom: 1rem; }
+        .arrow { font-size: 2rem; color: rgba(255,255,255,0.3); }
+
+        /* Custom Meme / Concept Badges */
+        .concept-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        /* Progress Bar */
+        #progress {
+            position: fixed;
+            bottom: 0; left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 0 10px var(--cyan-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg">
+        <div class="glow-orb" id="orb1" style="top: 20%; left: 20%; background: var(--cyan-glow);"></div>
+        <div class="glow-orb" id="orb2" style="top: 80%; left: 80%; background: var(--purple-glow);"></div>
+    </div>
+
+    <div id="progress"></div>
+
+    <div id="deck">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active" data-color="cyan">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <div class="speaker-badge stagger d-1 mb-8">
+                    <div class="speaker-avatar"><i class="fa-solid fa-bolt"></i></div>
+                    Speaker // Uday
+                </div>
+                <h1 class="title-massive text-gradient grad-cyan stagger d-2">Under The<br>Hood</h1>
+                <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); max-width: 900px; margin: 2rem 0;">
+                    The chaotic, patched-together, entirely practical reality of the Internet.
+                </p>
+                <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1rem 2rem; border-radius: 50px;">
+                    <span class="mono" style="color: var(--cyan);">[ <i class="fa-solid fa-network-wired"></i> Masterclass Session Init ]</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: DNS & HSTS -->
+        <div class="slide" data-color="purple">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-purple stagger d-1"><i class="fa-solid fa-address-book"></i> The Global Phonebook</h2>
+                
+                <div class="diagram-flex stagger d-2" style="margin-bottom: 4rem;">
+                    <div class="node" style="border-color: var(--purple); box-shadow: 0 0 20px rgba(168,85,247,0.2);">
+                        <i class="fa-solid fa-laptop-code" style="color: var(--purple);"></i>
+                        <h3 style="font-size: 1.5rem;">Browser</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-top: 0.5rem;">google.com</div>
+                    </div>
+                    <div class="arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                    <div class="node" style="border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,242,254,0.2);">
+                        <i class="fa-solid fa-server" style="color: var(--cyan);"></i>
+                        <h3 style="font-size: 1.5rem;">DNS (1.1.1.1)</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-top: 0.5rem;">UDP Port 53</div>
+                    </div>
+                    <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="node" style="border-color: var(--emerald); box-shadow: 0 0 20px rgba(16,185,129,0.2);">
+                        <i class="fa-solid fa-globe" style="color: var(--emerald);"></i>
+                        <h3 style="font-size: 1.5rem;">Target Server</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-top: 0.5rem;">142.250.190.46</div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <ul class="sleek-list stagger d-3">
+                        <li><i class="fa-solid fa-magnifying-glass" style="color: var(--purple);"></i> <strong>Domains & TLDs:</strong> Humans can't memorize IPs. TLDs (.com, .in) categorize the web.</li>
+                        <li><i class="fa-solid fa-sitemap" style="color: var(--cyan);"></i> <strong>DNS Resolution:</strong> The system translating aliases to routable network coordinates.</li>
+                    </ul>
+                    <div class="glass-panel stagger d-4" style="border-left: 4px solid var(--amber);">
+                        <div class="concept-badge" style="color: var(--amber);"><i class="fa-solid fa-shield-halved"></i> HSTS Protocol</div>
+                        <h3 style="font-size: 2rem; margin-bottom: 1rem;">No Downgrades Allowed</h3>
+                        <p>HTTP Strict Transport Security forces the browser to <strong>ONLY</strong> use HTTPS. It prevents networks (like college Wi-Fi) from intercepting traffic via plain-text HTTP.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: LAN Paradox (IPv4 vs IPv6) -->
+        <div class="slide" data-color="amber">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-amber stagger d-1"><i class="fa-solid fa-infinity"></i> The IPv4 vs IPv6 Paradox</h2>
+                <div class="grid-2">
+                    <div class="glass-panel stagger d-2" style="background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.2);">
+                        <div class="concept-badge" style="color: var(--rose);">1990s Band-Aid</div>
+                        <h3 style="font-size: 3rem; margin-bottom: 1rem; color: var(--rose);">NAT</h3>
+                        <p style="font-size: 1.4rem; color: #fff;">We ran out of the 4.3 billion IPs years ago.</p>
+                        <p>Network Address Translation was invented in 1994 to let <strong>entire houses share 1 public IP</strong>. This created the concept of "Private IPs" (192.168.x.x).</p>
+                    </div>
+                    
+                    <div class="glass-panel stagger d-3" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+                        <div class="concept-badge" style="color: var(--emerald);">The Modern Reality</div>
+                        <h3 style="font-size: 3rem; margin-bottom: 1rem; color: var(--emerald);">3.4 × 10³⁸ IPs</h3>
+                        <p style="font-size: 1.4rem; color: #fff;">Every device gets a globally routable public IP.</p>
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <h4 style="color: var(--amber); font-size: 1.5rem; margin-bottom: 0.5rem;">The Contradiction</h4>
+                            <p>Why do LANs still exist? For <strong>Security</strong> (Stateful Firewalls block inbound scans) and zero-cost local <strong>Switching</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Interfaces & Ports -->
+        <div class="slide" data-color="emerald">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-emerald stagger d-1"><i class="fa-solid fa-door-open"></i> Interfaces & Ports</h2>
+                <div class="grid-2" style="align-items: center;">
+                    <ul class="sleek-list stagger d-2">
+                        <li><i class="fa-solid fa-building" style="color: var(--emerald);"></i> <strong>IP = The Building:</strong> Routes the packet to the correct machine on the network.</li>
+                        <li><i class="fa-solid fa-door-closed" style="color: var(--amber);"></i> <strong>Port = The Apartment:</strong> (0-65535) Routes the packet to the specific App (e.g. 25565 for Minecraft).</li>
+                        <li><i class="fa-solid fa-lock" style="color: var(--rose);"></i> <strong>127.0.0.1 (Localhost):</strong> App listens only to internal OS. Highly secure.</li>
+                        <li><i class="fa-solid fa-globe" style="color: var(--cyan);"></i> <strong>0.0.0.0 (Any):</strong> App listens on ALL network interfaces (Wi-Fi, Ethernet).</li>
+                    </ul>
+                    <div class="stagger d-3" style="display: flex; justify-content: center;">
+                        <!-- CSS House Diagram -->
+                        <div class="glass-panel" style="width: 100%; max-width: 400px; text-align: center; position: relative;">
+                            <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 200px solid transparent; border-right: 200px solid transparent; border-bottom: 80px solid rgba(255,255,255,0.05); z-index: -1;"></div>
+                            <h3 style="font-family: 'JetBrains Mono'; color: var(--emerald); margin-bottom: 2rem;">192.168.1.50</h3>
+                            <div style="display: flex; justify-content: space-around;">
+                                <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
+                                    <h2 style="color: var(--cyan);">80</h2>
+                                    <span class="mono" style="font-size: 0.9rem; color: var(--text-muted);">Web</span>
+                                </div>
+                                <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
+                                    <h2 style="color: var(--rose);">22</h2>
+                                    <span class="mono" style="font-size: 0.9rem; color: var(--text-muted);">SSH</span>
+                                </div>
+                                <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
+                                    <h2 style="color: var(--amber);">25565</h2>
+                                    <span class="mono" style="font-size: 0.9rem; color: var(--text-muted);">MC</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: The ISP Trap -->
+        <div class="slide" data-color="rose">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-rose stagger d-1"><i class="fa-solid fa-box-archive"></i> The ISP Trap: CGNAT</h2>
+                <div class="grid-2">
+                    <div class="glass-panel stagger d-2" style="border-color: rgba(244, 63, 94, 0.3);">
+                        <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Carrier-Grade NAT</h3>
+                        <p>ISPs hoard public IPs. They put your home router behind <em>another</em> giant router.</p>
+                        
+                        <!-- Visual Meme/Diagram of NAT inside NAT -->
+                        <div style="margin: 2rem 0; padding: 1.5rem; border: 2px dashed var(--rose); border-radius: 16px; text-align: center;">
+                            <div class="mono" style="color: #fff; margin-bottom: 1rem;">ISP Router (142.x.x.x)</div>
+                            <div style="padding: 1.5rem; background: rgba(245, 158, 11, 0.1); border: 2px dashed var(--amber); border-radius: 12px;">
+                                <div class="mono" style="color: var(--amber); margin-bottom: 1rem;">Home Router (100.64.x.x)</div>
+                                <div style="padding: 1rem; background: rgba(16, 185, 129, 0.1); border: 2px dashed var(--emerald); border-radius: 8px;">
+                                    <div class="mono" style="color: var(--emerald);">Your PC (192.168.1.50)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 style="color: var(--rose); font-size: 1.5rem; text-align: center;">Result: Port Forwarding is Impossible.</h4>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="glass-panel stagger d-3">
+                            <h3 style="color: var(--cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-ban"></i> College Constraints</h3>
+                            <p>Our college Wi-Fi (Sophos) uses <strong>Client Isolation</strong>. You can't ping the laptop next to you. Inbound connections are strictly blocked.</p>
+                        </div>
+                        <div class="glass-panel stagger d-4">
+                            <h3 style="color: var(--purple); margin-bottom: 0.5rem;"><i class="fa-solid fa-arrow-rotate-left"></i> Hairpin NAT Crash</h3>
+                            <p>Trying to connect to your own public IP from inside your house? Cheap routers drop the packet. Good routers perform a NAT loopback to rewrite it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: LIVE LAB -->
+        <div class="slide" data-color="cyan">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-cyan stagger d-1"><i class="fa-solid fa-terminal"></i> LIVE LAB: Bypassing the Firewall</h2>
+                <p class="stagger d-2" style="font-size: 1.8rem; text-align: center; margin-bottom: 3rem; color: #fff;">
+                    Since Sophos blocks incoming traffic, we punch a hole <strong>OUT</strong> to the Cloudflare edge.
+                </p>
+                
+                <div class="terminal stagger d-3" style="max-width: 1000px; margin: 0 auto; width: 100%;">
+                    <div class="term-header">
+                        <div class="term-dot dot-r"></div><div class="term-dot dot-y"></div><div class="term-dot dot-g"></div>
+                    </div>
+                    <div class="term-body">
+                        <div class="cmd">python3 -m http.server 8080</div>
+                        <div style="color: var(--text-muted); margin-bottom: 2rem;">Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...</div>
+                        
+                        <div class="cmd">cloudflared tunnel --url http://localhost:8080</div>
+                        <div style="color: var(--text-muted);">2026-09-02T19:05:16Z INF Requesting new quick Tunnel...</div>
+                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF +-------------------------------------------------------+</div>
+                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF |  Your quick Tunnel has been created! Visit it at:     |</div>
+                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF |  <span class="hl-cyan" style="text-decoration: underline; font-weight: bold;">https://random-words.trycloudflare.com</span>             |</div>
+                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF +-------------------------------------------------------+</div>
+                    </div>
+                </div>
+
+                <div class="stagger d-4" style="text-align: center; margin-top: 3rem;">
+                    <div class="glass-panel" style="display: inline-block; padding: 1rem 3rem; border-color: var(--amber); animation: pulse 2s infinite;">
+                        <h3 style="color: var(--amber); font-size: 2rem;"><i class="fa-solid fa-mobile-screen"></i> Connect on your phones via 5G right now!</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Network Quality Metrics -->
+        <div class="slide" data-color="emerald">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-emerald stagger d-1"><i class="fa-solid fa-chart-line"></i> Network Quality Metrics</h2>
+                <div class="grid-2">
+                    <ul class="sleek-list stagger d-2">
+                        <li><i class="fa-solid fa-water" style="color: var(--cyan);"></i> <strong style="color: #fff;">Bandwidth:</strong> The width of the highway (e.g. 1 Gbps capacity).</li>
+                        <li><i class="fa-solid fa-stopwatch" style="color: var(--emerald);"></i> <strong style="color: #fff;">Latency (Ping):</strong> Time for a packet to travel and return (20ms).</li>
+                        <li><i class="fa-solid fa-bolt" style="color: var(--rose);"></i> <strong style="color: #fff;">Jitter:</strong> Variance in latency. If ping jumps from 20ms to 150ms, that's high jitter (rubberbanding).</li>
+                    </ul>
+                    
+                    <div class="glass-panel stagger d-3">
+                        <h3 style="font-size: 2rem; margin-bottom: 2rem; color: var(--amber);"><i class="fa-solid fa-traffic-light"></i> QoS (Quality of Service)</h3>
+                        <p style="font-size: 1.2rem; margin-bottom: 2rem;">How routers prioritize traffic during congestion to prevent Bufferbloat.</p>
+                        
+                        <!-- Animated Bars -->
+                        <div class="chart-row">
+                            <div class="chart-label"><span style="color: var(--emerald);">Voice / Gaming (UDP)</span><span>HIGH PRIORITY</span></div>
+                            <div class="chart-track"><div class="chart-fill fill-95" style="background: var(--emerald);"></div></div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-label"><span style="color: var(--cyan);">Streaming (TCP/DASH)</span><span>MED PRIORITY</span></div>
+                            <div class="chart-track"><div class="chart-fill fill-60" style="background: var(--cyan);"></div></div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-label"><span style="color: var(--text-muted);">Bulk Torrent</span><span>LOW PRIORITY</span></div>
+                            <div class="chart-track"><div class="chart-fill fill-25" style="background: var(--text-muted);"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: VPNs & Privacy Illusion -->
+        <div class="slide" data-color="purple">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-purple stagger d-1"><i class="fa-solid fa-user-secret"></i> VPNs & The Privacy Paradox</h2>
+                <div class="grid-2">
+                    <div style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div class="glass-panel stagger d-2" style="border-left: 4px solid var(--cyan);">
+                            <h3 style="font-size: 2rem; margin-bottom: 1rem;">WireGuard vs OpenVPN</h3>
+                            <p><strong>OpenVPN:</strong> Old, user-space, heavy overhead.<br>
+                            <strong>WireGuard:</strong> Next-gen, runs directly in Linux kernel (`wg0`), stealthy (drops unauth packets silently).</p>
+                        </div>
+                        <div class="glass-panel stagger d-3" style="border-left: 4px solid var(--rose);">
+                            <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Egress Risk</h3>
+                            <p>VPNs encrypt the tunnel, but the VPN Provider acts as your new ISP. They can see all DNS and TLS SNI metadata.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stagger d-4">
+                        <h3 style="font-size: 2.2rem; margin-bottom: 1rem; color: #fff;"><i class="fa-solid fa-spider" style="color: var(--purple);"></i> Web Tracking Escapes VPNs</h3>
+                        <p>Tracking relies on identity parameters, not just IP addresses.</p>
+                        <div class="terminal">
+                            <div class="term-header"><div class="term-dot dot-r"></div><div class="term-dot dot-y"></div><div class="term-dot dot-g"></div></div>
+                            <div class="term-body">
+                                <div style="color: #fff;">GET /post/123 HTTP/3</div>
+                                <div style="color: var(--text-muted);">Host: instagram.com</div>
+                                <div style="color: var(--text-muted); margin-top: 1rem;">URL Parameters:</div>
+                                <div class="hl-amber">?utm_source=networking_class</div>
+                                <div class="hl-amber">?igsh=YzcxN2Q2NzE0...</div>
+                                <div style="color: var(--rose); margin-top: 1.5rem;">// igsh maps social graphs regardless of IP. Changing your IP does nothing.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Exploits -->
+        <div class="slide" data-color="rose">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-rose stagger d-1"><i class="fa-solid fa-skull-crossbones"></i> When The Network Attacks</h2>
+                <div class="grid-3">
+                    <div class="glass-panel stagger d-2" style="border-top: 4px solid var(--emerald); text-align: center;">
+                        <i class="fa-brands fa-linux" style="font-size: 4rem; color: var(--emerald); margin-bottom: 1rem;"></i>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">XZ-Utils Hack</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem;">CVE-2024-3094</div>
+                        <p style="font-size: 1.1rem;">A 4-line network backdoor injected into Linux SSH. Waiting for a magic packet to grant unauthenticated remote access.</p>
+                    </div>
+                    
+                    <div class="glass-panel stagger d-3" style="border-top: 4px solid var(--cyan); text-align: center;">
+                        <i class="fa-solid fa-box-open" style="font-size: 4rem; color: var(--cyan); margin-bottom: 1rem;"></i>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">AUR Typosquatting</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem;">chrome-fix vs google-chrome</div>
+                        <p style="font-size: 1.1rem;">Malicious packages uploaded to community repos. Relies on users blindly copying commands, triggering DDoS or malware.</p>
+                    </div>
+                    
+                    <div class="glass-panel stagger d-4" style="border-top: 4px solid var(--amber); text-align: center;">
+                        <i class="fa-solid fa-people-arrows" style="font-size: 4rem; color: var(--amber); margin-bottom: 1rem;"></i>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">ClickFix / Social Eng.</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem;">Bypassing Firewalls</div>
+                        <p style="font-size: 1.1rem;">"Browser needs update, paste this in terminal." Bypasses the network firewall entirely by tricking the human.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Censorship DPI -->
+        <div class="slide" data-color="cyan">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-cyan stagger d-1"><i class="fa-solid fa-gavel"></i> How Censorship & DPI Work</h2>
+                <p class="stagger d-2" style="font-size: 1.8rem; margin-bottom: 2rem; color: #fff;">How does an ISP actually enforce a ban on apps like Telegram?</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="glass-panel stagger d-3" style="padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem;">
+                        <h1 style="color: var(--purple); font-size: 4rem; opacity: 0.5;">1</h1>
+                        <div>
+                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem;">DNS Spoofing</h3>
+                            <p style="margin: 0;">You ask for <span class="mono text-gradient grad-purple">telegram.org</span>. The ISP's DNS lies and returns <span class="mono">0.0.0.0</span>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel stagger d-4" style="padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem;">
+                        <h1 style="color: var(--rose); font-size: 4rem; opacity: 0.5;">2</h1>
+                        <div>
+                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem;">SNI Filtering & Deep Packet Inspection (DPI)</h3>
+                            <p style="margin: 0;">Even on HTTPS, the initial "Server Name" is plain text. The firewall reads it, sees a banned domain, and injects a <strong>TCP RST (Reset)</strong> packet to kill the connection.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel stagger d-5" style="padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem;">
+                        <h1 style="color: var(--amber); font-size: 4rem; opacity: 0.5;">3</h1>
+                        <div>
+                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem;">BGP Blackholing</h3>
+                            <p style="margin: 0;">ISPs advertise false routes for the target's IP blocks, routing national traffic into a digital void.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Darknet (TOR) & Torrent -->
+        <div class="slide" data-color="purple">
+            <div class="slide-content">
+                <h2 class="slide-title text-gradient grad-purple stagger d-1"><i class="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P</h2>
+                <div class="grid-2">
+                    <div class="stagger d-2">
+                        <h3 style="font-size: 2.5rem; color: var(--cyan); margin-bottom: 1rem;">TOR (Onion Routing)</h3>
+                        <p style="margin-bottom: 2rem;">3 Layers of Encryption. Bypasses tracking by separating identity from destination.</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div class="glass-panel" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--rose);">
+                                <strong class="mono">Guard Node</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows YOU, not Dest.</span>
+                            </div>
+                            <div style="text-align: center; color: rgba(255,255,255,0.2);"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="glass-panel" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--amber);">
+                                <strong class="mono">Middle Node</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows nothing.</span>
+                            </div>
+                            <div style="text-align: center; color: rgba(255,255,255,0.2);"><i class="fa-solid fa-arrow-down"></i></div>
+                            <div class="glass-panel" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--emerald);">
+                                <strong class="mono">Exit Node</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows Dest, not YOU.</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stagger d-3">
+                        <h3 style="font-size: 2.5rem; color: var(--emerald); margin-bottom: 1rem;">Torrents (P2P DHT)</h3>
+                        <div class="glass-panel">
+                            <h4 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem;">Decentralized Swarm</h4>
+                            <p style="margin-bottom: 1.5rem;">Instead of downloading a 10GB file from 1 server, you download tiny chunks from 50 strangers globally simultaneously. Unkillable.</p>
+                            
+                            <h4 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem;">Kademlia DHT</h4>
+                            <p style="margin: 0;">Uses distributed hash tables (XOR metric) so peers discover each other without central trackers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: End -->
+        <div class="slide" data-color="cyan">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <i class="fa-solid fa-terminal stagger d-1" style="font-size: 6rem; color: var(--emerald); margin-bottom: 2rem;"></i>
+                <h1 class="title-massive text-gradient grad-cyan stagger d-2" style="font-size: clamp(3rem, 6vw, 7rem);">Session 0x00: COMPLETE</h1>
+                <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); margin-bottom: 3rem; max-width: 900px;">
+                    The internet is held together by duct tape, NAT, and BGP.<br>Understand the layers. Break the rules.
+                </p>
+                <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1.5rem 3rem; border-radius: 50px; border-color: var(--cyan);">
+                    <span class="mono" style="color: #fff; font-size: 1.5rem;">> Open for Q&A / Live Wireshark Analysis</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progress');
+        const orb1 = document.getElementById('orb1');
+        const orb2 = document.getElementById('orb2');
+        let currentSlide = 0;
+        let isAnimating = false;
+
+        // Color palettes for background glowing orbs mapped to data-color
+        const colors = {
+            cyan: { c1: 'rgba(0, 242, 254, 0.4)', c2: 'rgba(168, 85, 247, 0.3)' },
+            purple: { c1: 'rgba(168, 85, 247, 0.4)', c2: 'rgba(16, 185, 129, 0.3)' },
+            amber: { c1: 'rgba(245, 158, 11, 0.4)', c2: 'rgba(244, 63, 94, 0.3)' },
+            emerald: { c1: 'rgba(16, 185, 129, 0.4)', c2: 'rgba(0, 242, 254, 0.3)' },
+            rose: { c1: 'rgba(244, 63, 94, 0.4)', c2: 'rgba(245, 158, 11, 0.3)' }
+        };
+
+        function updatePresentation() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                    
+                    // Update Progress Bar
+                    const progress = ((index + 1) / slides.length) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // Update Ambient Background Orbs
+                    const colorKey = slide.getAttribute('data-color') || 'cyan';
+                    const theme = colors[colorKey];
+                    
+                    // Randomize orb positions slightly for dynamic feel
+                    const p1x = 10 + Math.random() * 30; const p1y = 10 + Math.random() * 30;
+                    const p2x = 60 + Math.random() * 30; const p2y = 60 + Math.random() * 30;
+
+                    orb1.style.background = theme.c1;
+                    orb1.style.top = `${p1y}%`; orb1.style.left = `${p1x}%`;
+                    
+                    orb2.style.background = theme.c2;
+                    orb2.style.top = `${p2y}%`; orb2.style.left = `${p2x}%`;
+
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            // Prevent rapid scrolling bugs
+            setTimeout(() => { isAnimating = false; }, 600);
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updatePresentation();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updatePresentation();
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+        });
+
+        // Click / Touch Navigation (Left/Right screen halves)
+        document.addEventListener('click', (e) => {
+            // Ignore clicks on code blocks or links if we ever add them
+            if(e.target.closest('a') || e.target.closest('.cmd')) return;
+            
+            if (e.clientX > window.innerWidth / 2) nextSlide();
+            else prevSlide();
+        });
+
+        // Touch Swipe Navigation for mobile responsiveness
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const threshold = 50;
+            if (touchEndX < touchStartX - threshold) nextSlide();
+            if (touchEndX > touchStartX + threshold) prevSlide();
+        }
+
+        // Init
+        updatePresentation();
+    </script>
+</body>
+</html>
