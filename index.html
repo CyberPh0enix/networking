@@ -38,15 +38,15 @@
         <!-- Slide 1: Title -->
         <div class="slide" data-color="cyan">
             <div class="slide-content" style="align-items: center; text-align: center;">
-                <div class="speaker-badge stagger d-1 mb-8">
+                <div class="speaker-badge stagger d-1" style="margin-bottom: 2rem;">
                     <div class="speaker-avatar"><i class="fa-solid"></i></div>
                     <span data-config="speaker.role"></span> // <span data-config="speaker.name"></span>
                 </div>
                 <h1 class="title-massive text-gradient grad-cyan stagger d-2" data-config="presentation.title"></h1>
-                <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); max-width: 900px; margin: 2rem 0;" data-config="presentation.subtitle">
+                <p class="stagger d-3" style="max-width: 900px; font-size: 2rem;" data-config="presentation.subtitle">
                 </p>
-                <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1rem 2rem; border-radius: 50px;">
-                    <span class="mono" style="color: var(--cyan);">[ <i class="fa-solid fa-network-wired"></i> Masterclass Session Init ]</span>
+                <div class="glass-panel stagger d-4" style="padding: 1rem 2rem; border-radius: 50px; margin-top: 2rem;">
+                    <span class="mono" style="color: var(--cyan); font-size: 1rem;">[ <i class="fa-solid fa-network-wired"></i> Masterclass Session Init ]</span>
                 </div>
             </div>
         </div>
@@ -56,35 +56,35 @@
             <div class="slide-content">
                 <h2 class="slide-title text-gradient grad-purple stagger d-1"><i class="fa-solid fa-address-book"></i> The Global Phonebook</h2>
                 
-                <div class="diagram-flex stagger d-2" style="margin-bottom: 4rem;">
+                <div class="diagram-flex stagger d-2">
                     <div class="node" style="border-color: var(--purple); box-shadow: 0 0 20px rgba(168,85,247,0.2);">
                         <i class="fa-solid fa-laptop-code" style="color: var(--purple);"></i>
-                        <h3 style="font-size: 1.5rem;">Browser</h3>
-                        <div class="mono" style="color: var(--text-muted); margin-top: 0.5rem;">google.com</div>
+                        <h3 class="node-title">Browser</h3>
+                        <div class="mono node-sub">google.com</div>
                     </div>
                     <div class="arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
                     <div class="node" style="border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,242,254,0.2);">
                         <i class="fa-solid fa-server" style="color: var(--cyan);"></i>
-                        <h3 style="font-size: 1.5rem;">DNS (1.1.1.1)</h3>
-                        <div class="mono" style="color: var(--text-muted); margin-top: 0.5rem;">UDP Port 53</div>
+                        <h3 class="node-title">DNS (1.1.1.1)</h3>
+                        <div class="mono node-sub">UDP Port 53</div>
                     </div>
                     <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
                     <div class="node" style="border-color: var(--emerald); box-shadow: 0 0 20px rgba(16,185,129,0.2);">
                         <i class="fa-solid fa-globe" style="color: var(--emerald);"></i>
-                        <h3 style="font-size: 1.5rem;">Target Server</h3>
-                        <div class="mono" style="color: var(--text-muted); margin-top: 0.5rem;">142.250.190.46</div>
+                        <h3 class="node-title">Target Server</h3>
+                        <div class="mono node-sub">142.250.190.46</div>
                     </div>
                 </div>
 
                 <div class="grid-2">
                     <ul class="sleek-list stagger d-3">
                         <li><i class="fa-solid fa-magnifying-glass" style="color: var(--purple);"></i> <strong>Domains & TLDs:</strong> Humans can't memorize IPs. TLDs (.com, .in) categorize the web.</li>
-                        <li><i class="fa-solid fa-sitemap" style="color: var(--cyan);"></i> <strong>DNS Resolution:</strong> The system translating aliases to routable network coordinates.</li>
+                        <li><i class="fa-solid fa-sitemap" style="color: var(--cyan);"></i> <strong>DNS Resolution:</strong> Translates aliases to routable network coordinates.</li>
                     </ul>
                     <div class="glass-panel stagger d-4" style="border-left: 4px solid var(--amber);">
-                        <div class="concept-badge" style="color: var(--amber);"><i class="fa-solid fa-shield-halved"></i> HSTS Protocol</div>
-                        <h3 style="font-size: 2rem; margin-bottom: 1rem;">No Downgrades Allowed</h3>
-                        <p>HTTP Strict Transport Security forces the browser to <strong>ONLY</strong> use HTTPS. It prevents networks (like college Wi-Fi) from intercepting traffic via plain-text HTTP.</p>
+                        <div><div class="concept-badge" style="color: var(--amber);"><i class="fa-solid fa-shield-halved"></i> HSTS Protocol</div></div>
+                        <h3>No Downgrades Allowed</h3>
+                        <p>HTTP Strict Transport Security forces browsers to <strong>ONLY</strong> use HTTPS, preventing network interception.</p>
                     </div>
                 </div>
             </div>
@@ -95,20 +95,20 @@
             <div class="slide-content">
                 <h2 class="slide-title text-gradient grad-amber stagger d-1"><i class="fa-solid fa-infinity"></i> The IPv4 vs IPv6 Paradox</h2>
                 <div class="grid-2">
-                    <div class="glass-panel stagger d-2" style="background: rgba(244, 63, 94, 0.05); border-color: rgba(244, 63, 94, 0.2);">
-                        <div class="concept-badge" style="color: var(--rose);">1990s Band-Aid</div>
-                        <h3 style="font-size: 3rem; margin-bottom: 1rem; color: var(--rose);">NAT</h3>
-                        <p style="font-size: 1.4rem; color: #fff;">We ran out of the 4.3 billion IPs years ago.</p>
-                        <p>Network Address Translation was invented in 1994 to let <strong>entire houses share 1 public IP</strong>. This created the concept of "Private IPs" (192.168.x.x).</p>
+                    <div class="glass-panel stagger d-2" style="border-color: rgba(244, 63, 94, 0.4);">
+                        <div><div class="concept-badge" style="color: var(--rose);">1990s Band-Aid</div></div>
+                        <h3 style="color: var(--rose); font-size: 3rem;">NAT</h3>
+                        <p style="color: #fff;">We ran out of the 4.3 billion IPs years ago.</p>
+                        <p>Network Address Translation let <strong>entire houses share 1 public IP</strong>, creating "Private IPs" (192.168.x.x).</p>
                     </div>
                     
-                    <div class="glass-panel stagger d-3" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
-                        <div class="concept-badge" style="color: var(--emerald);">The Modern Reality</div>
-                        <h3 style="font-size: 3rem; margin-bottom: 1rem; color: var(--emerald);">3.4 × 10³⁸ IPs</h3>
-                        <p style="font-size: 1.4rem; color: #fff;">Every device gets a globally routable public IP.</p>
-                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                            <h4 style="color: var(--amber); font-size: 1.5rem; margin-bottom: 0.5rem;">The Contradiction</h4>
-                            <p>Why do LANs still exist? For <strong>Security</strong> (Stateful Firewalls block inbound scans) and zero-cost local <strong>Switching</strong>.</p>
+                    <div class="glass-panel stagger d-3" style="border-color: rgba(16, 185, 129, 0.4);">
+                        <div><div class="concept-badge" style="color: var(--emerald);">The Modern Reality</div></div>
+                        <h3 style="color: var(--emerald); font-size: 3rem;">3.4 × 10³⁸ IPs</h3>
+                        <p style="color: #fff;">Every device gets a globally routable public IP.</p>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <h4 style="color: var(--amber);">The Contradiction</h4>
+                            <p>Why do LANs still exist? For <strong>Security</strong> (Firewalls) and zero-cost local <strong>Switching</strong>.</p>
                         </div>
                     </div>
                 </div>
@@ -121,25 +121,25 @@
                 <h2 class="slide-title text-gradient grad-emerald stagger d-1"><i class="fa-solid fa-door-open"></i> Interfaces & Ports</h2>
                 <div class="grid-2" style="align-items: center;">
                     <ul class="sleek-list stagger d-2">
-                        <li><i class="fa-solid fa-building" style="color: var(--emerald);"></i> <strong>IP = The Building:</strong> Routes the packet to the correct machine on the network.</li>
-                        <li><i class="fa-solid fa-door-closed" style="color: var(--amber);"></i> <strong>Port = The Apartment:</strong> (0-65535) Routes the packet to the specific App (e.g. 25565 for Minecraft).</li>
-                        <li><i class="fa-solid fa-lock" style="color: var(--rose);"></i> <strong>127.0.0.1 (Localhost):</strong> App listens only to internal OS. Highly secure.</li>
-                        <li><i class="fa-solid fa-globe" style="color: var(--cyan);"></i> <strong>0.0.0.0 (Any):</strong> App listens on ALL network interfaces (Wi-Fi, Ethernet).</li>
+                        <li><i class="fa-solid fa-building" style="color: var(--emerald);"></i> <strong>IP = The Building:</strong> Routes packet to the machine.</li>
+                        <li><i class="fa-solid fa-door-closed" style="color: var(--amber);"></i> <strong>Port = The Apartment:</strong> Routes packet to the specific App.</li>
+                        <li><i class="fa-solid fa-lock" style="color: var(--rose);"></i> <strong>127.0.0.1 (Localhost):</strong> App listens only to internal OS.</li>
+                        <li><i class="fa-solid fa-globe" style="color: var(--cyan);"></i> <strong>0.0.0.0 (Any):</strong> App listens on ALL interfaces.</li>
                     </ul>
                     <div class="stagger d-3" style="display: flex; justify-content: center;">
-                        <div class="glass-panel" style="width: 100%; max-width: 400px; text-align: center; position: relative;">
+                        <div class="glass-panel" style="width: 100%; text-align: center; padding: 2rem 1rem;">
                             <h3 style="font-family: 'JetBrains Mono'; color: var(--emerald); margin-bottom: 2rem;">192.168.1.50</h3>
-                            <div style="display: flex; justify-content: space-around;">
-                                <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
-                                    <h2 style="color: var(--cyan);">80</h2>
+                            <div style="display: flex; justify-content: space-around; gap: 1rem;">
+                                <div style="flex: 1; padding: 1.5rem 0; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; background: rgba(0,0,0,0.5);">
+                                    <h3 style="color: var(--cyan); margin: 0;">80</h3>
                                     <span class="mono" style="font-size: 0.9rem; color: var(--text-muted);">Web</span>
                                 </div>
-                                <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
-                                    <h2 style="color: var(--rose);">22</h2>
+                                <div style="flex: 1; padding: 1.5rem 0; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; background: rgba(0,0,0,0.5);">
+                                    <h3 style="color: var(--rose); margin: 0;">22</h3>
                                     <span class="mono" style="font-size: 0.9rem; color: var(--text-muted);">SSH</span>
                                 </div>
-                                <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
-                                    <h2 style="color: var(--amber);">25565</h2>
+                                <div style="flex: 1; padding: 1.5rem 0; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; background: rgba(0,0,0,0.5);">
+                                    <h3 style="color: var(--amber); margin: 0;">25565</h3>
                                     <span class="mono" style="font-size: 0.9rem; color: var(--text-muted);">MC</span>
                                 </div>
                             </div>
@@ -154,30 +154,30 @@
             <div class="slide-content">
                 <h2 class="slide-title text-gradient grad-rose stagger d-1"><i class="fa-solid fa-box-archive"></i> The ISP Trap: CGNAT</h2>
                 <div class="grid-2">
-                    <div class="glass-panel stagger d-2" style="border-color: rgba(244, 63, 94, 0.3);">
-                        <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Carrier-Grade NAT</h3>
-                        <p>ISPs hoard public IPs. They put your home router behind <em>another</em> giant router.</p>
+                    <div class="glass-panel stagger d-2" style="border-color: rgba(244, 63, 94, 0.4);">
+                        <h3>Carrier-Grade NAT</h3>
+                        <p>ISPs hoard public IPs, placing you behind <em>another</em> giant router.</p>
                         
-                        <div style="margin: 2rem 0; padding: 1.5rem; border: 2px dashed var(--rose); border-radius: 16px; text-align: center;">
-                            <div class="mono" style="color: #fff; margin-bottom: 1rem;">ISP Router (142.x.x.x)</div>
-                            <div style="padding: 1.5rem; background: rgba(245, 158, 11, 0.1); border: 2px dashed var(--amber); border-radius: 12px;">
-                                <div class="mono" style="color: var(--amber); margin-bottom: 1rem;">Home Router (100.64.x.x)</div>
-                                <div style="padding: 1rem; background: rgba(16, 185, 129, 0.1); border: 2px dashed var(--emerald); border-radius: 8px;">
-                                    <div class="mono" style="color: var(--emerald);">Your PC (192.168.1.50)</div>
+                        <div style="margin: 1.5rem 0; padding: 1rem; border: 2px dashed var(--rose); border-radius: 12px; text-align: center;">
+                            <div class="mono" style="color: #fff; margin-bottom: 0.5rem; font-size: 1rem;">ISP Router (142.x.x.x)</div>
+                            <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border: 2px dashed var(--amber); border-radius: 8px;">
+                                <div class="mono" style="color: var(--amber); margin-bottom: 0.5rem; font-size: 1rem;">Home Router (100.64.x.x)</div>
+                                <div style="padding: 0.5rem; background: rgba(16, 185, 129, 0.1); border: 2px dashed var(--emerald); border-radius: 6px;">
+                                    <div class="mono" style="color: var(--emerald); font-size: 1rem;">Your PC (192.168.1)</div>
                                 </div>
                             </div>
                         </div>
-                        <h4 style="color: var(--rose); font-size: 1.5rem; text-align: center;">Result: Port Forwarding is Impossible.</h4>
+                        <h4 style="color: var(--rose); text-align: center;">Result: Port Forwarding is Dead.</h4>
                     </div>
                     
-                    <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="flex-col-gap">
                         <div class="glass-panel stagger d-3">
-                            <h3 style="color: var(--cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-ban"></i> College Constraints</h3>
-                            <p>Our college Wi-Fi (Sophos) uses <strong>Client Isolation</strong>. You can't ping the laptop next to you. Inbound connections are strictly blocked.</p>
+                            <h3 style="color: var(--cyan);"><i class="fa-solid fa-ban"></i> College Constraints</h3>
+                            <p>Our Wi-Fi uses <strong>Client Isolation</strong>. You can't ping the laptop next to you. Inbound blocked.</p>
                         </div>
                         <div class="glass-panel stagger d-4">
-                            <h3 style="color: var(--purple); margin-bottom: 0.5rem;"><i class="fa-solid fa-arrow-rotate-left"></i> Hairpin NAT Crash</h3>
-                            <p>Trying to connect to your own public IP from inside your house? Cheap routers drop the packet. Good routers perform a NAT loopback to rewrite it.</p>
+                            <h3 style="color: var(--purple);"><i class="fa-solid fa-arrow-rotate-left"></i> Hairpin NAT Crash</h3>
+                            <p>Connecting to your own public IP from inside? Cheap routers drop the packet.</p>
                         </div>
                     </div>
                 </div>
@@ -187,25 +187,30 @@
         <!-- Slide 6: LIVE LAB -->
         <div class="slide" data-color="cyan">
             <div class="slide-content">
-                <h2 class="slide-title text-gradient grad-cyan stagger d-1"><i class="fa-solid fa-terminal"></i> LIVE LAB: Bypassing the Firewall</h2>
-                <p class="stagger d-2" style="font-size: 1.8rem; text-align: center; margin-bottom: 3rem; color: #fff;">
-                    Since Sophos blocks incoming traffic, we punch a hole <strong>OUT</strong> to the Cloudflare edge.
+                <h2 class="slide-title text-gradient grad-cyan stagger d-1"><i class="fa-solid fa-terminal"></i> LIVE LAB: Bypassing Firewalls</h2>
+                <p class="stagger d-2" style="text-align: center; color: #fff; font-size: 1.8rem; margin-bottom: 2rem;">
+                    Since inbound is blocked, we punch a hole <strong>OUT</strong>.
                 </p>
                 
-                <div class="terminal stagger d-3" style="max-width: 1000px; margin: 0 auto; width: 100%;">
+                <div class="terminal stagger d-3">
                     <div class="term-header">
                         <div class="term-dot dot-r"></div><div class="term-dot dot-y"></div><div class="term-dot dot-g"></div>
                     </div>
                     <div class="term-body">
                         <div class="cmd">python3 -m http.server 8080</div>
-                        <div style="color: var(--text-muted); margin-bottom: 2rem;">Serving HTTP on 0.0.0.0 port 8080 (http://0.0.0.0:8080/) ...</div>
+                        <div style="color: var(--text-muted); margin-bottom: 1.5rem;">Serving HTTP on 0.0.0.0 port 8080 ...</div>
                         
                         <div class="cmd">cloudflared tunnel --url http://localhost:8080</div>
                         <div style="color: var(--text-muted);">2026-09-02T19:05:16Z INF Requesting new quick Tunnel...</div>
-                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF +-------------------------------------------------------+</div>
-                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF |  Your quick Tunnel has been created! Visit it at:     |</div>
-                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF |  <span class="hl-cyan" style="text-decoration: underline; font-weight: bold;">https://random-words.trycloudflare.com</span>             |</div>
-                        <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF +-------------------------------------------------------+</div>
+                        <div style="color: var(--text-muted);">+---------------------------------------------------+</div>
+                        <div style="color: var(--text-muted);">|  <span class="hl-cyan" style="text-decoration: underline; font-weight: bold;">https://random-words.trycloudflare.com</span>           |</div>
+                        <div style="color: var(--text-muted);">+---------------------------------------------------+</div>
+                    </div>
+                </div>
+
+                <div class="stagger d-4" style="text-align: center; margin-top: 3rem;">
+                    <div class="glass-panel" style="display: inline-block; padding: 1rem 2rem; border-color: var(--amber);">
+                        <h3 style="color: var(--amber); margin: 0;"><i class="fa-solid fa-mobile-screen"></i> Connect via 5G now!</h3>
                     </div>
                 </div>
             </div>
@@ -217,25 +222,25 @@
                 <h2 class="slide-title text-gradient grad-emerald stagger d-1"><i class="fa-solid fa-chart-line"></i> Network Quality Metrics</h2>
                 <div class="grid-2">
                     <ul class="sleek-list stagger d-2">
-                        <li><i class="fa-solid fa-water" style="color: var(--cyan);"></i> <strong style="color: #fff;">Bandwidth:</strong> The width of the highway (e.g. 1 Gbps capacity).</li>
-                        <li><i class="fa-solid fa-stopwatch" style="color: var(--emerald);"></i> <strong style="color: #fff;">Latency (Ping):</strong> Time for a packet to travel and return (20ms).</li>
-                        <li><i class="fa-solid fa-bolt" style="color: var(--rose);"></i> <strong style="color: #fff;">Jitter:</strong> Variance in latency. If ping jumps from 20ms to 150ms, that's high jitter (rubberbanding).</li>
+                        <li><i class="fa-solid fa-water" style="color: var(--cyan);"></i> <strong style="color: #fff;">Bandwidth:</strong> Highway width (Capacity).</li>
+                        <li><i class="fa-solid fa-stopwatch" style="color: var(--emerald);"></i> <strong style="color: #fff;">Latency:</strong> Travel time (20ms).</li>
+                        <li><i class="fa-solid fa-bolt" style="color: var(--rose);"></i> <strong style="color: #fff;">Jitter:</strong> Variance in latency (Rubberbanding).</li>
                     </ul>
                     
                     <div class="glass-panel stagger d-3">
-                        <h3 style="font-size: 2rem; margin-bottom: 2rem; color: var(--amber);"><i class="fa-solid fa-traffic-light"></i> QoS (Quality of Service)</h3>
-                        <p style="font-size: 1.2rem; margin-bottom: 2rem;">How routers prioritize traffic during congestion to prevent Bufferbloat.</p>
+                        <h3 style="color: var(--amber);"><i class="fa-solid fa-traffic-light"></i> QoS (Quality of Service)</h3>
+                        <p>How routers prioritize traffic during congestion.</p>
                         
                         <div class="chart-row">
-                            <div class="chart-label"><span style="color: var(--emerald);">Voice / Gaming (UDP)</span><span>HIGH PRIORITY</span></div>
+                            <div class="chart-label"><span style="color: var(--emerald);">Voice / Game</span><span>HIGH</span></div>
                             <div class="chart-track"><div class="chart-fill fill-95" style="background: var(--emerald);"></div></div>
                         </div>
                         <div class="chart-row">
-                            <div class="chart-label"><span style="color: var(--cyan);">Streaming (TCP/DASH)</span><span>MED PRIORITY</span></div>
+                            <div class="chart-label"><span style="color: var(--cyan);">Streaming</span><span>MED</span></div>
                             <div class="chart-track"><div class="chart-fill fill-60" style="background: var(--cyan);"></div></div>
                         </div>
                         <div class="chart-row">
-                            <div class="chart-label"><span style="color: var(--text-muted);">Bulk Torrent</span><span>LOW PRIORITY</span></div>
+                            <div class="chart-label"><span style="color: var(--text-muted);">Torrents</span><span>LOW</span></div>
                             <div class="chart-track"><div class="chart-fill fill-25" style="background: var(--text-muted);"></div></div>
                         </div>
                     </div>
@@ -248,30 +253,29 @@
             <div class="slide-content">
                 <h2 class="slide-title text-gradient grad-purple stagger d-1"><i class="fa-solid fa-user-secret"></i> VPNs & The Privacy Paradox</h2>
                 <div class="grid-2">
-                    <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="flex-col-gap">
                         <div class="glass-panel stagger d-2" style="border-left: 4px solid var(--cyan);">
-                            <h3 style="font-size: 2rem; margin-bottom: 1rem;">WireGuard vs OpenVPN</h3>
-                            <p><strong>OpenVPN:</strong> Old, user-space, heavy overhead.<br>
-                            <strong>WireGuard:</strong> Next-gen, runs directly in Linux kernel (`wg0`), stealthy (drops unauth packets silently).</p>
+                            <h3>WireGuard vs OpenVPN</h3>
+                            <p><strong>OpenVPN:</strong> Old, user-space, heavy.<br>
+                            <strong>WireGuard:</strong> Next-gen, in-kernel, stealthy.</p>
                         </div>
                         <div class="glass-panel stagger d-3" style="border-left: 4px solid var(--rose);">
-                            <h3 style="font-size: 2rem; margin-bottom: 1rem;">The Egress Risk</h3>
-                            <p>VPNs encrypt the tunnel, but the VPN Provider acts as your new ISP. They can see all DNS and TLS SNI metadata.</p>
+                            <h3>The Egress Risk</h3>
+                            <p>VPNs act as your new ISP. They see all DNS and TLS SNI metadata.</p>
                         </div>
                     </div>
                     
                     <div class="stagger d-4">
-                        <h3 style="font-size: 2.2rem; margin-bottom: 1rem; color: #fff;"><i class="fa-solid fa-spider" style="color: var(--purple);"></i> Web Tracking Escapes VPNs</h3>
-                        <p>Tracking relies on identity parameters, not just IP addresses.</p>
+                        <h3 style="color: #fff;"><i class="fa-solid fa-spider" style="color: var(--purple);"></i> Web Tracking Escapes VPNs</h3>
+                        <p>Tracking relies on parameters, not just IP addresses.</p>
                         <div class="terminal">
                             <div class="term-header"><div class="term-dot dot-r"></div><div class="term-dot dot-y"></div><div class="term-dot dot-g"></div></div>
                             <div class="term-body">
                                 <div style="color: #fff;">GET /post/123 HTTP/3</div>
-                                <div style="color: var(--text-muted);">Host: instagram.com</div>
                                 <div style="color: var(--text-muted); margin-top: 1rem;">URL Parameters:</div>
-                                <div class="hl-amber">?utm_source=networking_class</div>
+                                <div class="hl-amber">?utm_source=networking</div>
                                 <div class="hl-amber">?igsh=YzcxN2Q2NzE0...</div>
-                                <div style="color: var(--rose); margin-top: 1.5rem;">// igsh maps social graphs regardless of IP. Changing your IP does nothing.</div>
+                                <div style="color: var(--rose); margin-top: 1rem;">// igsh maps social graphs regardless of IP.</div>
                             </div>
                         </div>
                     </div>
@@ -285,24 +289,24 @@
                 <h2 class="slide-title text-gradient grad-rose stagger d-1"><i class="fa-solid fa-skull-crossbones"></i> When The Network Attacks</h2>
                 <div class="grid-3">
                     <div class="glass-panel stagger d-2" style="border-top: 4px solid var(--emerald); text-align: center;">
-                        <i class="fa-brands fa-linux" style="font-size: 4rem; color: var(--emerald); margin-bottom: 1rem;"></i>
-                        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">XZ-Utils Hack</h3>
-                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem;">CVE-2024-3094</div>
-                        <p style="font-size: 1.1rem;">A 4-line network backdoor injected into Linux SSH. Waiting for a magic packet to grant unauthenticated remote access.</p>
+                        <i class="fa-brands fa-linux icon-massive" style="color: var(--emerald);"></i>
+                        <h3 style="color: #fff;">XZ-Utils Hack</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">CVE-2024-3094</div>
+                        <p>A 4-line network backdoor injected into Linux SSH for remote access.</p>
                     </div>
                     
                     <div class="glass-panel stagger d-3" style="border-top: 4px solid var(--cyan); text-align: center;">
-                        <i class="fa-solid fa-box-open" style="font-size: 4rem; color: var(--cyan); margin-bottom: 1rem;"></i>
-                        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">AUR Typosquatting</h3>
-                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem;">chrome-fix vs google-chrome</div>
-                        <p style="font-size: 1.1rem;">Malicious packages uploaded to community repos. Relies on users blindly copying commands, triggering DDoS or malware.</p>
+                        <i class="fa-solid fa-box-open icon-massive" style="color: var(--cyan);"></i>
+                        <h3 style="color: #fff;">AUR Typosquatting</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">chrome-fix vs google-chrome</div>
+                        <p>Malicious packages relying on users blindly copying commands.</p>
                     </div>
                     
                     <div class="glass-panel stagger d-4" style="border-top: 4px solid var(--amber); text-align: center;">
-                        <i class="fa-solid fa-people-arrows" style="font-size: 4rem; color: var(--amber); margin-bottom: 1rem;"></i>
-                        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">ClickFix / Social Eng.</h3>
-                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem;">Bypassing Firewalls</div>
-                        <p style="font-size: 1.1rem;">"Browser needs update, paste this in terminal." Bypasses the network firewall entirely by tricking the human.</p>
+                        <i class="fa-solid fa-people-arrows icon-massive" style="color: var(--amber);"></i>
+                        <h3 style="color: #fff;">ClickFix</h3>
+                        <div class="mono" style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem;">Social Engineering</div>
+                        <p>"Browser needs update, paste this in terminal." Bypasses firewalls entirely.</p>
                     </div>
                 </div>
             </div>
@@ -311,31 +315,31 @@
         <!-- Slide 10: Censorship DPI -->
         <div class="slide" data-color="cyan">
             <div class="slide-content">
-                <h2 class="slide-title text-gradient grad-cyan stagger d-1"><i class="fa-solid fa-gavel"></i> How Censorship & DPI Work</h2>
-                <p class="stagger d-2" style="font-size: 1.8rem; margin-bottom: 2rem; color: #fff;">How does an ISP actually enforce a ban on apps like Telegram?</p>
+                <h2 class="slide-title text-gradient grad-cyan stagger d-1"><i class="fa-solid fa-gavel"></i> Censorship & DPI</h2>
+                <p class="stagger d-2" style="color: #fff; font-size: 1.8rem; margin-bottom: 2rem;">How does an ISP enforce an app ban?</p>
                 
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <div class="glass-panel stagger d-3" style="padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem;">
-                        <h1 style="color: var(--purple); font-size: 4rem; opacity: 0.5;">1</h1>
+                <div class="flex-col-gap">
+                    <div class="glass-panel stagger d-3" style="display: flex; flex-direction: row; align-items: center; gap: 2rem;">
+                        <h1 class="num-massive" style="color: var(--purple);">1</h1>
                         <div>
-                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem;">DNS Spoofing</h3>
-                            <p style="margin: 0;">You ask for <span class="mono text-gradient grad-purple">telegram.org</span>. The ISP's DNS lies and returns <span class="mono">0.0.0.0</span>.</p>
+                            <h3 style="color: #fff; margin-bottom: 0.25rem;">DNS Spoofing</h3>
+                            <p style="margin: 0;">You ask for <span class="mono text-gradient grad-purple">telegram.org</span>. ISP returns <span class="mono">0.0.0.0</span>.</p>
                         </div>
                     </div>
                     
-                    <div class="glass-panel stagger d-4" style="padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem;">
-                        <h1 style="color: var(--rose); font-size: 4rem; opacity: 0.5;">2</h1>
+                    <div class="glass-panel stagger d-4" style="display: flex; flex-direction: row; align-items: center; gap: 2rem;">
+                        <h1 class="num-massive" style="color: var(--rose);">2</h1>
                         <div>
-                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem;">SNI Filtering & Deep Packet Inspection (DPI)</h3>
-                            <p style="margin: 0;">Even on HTTPS, the initial "Server Name" is plain text. The firewall reads it, sees a banned domain, and injects a <strong>TCP RST (Reset)</strong> packet to kill the connection.</p>
+                            <h3 style="color: #fff; margin-bottom: 0.25rem;">SNI Filtering (DPI)</h3>
+                            <p style="margin: 0;">Firewall reads plain text "Server Name", and injects a <strong>TCP RST</strong> packet to kill it.</p>
                         </div>
                     </div>
                     
-                    <div class="glass-panel stagger d-5" style="padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem;">
-                        <h1 style="color: var(--amber); font-size: 4rem; opacity: 0.5;">3</h1>
+                    <div class="glass-panel stagger d-5" style="display: flex; flex-direction: row; align-items: center; gap: 2rem;">
+                        <h1 class="num-massive" style="color: var(--amber);">3</h1>
                         <div>
-                            <h3 style="font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem;">BGP Blackholing</h3>
-                            <p style="margin: 0;">ISPs advertise false routes for the target's IP blocks, routing national traffic into a digital void.</p>
+                            <h3 style="color: #fff; margin-bottom: 0.25rem;">BGP Blackholing</h3>
+                            <p style="margin: 0;">ISPs advertise false routes for IPs, dropping traffic into a void.</p>
                         </div>
                     </div>
                 </div>
@@ -348,32 +352,30 @@
                 <h2 class="slide-title text-gradient grad-purple stagger d-1"><i class="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P</h2>
                 <div class="grid-2">
                     <div class="stagger d-2">
-                        <h3 style="font-size: 2.5rem; color: var(--cyan); margin-bottom: 1rem;">TOR (Onion Routing)</h3>
-                        <p style="margin-bottom: 2rem;">3 Layers of Encryption. Bypasses tracking by separating identity from destination.</p>
+                        <h3 style="color: var(--cyan); font-size: 2.5rem;">TOR (Onion Routing)</h3>
+                        <p>3 Layers of Encryption separating identity from destination.</p>
                         
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div class="glass-panel" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--rose);">
-                                <strong class="mono">Guard Node</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows YOU, not Dest.</span>
+                        <div class="flex-col-gap" style="margin-top: 2rem;">
+                            <div class="glass-panel" style="padding: 1rem; display: flex; flex-direction: row; justify-content: space-between; border-left: 4px solid var(--rose);">
+                                <strong class="mono" style="font-size: 1.1rem;">Guard</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows YOU, not Dest.</span>
                             </div>
-                            <div style="text-align: center; color: rgba(255,255,255,0.2);"><i class="fa-solid fa-arrow-down"></i></div>
-                            <div class="glass-panel" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--amber);">
-                                <strong class="mono">Middle Node</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows nothing.</span>
+                            <div class="glass-panel" style="padding: 1rem; display: flex; flex-direction: row; justify-content: space-between; border-left: 4px solid var(--amber);">
+                                <strong class="mono" style="font-size: 1.1rem;">Middle</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows nothing.</span>
                             </div>
-                            <div style="text-align: center; color: rgba(255,255,255,0.2);"><i class="fa-solid fa-arrow-down"></i></div>
-                            <div class="glass-panel" style="padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--emerald);">
-                                <strong class="mono">Exit Node</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows Dest, not YOU.</span>
+                            <div class="glass-panel" style="padding: 1rem; display: flex; flex-direction: row; justify-content: space-between; border-left: 4px solid var(--emerald);">
+                                <strong class="mono" style="font-size: 1.1rem;">Exit</strong> <span style="font-size: 1rem; color: var(--text-muted);">Knows Dest, not YOU.</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="stagger d-3">
-                        <h3 style="font-size: 2.5rem; color: var(--emerald); margin-bottom: 1rem;">Torrents (P2P DHT)</h3>
+                        <h3 style="color: var(--emerald); font-size: 2.5rem;">Torrents (P2P DHT)</h3>
                         <div class="glass-panel">
-                            <h4 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem;">Decentralized Swarm</h4>
-                            <p style="margin-bottom: 1.5rem;">Instead of downloading a 10GB file from 1 server, you download tiny chunks from 50 strangers globally simultaneously. Unkillable.</p>
+                            <h4 style="color: #fff;">Decentralized Swarm</h4>
+                            <p>Download tiny chunks from 50 strangers globally simultaneously. Unkillable.</p>
                             
-                            <h4 style="font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem;">Kademlia DHT</h4>
-                            <p style="margin: 0;">Uses distributed hash tables (XOR metric) so peers discover each other without central trackers.</p>
+                            <h4 style="color: #fff; margin-top: 1.5rem;">Kademlia DHT</h4>
+                            <p style="margin: 0;">Distributed hash tables (XOR metric) discover peers without central trackers.</p>
                         </div>
                     </div>
                 </div>
@@ -383,12 +385,12 @@
         <!-- Slide 12: End -->
         <div class="slide" data-color="cyan">
             <div class="slide-content" style="align-items: center; text-align: center;">
-                <i class="fa-solid fa-terminal stagger d-1" style="font-size: 6rem; color: var(--emerald); margin-bottom: 2rem;"></i>
-                <h1 class="title-massive text-gradient grad-cyan stagger d-2">Session 0x00: COMPLETE</h1>
-                <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); margin-bottom: 3rem; max-width: 900px;">
+                <i class="fa-solid fa-terminal icon-massive stagger d-1" style="color: var(--emerald);"></i>
+                <h1 class="title-massive text-gradient grad-cyan stagger d-2">0x00: COMPLETE</h1>
+                <p class="stagger d-3" style="color: var(--text-main); max-width: 900px; font-size: 2rem;">
                     The internet is held together by duct tape, NAT, and BGP.<br>Understand the layers. Break the rules.
                 </p>
-                <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1.5rem 3rem; border-radius: 50px; border-color: var(--cyan);">
+                <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1.5rem 3rem; border-radius: 50px; border-color: var(--cyan); margin-top: 3rem;">
                     <span class="mono" style="color: #fff; font-size: 1.5rem;">> Open for Q&A / Live Lab Demos</span>
                 </div>
             </div>
