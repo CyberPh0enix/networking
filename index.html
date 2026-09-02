@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Under The Hood - Networking Masterclass</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,337 +10,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        :root {
-            /* Deep, dark immersive background */
-            --bg-base: #030509;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            
-            /* Neon Accents */
-            --cyan: #00f2fe;
-            --cyan-glow: rgba(0, 242, 254, 0.5);
-            --purple: #a855f7;
-            --purple-glow: rgba(168, 85, 247, 0.5);
-            --emerald: #10b981;
-            --emerald-glow: rgba(16, 185, 129, 0.5);
-            --amber: #f59e0b;
-            --rose: #f43f5e;
-            
-            /* Glassmorphism */
-            --glass-bg: rgba(20, 25, 35, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
-            
-            /* Smooth easing */
-            --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.15);
-            --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body, html {
-            width: 100%; height: 100%;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            overscroll-behavior: none;
-        }
-
-        /* Dynamic Ambient Background */
-        .ambient-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, #0a0f1a 0%, var(--bg-base) 100%);
-        }
-        
-        .glow-orb {
-            position: absolute;
-            width: 60vmax; height: 60vmax;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.15;
-            transition: all 1.5s var(--ease-smooth);
-            transform: translate(-50%, -50%);
-        }
-
-        /* Presentation Layout */
-        #deck {
-            position: relative;
-            width: 100%; height: 100%;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%; height: 100%;
-            padding: clamp(2rem, 5vw, 5rem);
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-            /* Entrance state */
-            transform: scale(0.98) translateY(20px);
-            transition: opacity 0.6s var(--ease-smooth), transform 0.8s var(--ease-smooth), visibility 0.8s;
-        }
-
-        .slide.active {
-            opacity: 1;
-            pointer-events: all;
-            visibility: visible;
-            transform: scale(1) translateY(0);
-        }
-
-        /* Responsive Container for Content */
-        .slide-content {
-            flex: 1;
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
-
-        /* Glassmorphism Panels */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--glass-shadow);
-            padding: clamp(1.5rem, 3vw, 3rem);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .glass-panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            opacity: 0.5;
-        }
-
-        /* Typography */
-        h1, h2, h3, h4 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-        }
-
-        .title-massive {
-            font-size: clamp(4rem, 8vw, 9rem);
-            line-height: 1;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .slide-title {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            margin-bottom: clamp(1.5rem, 3vw, 3rem);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        p {
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
-            line-height: 1.6;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Gradients */
-        .text-gradient {
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .grad-cyan { background-image: linear-gradient(135deg, #fff 0%, var(--cyan) 100%); }
-        .grad-purple { background-image: linear-gradient(135deg, #fff 0%, var(--purple) 100%); }
-        .grad-emerald { background-image: linear-gradient(135deg, #fff 0%, var(--emerald) 100%); }
-        .grad-rose { background-image: linear-gradient(135deg, #fff 0%, var(--rose) 100%); }
-        .grad-amber { background-image: linear-gradient(135deg, #fff 0%, var(--amber) 100%); }
-
-        /* Staggered Entrance Animations */
-        .stagger {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s var(--ease-smooth);
-        }
-        
-        .slide.active .stagger {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .slide.active .d-1 { transition-delay: 0.1s; }
-        .slide.active .d-2 { transition-delay: 0.2s; }
-        .slide.active .d-3 { transition-delay: 0.3s; }
-        .slide.active .d-4 { transition-delay: 0.4s; }
-        .slide.active .d-5 { transition-delay: 0.5s; }
-
-        /* Speaker Tag */
-        .speaker-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 8px 24px 8px 8px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-        .speaker-avatar {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--cyan), var(--purple));
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #000;
-            font-size: 1.2rem;
-        }
-
-        /* Grids */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(1rem, 2vw, 2rem); }
-
-        /* Lists */
-        .sleek-list { list-style: none; }
-        .sleek-list li {
-            position: relative;
-            padding-left: 2.5rem;
-            margin-bottom: 1.5rem;
-            font-size: clamp(1.2rem, 1.8vw, 1.6rem);
-            color: var(--text-main);
-        }
-        .sleek-list li i {
-            position: absolute;
-            left: 0; top: 4px;
-            font-size: 1.5rem;
-        }
-
-        /* Terminal Window */
-        .terminal {
-            background: rgba(5, 5, 10, 0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-            font-family: 'JetBrains Mono', monospace;
-            backdrop-filter: blur(20px);
-        }
-        .term-header {
-            background: rgba(255,255,255,0.05);
-            padding: 12px 20px;
-            display: flex;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .term-dot { width: 14px; height: 14px; border-radius: 50%; }
-        .dot-r { background: #ff5f56; } .dot-y { background: #ffbd2e; } .dot-g { background: #27c93f; }
-        .term-body { padding: clamp(1.5rem, 3vw, 2.5rem); font-size: clamp(1rem, 1.5vw, 1.4rem); line-height: 1.7; color: #a9b7c6; }
-        .cmd::before { content: 'uday@college-laptop:~$ '; color: var(--emerald); font-weight: bold; }
-        .cmd-root::before { content: 'root@vps:~# '; color: var(--rose); font-weight: bold; }
-        .hl-cyan { color: var(--cyan); } .hl-amber { color: var(--amber); }
-
-        /* Animated Charts */
-        .chart-row { margin-bottom: 1.5rem; }
-        .chart-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: 'JetBrains Mono'; font-size: 1rem; font-weight: 700; text-transform: uppercase; }
-        .chart-track { width: 100%; height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
-        .chart-fill { height: 100%; width: 0; border-radius: 8px; transition: width 1.5s var(--ease-spring); }
-        
-        /* Specific widths triggered on active */
-        .slide.active .fill-95 { width: 95%; }
-        .slide.active .fill-60 { width: 60%; }
-        .slide.active .fill-25 { width: 25%; }
-
-        /* Flow Diagrams */
-        .diagram-flex {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-        .node {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 1.5rem 2rem;
-            border-radius: 16px;
-            text-align: center;
-            min-width: 180px;
-        }
-        .node i { font-size: 2.5rem; margin-bottom: 1rem; }
-        .arrow { font-size: 2rem; color: rgba(255,255,255,0.3); }
-
-        /* Custom Meme / Concept Badges */
-        .concept-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        /* Progress Bar */
-        #progress {
-            position: fixed;
-            bottom: 0; left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--cyan), var(--purple));
-            width: 0%;
-            transition: width 0.3s ease;
-            z-index: 100;
-            box-shadow: 0 0 10px var(--cyan-glow);
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+    <!-- Ambient Background -->
     <div class="ambient-bg">
-        <div class="glow-orb" id="orb1" style="top: 20%; left: 20%; background: var(--cyan-glow);"></div>
-        <div class="glow-orb" id="orb2" style="top: 80%; left: 80%; background: var(--purple-glow);"></div>
+        <div class="glow-orb" id="orb1"></div>
+        <div class="glow-orb" id="orb2"></div>
     </div>
 
-    <div id="progress"></div>
+    <!-- UI Overlay -->
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+    
+    <div class="global-footer" data-config="presentation.footerText"></div>
 
+    <div class="virtual-controls">
+        <button class="control-btn" id="btn-prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="control-btn" id="btn-next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Presentation Deck -->
     <div id="deck">
 
         <!-- Slide 1: Title -->
-        <div class="slide active" data-color="cyan">
+        <div class="slide" data-color="cyan">
             <div class="slide-content" style="align-items: center; text-align: center;">
                 <div class="speaker-badge stagger d-1 mb-8">
-                    <div class="speaker-avatar"><i class="fa-solid fa-bolt"></i></div>
-                    Speaker // Uday
+                    <div class="speaker-avatar"><i class="fa-solid"></i></div>
+                    <span data-config="speaker.role"></span> // <span data-config="speaker.name"></span>
                 </div>
-                <h1 class="title-massive text-gradient grad-cyan stagger d-2">Under The<br>Hood</h1>
-                <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); max-width: 900px; margin: 2rem 0;">
-                    The chaotic, patched-together, entirely practical reality of the Internet.
+                <h1 class="title-massive text-gradient grad-cyan stagger d-2" data-config="presentation.title"></h1>
+                <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); max-width: 900px; margin: 2rem 0;" data-config="presentation.subtitle">
                 </p>
                 <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1rem 2rem; border-radius: 50px;">
                     <span class="mono" style="color: var(--cyan);">[ <i class="fa-solid fa-network-wired"></i> Masterclass Session Init ]</span>
@@ -424,9 +127,7 @@
                         <li><i class="fa-solid fa-globe" style="color: var(--cyan);"></i> <strong>0.0.0.0 (Any):</strong> App listens on ALL network interfaces (Wi-Fi, Ethernet).</li>
                     </ul>
                     <div class="stagger d-3" style="display: flex; justify-content: center;">
-                        <!-- CSS House Diagram -->
                         <div class="glass-panel" style="width: 100%; max-width: 400px; text-align: center; position: relative;">
-                            <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 200px solid transparent; border-right: 200px solid transparent; border-bottom: 80px solid rgba(255,255,255,0.05); z-index: -1;"></div>
                             <h3 style="font-family: 'JetBrains Mono'; color: var(--emerald); margin-bottom: 2rem;">192.168.1.50</h3>
                             <div style="display: flex; justify-content: space-around;">
                                 <div style="width: 80px; height: 120px; border: 2px solid rgba(255,255,255,0.2); border-bottom: none; border-radius: 8px 8px 0 0; display: flex; flex-direction: column; justify-content: center; background: rgba(0,0,0,0.5);">
@@ -457,7 +158,6 @@
                         <h3 style="font-size: 2.5rem; margin-bottom: 1rem;">Carrier-Grade NAT</h3>
                         <p>ISPs hoard public IPs. They put your home router behind <em>another</em> giant router.</p>
                         
-                        <!-- Visual Meme/Diagram of NAT inside NAT -->
                         <div style="margin: 2rem 0; padding: 1.5rem; border: 2px dashed var(--rose); border-radius: 16px; text-align: center;">
                             <div class="mono" style="color: #fff; margin-bottom: 1rem;">ISP Router (142.x.x.x)</div>
                             <div style="padding: 1.5rem; background: rgba(245, 158, 11, 0.1); border: 2px dashed var(--amber); border-radius: 12px;">
@@ -508,12 +208,6 @@
                         <div style="color: var(--text-muted);">2026-09-02T19:05:18Z INF +-------------------------------------------------------+</div>
                     </div>
                 </div>
-
-                <div class="stagger d-4" style="text-align: center; margin-top: 3rem;">
-                    <div class="glass-panel" style="display: inline-block; padding: 1rem 3rem; border-color: var(--amber); animation: pulse 2s infinite;">
-                        <h3 style="color: var(--amber); font-size: 2rem;"><i class="fa-solid fa-mobile-screen"></i> Connect on your phones via 5G right now!</h3>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -532,7 +226,6 @@
                         <h3 style="font-size: 2rem; margin-bottom: 2rem; color: var(--amber);"><i class="fa-solid fa-traffic-light"></i> QoS (Quality of Service)</h3>
                         <p style="font-size: 1.2rem; margin-bottom: 2rem;">How routers prioritize traffic during congestion to prevent Bufferbloat.</p>
                         
-                        <!-- Animated Bars -->
                         <div class="chart-row">
                             <div class="chart-label"><span style="color: var(--emerald);">Voice / Gaming (UDP)</span><span>HIGH PRIORITY</span></div>
                             <div class="chart-track"><div class="chart-fill fill-95" style="background: var(--emerald);"></div></div>
@@ -691,120 +384,19 @@
         <div class="slide" data-color="cyan">
             <div class="slide-content" style="align-items: center; text-align: center;">
                 <i class="fa-solid fa-terminal stagger d-1" style="font-size: 6rem; color: var(--emerald); margin-bottom: 2rem;"></i>
-                <h1 class="title-massive text-gradient grad-cyan stagger d-2" style="font-size: clamp(3rem, 6vw, 7rem);">Session 0x00: COMPLETE</h1>
+                <h1 class="title-massive text-gradient grad-cyan stagger d-2">Session 0x00: COMPLETE</h1>
                 <p class="stagger d-3" style="font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--text-main); margin-bottom: 3rem; max-width: 900px;">
                     The internet is held together by duct tape, NAT, and BGP.<br>Understand the layers. Break the rules.
                 </p>
                 <div class="glass-panel stagger d-4" style="display: inline-block; padding: 1.5rem 3rem; border-radius: 50px; border-color: var(--cyan);">
-                    <span class="mono" style="color: #fff; font-size: 1.5rem;">> Open for Q&A / Live Wireshark Analysis</span>
+                    <span class="mono" style="color: #fff; font-size: 1.5rem;">> Open for Q&A / Live Lab Demos</span>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        const progressBar = document.getElementById('progress');
-        const orb1 = document.getElementById('orb1');
-        const orb2 = document.getElementById('orb2');
-        let currentSlide = 0;
-        let isAnimating = false;
-
-        // Color palettes for background glowing orbs mapped to data-color
-        const colors = {
-            cyan: { c1: 'rgba(0, 242, 254, 0.4)', c2: 'rgba(168, 85, 247, 0.3)' },
-            purple: { c1: 'rgba(168, 85, 247, 0.4)', c2: 'rgba(16, 185, 129, 0.3)' },
-            amber: { c1: 'rgba(245, 158, 11, 0.4)', c2: 'rgba(244, 63, 94, 0.3)' },
-            emerald: { c1: 'rgba(16, 185, 129, 0.4)', c2: 'rgba(0, 242, 254, 0.3)' },
-            rose: { c1: 'rgba(244, 63, 94, 0.4)', c2: 'rgba(245, 158, 11, 0.3)' }
-        };
-
-        function updatePresentation() {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            slides.forEach((slide, index) => {
-                if (index === currentSlide) {
-                    slide.classList.add('active');
-                    
-                    // Update Progress Bar
-                    const progress = ((index + 1) / slides.length) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    
-                    // Update Ambient Background Orbs
-                    const colorKey = slide.getAttribute('data-color') || 'cyan';
-                    const theme = colors[colorKey];
-                    
-                    // Randomize orb positions slightly for dynamic feel
-                    const p1x = 10 + Math.random() * 30; const p1y = 10 + Math.random() * 30;
-                    const p2x = 60 + Math.random() * 30; const p2y = 60 + Math.random() * 30;
-
-                    orb1.style.background = theme.c1;
-                    orb1.style.top = `${p1y}%`; orb1.style.left = `${p1x}%`;
-                    
-                    orb2.style.background = theme.c2;
-                    orb2.style.top = `${p2y}%`; orb2.style.left = `${p2x}%`;
-
-                } else {
-                    slide.classList.remove('active');
-                }
-            });
-
-            // Prevent rapid scrolling bugs
-            setTimeout(() => { isAnimating = false; }, 600);
-        }
-
-        function nextSlide() {
-            if (currentSlide < slides.length - 1) {
-                currentSlide++;
-                updatePresentation();
-            }
-        }
-
-        function prevSlide() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updatePresentation();
-            }
-        }
-
-        // Keyboard Navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
-            if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
-        });
-
-        // Click / Touch Navigation (Left/Right screen halves)
-        document.addEventListener('click', (e) => {
-            // Ignore clicks on code blocks or links if we ever add them
-            if(e.target.closest('a') || e.target.closest('.cmd')) return;
-            
-            if (e.clientX > window.innerWidth / 2) nextSlide();
-            else prevSlide();
-        });
-
-        // Touch Swipe Navigation for mobile responsiveness
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        document.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        document.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            const threshold = 50;
-            if (touchEndX < touchStartX - threshold) nextSlide();
-            if (touchEndX > touchStartX + threshold) prevSlide();
-        }
-
-        // Init
-        updatePresentation();
-    </script>
+    <!-- Modular Scripts -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
