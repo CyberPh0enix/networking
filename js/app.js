@@ -91,6 +91,7 @@ class PresentationApp {
   }
 
   nextSlide() {
+    if (this.isAnimating) return;
     if (this.currentSlide < this.totalSlides - 1) {
       this.currentSlide++;
       this.render();
@@ -98,6 +99,7 @@ class PresentationApp {
   }
 
   prevSlide() {
+    if (this.isAnimating) return;
     if (this.currentSlide > 0) {
       this.currentSlide--;
       this.render();
