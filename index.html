@@ -78,7 +78,84 @@
         </div>
       </div>
 
-      <!-- Slide 2: DNS & HSTS -->
+      <!-- Slide 2: Domains & ICANN -->
+      <div class="slide" data-color="purple">
+        <div class="slide-content">
+          <h2 class="slide-title text-gradient grad-purple stagger d-1">
+            <i class="fa-solid fa-address-book"></i> The Domain Market
+          </h2>
+
+          <div class="grid-2">
+            <div class="flex-col-gap stagger d-2">
+                <div class="glass-panel" style="border-left: 4px solid var(--purple);">
+                    <h3 style="color: var(--purple);">What is a Domain?</h3>
+                    <p>Humans can't memorize IPs like <span class="mono">142.250.190.46</span>. Domains act as aliases in a global phonebook.</p>
+                </div>
+                <div class="glass-panel" style="border-left: 4px solid var(--emerald);">
+                    <h3 style="color: var(--emerald);">ICANN</h3>
+                    <p>The <strong>Internet Corporation for Assigned Names and Numbers</strong>. They are the supreme non-profit governing body that controls the root DNS servers and delegates TLDs (.com, .org, .in).</p>
+                </div>
+            </div>
+
+            <div class="glass-panel stagger d-3" style="text-align: center; border-color: var(--amber);">
+                <i class="fa-solid fa-store" style="font-size: 3rem; color: var(--amber); margin-bottom: 1rem;"></i>
+                <h3 style="color: #fff;">Domain Brokers (Registrars)</h3>
+                <p style="font-size: 1.1rem; line-height: 1.6;">You don't <em>buy</em> a domain, you rent it.</p>
+                <p style="font-size: 1.1rem; line-height: 1.6;">Companies like GoDaddy, Namecheap, and Cloudflare are essentially real-estate brokers. They pay a fixed fee to ICANN to register your name in the global registry for a specific duration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2.5: DNS Hierarchy -->
+      <div class="slide" data-color="cyan">
+        <div class="slide-content">
+          <h2 class="slide-title text-gradient grad-cyan stagger d-1">
+            <i class="fa-solid fa-sitemap"></i> DNS Resolution Hierarchy
+          </h2>
+          
+          <div class="diagram-flex stagger d-2" style="margin-bottom: 3rem;">
+            <div class="node" style="border-color: var(--purple); box-shadow: 0 0 20px rgba(168,85,247,0.2);">
+              <i class="fa-solid fa-server" style="color: var(--purple)"></i>
+              <h3 class="node-title">Root Server</h3>
+              <div class="mono node-sub">"."</div>
+            </div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node" style="border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,242,254,0.2);">
+              <i class="fa-solid fa-server" style="color: var(--cyan)"></i>
+              <h3 class="node-title">TLD Server</h3>
+              <div class="mono node-sub">".com"</div>
+            </div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node" style="border-color: var(--emerald); box-shadow: 0 0 20px rgba(16,185,129,0.2);">
+              <i class="fa-solid fa-server" style="color: var(--emerald)"></i>
+              <h3 class="node-title">Authoritative</h3>
+              <div class="mono node-sub">"google.com"</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="glass-panel stagger d-3">
+              <h3 style="color: var(--cyan);">The Recursive Journey</h3>
+              <p>When your browser asks `1.1.1.1` for google.com, it walks down this tree automatically, caching the result to speed up future requests.</p>
+              <p style="color: var(--amber); font-weight: bold; margin-top: 1rem;"><i class="fa-solid fa-flask"></i> Live Action: Ping google.com right now!</p>
+            </div>
+            <div class="glass-panel stagger d-4" style="border-left: 4px solid var(--amber)">
+              <div>
+                <div class="concept-badge" style="color: var(--amber)">
+                  <i class="fa-solid fa-shield-halved"></i> HSTS Protocol
+                </div>
+              </div>
+              <h3>No Downgrades Allowed</h3>
+              <p>
+                HTTP Strict Transport Security forces browsers to
+                <strong>ONLY</strong> use HTTPS, preventing network
+                interception.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="slide" data-color="purple">
         <div class="slide-content">
           <h2 class="slide-title text-gradient grad-purple stagger d-1">
@@ -226,6 +303,50 @@
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3.5a: Riddle: The Minecraft Disconnect -->
+      <div class="slide" data-color="rose">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+          <h2 class="slide-title text-gradient grad-rose stagger d-1" style="justify-content: center;">
+            <i class="fa-solid fa-puzzle-piece"></i> Riddle: The Connection Timeout
+          </h2>
+          
+          <div class="glass-panel stagger d-2" style="max-width: 900px; padding: 4rem; border-top: 4px solid var(--rose);">
+              <i class="fa-solid fa-cubes icon-massive" style="color: var(--rose);"></i>
+              <h3 style="color: #fff; font-size: 2.5rem; margin-bottom: 2rem;">The Dilemma</h3>
+              <p style="font-size: 1.5rem; color: var(--text-muted); line-height: 1.6;">
+                  You just started a Minecraft server on your laptop. You text your friend to join. 
+              </p>
+              <p style="font-size: 1.5rem; color: var(--text-muted); line-height: 1.6;">
+                  You tell them: <strong>"My IP is <span class="mono text-gradient grad-rose">192.168.1.5</span>"</strong>
+              </p>
+              <p style="font-weight: bold; margin-top: 3rem; font-size: 2rem; color: #fff;">
+                  They can't connect. Why?
+              </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3.5b: The Reveal: Private IPs -->
+      <div class="slide" data-color="emerald">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+          <h2 class="slide-title text-gradient grad-emerald stagger d-1" style="justify-content: center;">
+            <i class="fa-solid fa-house-lock"></i> The Reveal: Private IP Illusion
+          </h2>
+          
+          <div class="glass-panel stagger d-2" style="max-width: 900px; padding: 4rem; border-top: 4px solid var(--emerald);">
+              <h3 style="color: #fff; font-size: 2.5rem; margin-bottom: 2rem;">It's a Local Address</h3>
+              <p style="font-size: 1.5rem; color: var(--text-muted); line-height: 1.6;">
+                  <span class="mono">192.168.x.x</span> is a private IP generated by your router's NAT. It does not exist on the global internet.
+              </p>
+              <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border: 1px solid var(--emerald); border-radius: 8px; margin-top: 2rem;">
+                  <p style="color: var(--emerald); font-weight: bold; font-size: 1.5rem; margin: 0;">
+                      Giving someone that IP is like telling the post office your address is "Bedroom 3".<br><br>Which house? Which city?
+                  </p>
+              </div>
           </div>
         </div>
       </div>
@@ -969,6 +1090,71 @@
                   void.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 12.5a: Challenge: The Smart Device -->
+      <div class="slide" data-color="rose">
+        <div class="slide-content" style="align-items: center; text-align: center;">
+          <h2 class="slide-title text-gradient grad-rose stagger d-1" style="justify-content: center;">
+            <i class="fa-solid fa-puzzle-piece"></i> Riddle: The Rogue Appliance
+          </h2>
+          
+          <div class="glass-panel stagger d-2" style="max-width: 900px; padding: 4rem; border-top: 4px solid var(--rose);">
+              <i class="fa-solid fa-tv icon-massive" style="color: var(--rose);"></i>
+              <h3 style="color: #fff; font-size: 2.5rem; margin-bottom: 2rem;">The Dilemma</h3>
+              <p style="font-size: 1.5rem; color: var(--text-muted); line-height: 1.6;">
+                  You bought a Smart TV. It has no app store, and you <strong>cannot</strong> install an adblocker on it. 
+                  However, it is secretly sending your viewing habits to 
+                  <span class="mono text-gradient grad-rose">trackers.smart-tv.com</span> every 5 seconds.
+              </p>
+              <p style="font-weight: bold; margin-top: 3rem; font-size: 2rem; color: #fff;">
+                  Based on everything we've covered... how do you stop it?
+              </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 12.5b: The Reveal (Pi-hole) -->
+      <div class="slide" data-color="emerald">
+        <div class="slide-content">
+          <h2 class="slide-title text-gradient grad-emerald stagger d-1">
+            <i class="fa-solid fa-shield-halved"></i> The Reveal: DNS Sinkholing
+          </h2>
+          
+          <div class="grid-2">
+            <div class="flex-col-gap stagger d-2">
+                <div class="glass-panel" style="border-top: 4px solid var(--cyan);">
+                    <h3 style="color: var(--cyan);">Control the Network</h3>
+                    <p style="font-size: 1.2rem; line-height: 1.6;">If you can't control the device, you control the infrastructure it relies on. By poisoning your own DNS using <strong>Pi-hole</strong> or <strong>AdGuard Home</strong>, you can blind any device on your Wi-Fi.</p>
+                </div>
+                
+                <div class="terminal stagger d-3">
+                    <div class="term-header"><div class="term-dot dot-r"></div><div class="term-dot dot-y"></div><div class="term-dot dot-g"></div></div>
+                    <div class="term-body" style="padding: 1.5rem; font-size: 1.1rem;">
+                        <div class="cmd">nslookup trackers.smart-tv.com</div>
+                        <div style="color: var(--text-muted);">Server:     192.168.1.2 (Pi-hole)</div>
+                        <br>
+                        <div style="color: var(--emerald); font-weight: bold;">Name:       trackers.smart-tv.com</div>
+                        <div style="color: var(--rose); font-weight: bold;">Address:    0.0.0.0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-col-gap stagger d-4">
+                <div class="glass-panel" style="padding: 2rem; text-align: center; border-color: var(--purple); height: 100%;">
+                    <i class="fa-solid fa-tv" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                    <p class="mono" style="margin: 0; color: #fff; font-size: 1.2rem;">"Where is trackers.com?"</p>
+                    <i class="fa-solid fa-arrow-down" style="font-size: 2rem; color: var(--text-muted); margin: 1rem 0;"></i>
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1.5rem; border: 1px solid var(--emerald); border-radius: 8px;">
+                        <i class="fa-solid fa-server" style="font-size: 3rem; color: var(--emerald); margin-bottom: 1rem;"></i>
+                        <p class="mono" style="color: var(--emerald); font-weight: bold; margin: 0; font-size: 1.5rem;">Pi-hole (192.168.1.2)</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-down" style="font-size: 2rem; color: var(--text-muted); margin: 1rem 0;"></i>
+                    <p class="mono" style="margin: 0; font-size: 2.5rem; font-weight: bold; color: var(--rose);">0.0.0.0 (Nowhere)</p>
+                </div>
             </div>
           </div>
         </div>
