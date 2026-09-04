@@ -134,6 +134,76 @@ export class AudioEngine {
     } catch(e) {}
   }
 
+  playBassDrop() {
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 2); // Deep drop
+      
+      gain.gain.setValueAtTime(0.5, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 2);
+      
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 2);
+    } catch(e) {}
+  }
+
+  playAlert() {
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      
+      // Siren wobble
+      osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(600, this.ctx.currentTime + 0.25);
+      osc.frequency.linearRampToValueAtTime(400, this.ctx.currentTime + 0.5);
+      osc.frequency.linearRampToValueAtTime(600, this.ctx.currentTime + 0.75);
+      osc.frequency.linearRampToValueAtTime(400, this.ctx.currentTime + 1.0);
+      
+      gain.gain.setValueAtTime(0, this.ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.1, this.ctx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.1, this.ctx.currentTime + 0.9);
+      gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 1.0);
+      
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 1.0);
+    } catch(e) {}
+  }
+
+  playAccessGranted() {
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      
+      // Pleasant double chime
+      osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+      osc.frequency.setValueAtTime(800, this.ctx.currentTime + 0.15);
+      
+      gain.gain.setValueAtTime(0, this.ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+      
+      gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.16);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.5);
+      
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.5);
+    } catch(e) {}
+  }
+
   playDecryptTick() {
     if (!this.ctx) return;
     try {

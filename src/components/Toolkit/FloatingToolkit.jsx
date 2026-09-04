@@ -1,24 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useMotionValue, animate, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useMotionValue, animate } from 'motion/react';
 import { audio } from '../../utils/audioEngine';
-import './FloatingToolkit.css';
 import WhiteboardCanvas from './WhiteboardCanvas';
 import MagicTimer from './MagicTimer';
 import FocusSpotlight from './FocusSpotlight';
+import LaserPointer from './LaserPointer';
+import DecoderRing from './DecoderRing';
+import BinaryRain from './BinaryRain';
+import ZoomPanOverlay from './ZoomPanOverlay';
+import './FloatingToolkit.css';
 
 const BUTTON_SIZE = 60;
 const MARGIN = 20;
-const RADIUS = 80; // Distance of tools from main button
+const RADIUS = 85;
 
-const TOOLS = [
-  { id: 'whiteboard', label: 'Whiteboard', icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' },
-  { id: 'timer', label: 'Magic Timer', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-  { id: 'focus', label: 'Spotlight', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2 12h4 M18 12h4 M12 2v4 M12 18v4' },
-];
+const MENU_STRUCTURE = {
+  main: [
+    { id: 'cat_draw', label: 'Draw', icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' },
+    { id: 'cat_focus', label: 'Focus', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2 12h4 M18 12h4 M12 2v4 M12 18v4' },
+    { id: 'cat_utils', label: 'Utils', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { id: 'cat_fx', label: 'FX', icon: 'M13 10V3L4 14h7v7l9-11h-7z' }
+  ],
+  cat_draw: [
+    { id: 'whiteboard', label: 'Whiteboard', icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' },
+    { id: 'laser', label: 'Laser Pointer', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' },
+    { id: 'back', label: 'Back', icon: 'M10 19l-7-7m0 0l7-7m-7 7h18' }
+  ],
+  cat_focus: [
+    { id: 'focus', label: 'Spotlight', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2 12h4 M18 12h4 M12 2v4 M12 18v4' },
+    { id: 'zoom', label: 'Zoom/Pan', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z M10 7v3m0 0v3m0-3h3m-3 0H7' },
+    { id: 'back', label: 'Back', icon: 'M10 19l-7-7m0 0l7-7m-7 7h18' }
+  ],
+  cat_utils: [
+    { id: 'timer', label: 'Magic Timer', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { id: 'decoder', label: 'Decoder Ring', icon: 'M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' },
+    { id: 'back', label: 'Back', icon: 'M10 19l-7-7m0 0l7-7m-7 7h18' }
+  ],
+  cat_fx: [
+    { id: 'rain', label: 'Binary Rain', icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12' },
+    { id: 'glitch', label: 'Glitch Trigger', icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
+    { id: 'sound_bass', label: 'Bass Drop', icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z' },
+    { id: 'sound_alert', label: 'Alert Sound', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9' },
+    { id: 'sound_access', label: 'Access Granted', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
+    { id: 'back', label: 'Back', icon: 'M10 19l-7-7m0 0l7-7m-7 7h18' }
+  ]
+};
 
 export default function FloatingToolkit({ currentSlide }) {
   const [isOpen, setIsOpen] = useState(false);
   const [snapEdge, setSnapEdge] = useState('left');
+  const [currentCategory, setCurrentCategory] = useState('main');
+  const [isDecoderOpen, setIsDecoderOpen] = useState(false);
+  const [isRainOpen, setIsRainOpen] = useState(false);
   
   // Active tool states
   const [activeTool, setActiveTool] = useState(null); // whiteboard, focus
@@ -38,6 +71,7 @@ export default function FloatingToolkit({ currentSlide }) {
     if (isOpen) {
       audio.playSweep(false);
       setIsOpen(false);
+      setCurrentCategory('main');
     } else {
       audio.playSweep(true);
       setIsOpen(true);
@@ -46,8 +80,40 @@ export default function FloatingToolkit({ currentSlide }) {
 
   const handleToolClick = (toolId) => {
     audio.playClick();
+    
+    // Category navigation
+    if (toolId.startsWith('cat_')) {
+      setCurrentCategory(toolId);
+      return;
+    }
+    if (toolId === 'back') {
+      setCurrentCategory('main');
+      return;
+    }
+    
+    // Soundboard
+    if (toolId === 'sound_bass') return audio.playBassDrop();
+    if (toolId === 'sound_alert') return audio.playAlert();
+    if (toolId === 'sound_access') return audio.playAccessGranted();
+    
+    // FX
+    if (toolId === 'glitch') {
+      document.body.classList.add('glitch-active');
+      setTimeout(() => document.body.classList.remove('glitch-active'), 1000);
+      return;
+    }
+    if (toolId === 'rain') {
+      setIsRainOpen(true);
+      setIsOpen(false);
+      setCurrentCategory('main');
+      return;
+    }
+
+    // Utils
     if (toolId === 'timer') {
       setIsTimerOpen(!isTimerOpen);
+    } else if (toolId === 'decoder') {
+      setIsDecoderOpen(!isDecoderOpen);
     } else {
       if (activeTool === toolId) {
         setActiveTool(null); // toggle off
@@ -55,7 +121,8 @@ export default function FloatingToolkit({ currentSlide }) {
         setActiveTool(toolId);
       }
     }
-    setIsOpen(false); // Close menu when a tool is selected
+    setIsOpen(false);
+    setCurrentCategory('main');
   };
 
   const handleDragEnd = (event, info) => {
@@ -136,9 +203,10 @@ export default function FloatingToolkit({ currentSlide }) {
         onPointerDown={() => audio.init()}
       >
         <AnimatePresence>
-          {isOpen && TOOLS.map((tool, index) => {
-            const pos = getToolPosition(index, TOOLS.length);
-            const isActive = tool.id === 'timer' ? isTimerOpen : activeTool === tool.id;
+          {isOpen && (MENU_STRUCTURE[currentCategory] || MENU_STRUCTURE.main).map((tool, index) => {
+            const currentMenu = MENU_STRUCTURE[currentCategory] || MENU_STRUCTURE.main;
+            const pos = getToolPosition(index, currentMenu.length);
+            const isActive = tool.id === 'timer' ? isTimerOpen : tool.id === 'decoder' ? isDecoderOpen : activeTool === tool.id;
             return (
               <motion.button
                 key={tool.id}
@@ -212,7 +280,23 @@ export default function FloatingToolkit({ currentSlide }) {
             onClose={() => { setActiveTool(null); audio.playSweep(false); }} 
           />
         )}
+        {activeTool === 'laser' && (
+          <LaserPointer key="laser" />
+        )}
+        
+        {activeTool === 'zoom' && (
+          <ZoomPanOverlay key="zoom" />
+        )}
+        
+        {isDecoderOpen && (
+          <DecoderRing key="decoder" onClose={() => setIsDecoderOpen(false)} />
+        )}
+        
+        {isRainOpen && (
+          <BinaryRain key="rain" onClose={() => setIsRainOpen(false)} />
+        )}
       </AnimatePresence>
+
     </>
   );
 }
