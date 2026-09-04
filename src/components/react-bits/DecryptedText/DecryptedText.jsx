@@ -22,6 +22,7 @@ const styles = {
 
 export default function DecryptedText({
   text,
+  playAudio = true,
   speed = 50,
   maxIterations = 10,
   sequential = false,
@@ -179,7 +180,7 @@ export default function DecryptedText({
     };
 
     intervalRef.current = setInterval(() => {
-      if (currentIteration % 2 === 0) {
+      if (playAudio && currentIteration % 2 === 0) {
         audio.playDecryptTick();
       }
       currentIteration++;
@@ -228,7 +229,7 @@ export default function DecryptedText({
               setIsAnimating(false);
               setDisplayText(text);
               setIsDecrypted(true);
-              audio.playDecryptDone();
+              if (playAudio) audio.playDecryptDone();
             }
             return prevRevealed;
           }
@@ -318,9 +319,9 @@ export default function DecryptedText({
       setIsAnimating(false);
       setIsDecrypted(true);
       setDisplayText(text);
-      audio.playDecryptDone();
+      if (playAudio) audio.playDecryptDone();
     }
-  }, [revealedIndices.size, text.length, isAnimating, sequential, direction, text]);
+  }, [revealedIndices.size, text.length, isAnimating, sequential, direction, text, playAudio]);
 
 
   /* View Observer */

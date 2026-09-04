@@ -16,7 +16,7 @@ export const slides = [
           {config.speaker.role} // {config.speaker.name}
         </div>
         <h1 className="title-massive text-gradient grad-cyan stagger d-2">
-          <DecryptedText key={active ? 'active' : 'inactive'} text={config.presentation.title} animateOn="view" speed={40} maxIterations={3} sequential={true} />
+          <DecryptedText key={active ? 'active' : 'inactive'} playAudio={active} text={config.presentation.title} animateOn="view" speed={40} maxIterations={3} sequential={true} />
         </h1>
         <BlurText
           key={active ? 'active' : 'inactive'}
@@ -816,7 +816,7 @@ export const slides = [
           <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--emerald)' }}></i>
         </div>
         <h1 className="title-massive text-gradient grad-emerald stagger d-2" style={{ fontFamily: '"JetBrains Mono"', fontSize: '6rem' }}>
-          <DecryptedText key={active ? 'active' : 'inactive'} text="HTTP 200 OK" animateOn="view" speed={40} maxIterations={4} sequential={true} />
+          <DecryptedText key={active ? 'active' : 'inactive'} playAudio={active} text="HTTP 200 OK" animateOn="view" speed={40} maxIterations={4} sequential={true} />
         </h1>
         <p className="stagger d-3" style={{ color: 'var(--text-main)', maxWidth: '900px', fontSize: '1.5rem', marginTop: '2rem' }}>
           The connection is established. You now understand what happens under the hood.
