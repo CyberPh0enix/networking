@@ -42,13 +42,14 @@ export default function SystemInitIntro({ onComplete }) {
     let timeoutId;
 
     const printNext = () => {
-      if (currentIndex >= logs.length) {
+      const logEntry = logs[currentIndex];
+      if (!logEntry || currentIndex >= logs.length) {
         setStatus('waiting_to_advance');
         return;
       }
 
-      setDisplayedLogs(prev => [...prev, logs[currentIndex].text]);
-      timeoutId = setTimeout(printNext, logs[currentIndex].delay);
+      setDisplayedLogs(prev => [...prev, logEntry.text]);
+      timeoutId = setTimeout(printNext, logEntry.delay);
       currentIndex++;
     };
 
