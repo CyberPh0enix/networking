@@ -312,7 +312,53 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 10: The ISP Trap
+  // Slide 10: Port Scanning & Reconnaissance (Nmap)
+  {
+    color: "amber",
+    component: ({ active }) => (
+      <Slide active={active} color="amber">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
+          <i className="fa-solid fa-radar"></i> Recon: Port Scanning (Nmap)
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap stagger d-2">
+            <p>
+              How do hackers know what doors are open? They knock on all 65,535 of them.
+            </p>
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--amber)' }}>
+              <h3 style={{ color: 'var(--amber)', fontSize: '1.2rem' }}>Stealth SYN Scan (-sS)</h3>
+              <p style={{ margin: 0 }}>
+                Sends a SYN packet. If the server replies SYN-ACK, the port is open. The hacker immediately sends RST to drop the connection before it's logged by the application.
+              </p>
+            </div>
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--rose)' }}>
+              <h3 style={{ color: 'var(--rose)', fontSize: '1.2rem' }}>Service Detection (-sV)</h3>
+              <p style={{ margin: 0 }}>
+                Interrogates open ports to determine the exact software and version running (e.g., Apache 2.4.49), revealing known vulnerabilities.
+              </p>
+            </div>
+          </div>
+          
+          <div className="stagger d-3" style={{ display: 'flex', flexDirection: 'column' }}>
+            <Terminal 
+              active={active} 
+              cmd="nmap -sS -sV -p- 192.168.1.50" 
+              output={`Starting Nmap 7.93
+Host is up (0.0020s latency).
+Not shown: 65532 closed tcp ports (reset)
+PORT      STATE SERVICE VERSION
+22/tcp    open  ssh     OpenSSH 8.2p1
+80/tcp    open  http    Apache httpd 2.4.41
+25565/tcp open  minecraft Minecraft 1.16.5
+
+Nmap done: 1 IP address (1 host up) scanned in 4.52 seconds`} 
+            />
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 21b: The ISP Trap
   {
     color: "rose",
     component: ({ active }) => (
@@ -353,7 +399,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 11: Censorship & DPI
+  // Slide 21b: Censorship & DPI
   {
     color: "cyan",
     component: ({ active }) => (
@@ -393,7 +439,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 12: LIVE LAB: HTTP Tunnel
+  // Slide 21b: LIVE LAB: HTTP Tunnel
   {
     color: "cyan",
     component: ({ active }) => (
@@ -424,7 +470,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 13: LIVE LAB: Minecraft Port Bypass
+  // Slide 21b: LIVE LAB: Minecraft Port Bypass
   {
     color: "emerald",
     component: ({ active }) => (
@@ -459,7 +505,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 14: Network Quality Metrics
+  // Slide 21b: Network Quality Metrics
   {
     color: "purple",
     component: ({ active }) => (
@@ -498,7 +544,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 15: Meme Break
+  // Slide 21b: Meme Break
   {
     color: "amber",
     component: ({ active }) => (
@@ -531,7 +577,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 16: VPNs & Privacy
+  // Slide 21b: VPNs & Privacy
   {
     color: "rose",
     component: ({ active }) => (
@@ -571,7 +617,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 17: Supply Chain & Attacks
+  // Slide 21b: Supply Chain & Attacks
   {
     color: "amber",
     component: ({ active }) => (
@@ -604,7 +650,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 18: DDoS
+  // Slide 21b: DDoS
   {
     color: "amber",
     component: ({ active }) => (
@@ -637,7 +683,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 19: BGP
+  // Slide 21b: BGP
   {
     color: "cyan",
     component: ({ active }) => (
@@ -665,7 +711,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 20: Rogue Appliance Riddle
+  // Slide 21b: Rogue Appliance Riddle
   {
     color: "rose",
     component: ({ active }) => (
@@ -687,7 +733,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 21: Pi-hole Reveal
+  // Slide 21b: Pi-hole Reveal
   {
     color: "emerald",
     component: ({ active }) => (
@@ -725,7 +771,54 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 22: Cryptography: TLS & Certificates (Moved to before the end)
+  // Slide 22: Packet Sniffing (Wireshark) & The IoT Threat
+  {
+    color: "rose",
+    component: ({ active }) => (
+      <Slide active={active} color="rose">
+        <h2 className="slide-title text-gradient grad-rose stagger d-1">
+          <i className="fa-solid fa-wave-square"></i> Sniffing the Wire: IoT & Plaintext
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap stagger d-2">
+            <p>What happens when traffic isn't encrypted? It flies through the air in pure plaintext.</p>
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--rose)' }}>
+              <h3 style={{ color: 'var(--rose)', fontSize: '1.2rem' }}>The Smart Bulb Flaw</h3>
+              <p style={{ margin: 0 }}>
+                Many cheap IoT devices use plain HTTP on local networks. If you turn on a smart bulb, your phone broadcasts the command to everyone on the Wi-Fi.
+              </p>
+            </div>
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--amber)' }}>
+              <h3 style={{ color: 'var(--amber)', fontSize: '1.2rem' }}>Replay Attacks</h3>
+              <p style={{ margin: 0 }}>
+                A hacker uses <strong>Wireshark</strong> to passively capture that packet. They don't need the password; they just resend the exact same captured packet to control the device themselves.
+              </p>
+            </div>
+          </div>
+          
+          <div className="stagger d-3" style={{ display: 'flex', flexDirection: 'column' }}>
+            <Terminal 
+              active={active} 
+              cmd="tcpdump -i wlan0 -A port 80" 
+              output={`listening on wlan0, link-type EN10MB (Ethernet)
+14:22:15.123 IP 192.168.1.5 > 192.168.1.100.80: Flags [P.], seq 1:215
+E...(.@.@.......d...P.W...5.P...k...
+POST /api/device/state HTTP/1.1
+Host: 192.168.1.100
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4xMjM=
+
+{"state": "ON", "color": "#ff0000"}`} 
+            />
+            <p className="mono" style={{ color: 'var(--rose)', fontSize: '0.9rem', marginTop: '1rem', textAlign: 'center' }}>
+              Base64 decoded: admin:admin123 (Stolen in plaintext)
+            </p>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 23: Cryptography: TLS & Certificates
   {
     color: "cyan",
     component: ({ active }) => (
@@ -763,7 +856,57 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 23: TOR & P2P (EXPANDED)
+  // Slide 24: Burp Suite & Web Exploitation
+  {
+    color: "amber",
+    component: ({ active }) => (
+      <Slide active={active} color="amber">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
+          <i className="fa-solid fa-spider"></i> MITM Proxy: Burp Suite
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap stagger d-2">
+            <p>
+              How do hackers exploit web apps if everything is encrypted via TLS? 
+              They install a custom Root Certificate in their own browser and use a <strong>Proxy</strong> to intercept their own traffic before it leaves their computer.
+            </p>
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--amber)' }}>
+              <h3 style={{ color: 'var(--amber)' }}>Intercept & Modify</h3>
+              <p style={{ margin: 0 }}>
+                Burp Suite pauses the HTTP request mid-flight. The attacker can manually edit headers, cookies, or payloads before forwarding it to the server.
+              </p>
+            </div>
+          </div>
+          
+          <div className="stagger d-3" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="glass-panel" style={{ background: '#1e1e1e', fontFamily: '"JetBrains Mono", monospace', fontSize: '0.9rem', color: '#d4d4d4', overflowX: 'hidden' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '0.5rem', marginBottom: '0.5rem' }}>
+                <span style={{ color: 'var(--amber)' }}>[ Proxy ] - Intercept is ON</span>
+                <span>Forward | Drop | Action</span>
+              </div>
+              <div><span style={{ color: '#569cd6' }}>POST</span> <span style={{ color: '#ce9178' }}>/api/v1/checkout</span> HTTP/2</div>
+              <div><span style={{ color: '#9cdcfe' }}>Host:</span> shop.target.com</div>
+              <div><span style={{ color: '#9cdcfe' }}>Cookie:</span> session_id=abc123xyz</div>
+              <div><span style={{ color: '#9cdcfe' }}>Content-Type:</span> application/json</div>
+              <br/>
+              <div style={{ color: '#dcdcaa' }}>{`{`}</div>
+              <div style={{ paddingLeft: '1rem' }}>
+                <span style={{ color: '#9cdcfe' }}>"item_id":</span> <span style={{ color: '#b5cea8' }}>8492</span>,
+              </div>
+              <div style={{ paddingLeft: '1rem' }}>
+                <span style={{ color: '#9cdcfe' }}>"price":</span> <del style={{ color: '#f43f5e' }}>999.99</del> <span style={{ color: '#10b981', fontWeight: 'bold' }}>0.00</span>,
+              </div>
+              <div style={{ paddingLeft: '1rem' }}>
+                <span style={{ color: '#9cdcfe' }}>"quantity":</span> <span style={{ color: '#b5cea8' }}>1</span>
+              </div>
+              <div style={{ color: '#dcdcaa' }}>{`}`}</div>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 25: TOR & P2P (EXPANDED)
   {
     color: "purple",
     component: ({ active }) => (
@@ -807,7 +950,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 24: Final 200 OK
+  // Slide 26: Final 200 OK
   {
     color: "emerald",
     component: ({ active, onTerminate }) => (
