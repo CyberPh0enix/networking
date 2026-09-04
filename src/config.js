@@ -9,6 +9,7 @@ export const config = {
     subtitle:
       "The chaotic, patched-together, entirely practical reality of the Internet.",
     footerText: "/dev/tty1 // packets routed",
+    terminalPrompt: "[px@archlinux ~]$",
   },
   theme: {
     colors: {

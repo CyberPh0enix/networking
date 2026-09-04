@@ -2,6 +2,8 @@ import React from 'react';
 import { Slide } from '../components/Slide.jsx';
 import { Terminal } from '../components/Terminal.jsx';
 import { config } from '../config.js';
+import DecryptedText from '../components/react-bits/DecryptedText/DecryptedText.jsx';
+import GlitchText from '../components/react-bits/GlitchText/GlitchText.jsx';
 
 export const slides = [
   // Slide 1: Title
@@ -565,7 +567,7 @@ export const slides = [
     component: ({ active }) => (
       <Slide active={active} color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
-          <i className="fa-solid fa-skull-crossbones"></i> When The Network Attacks
+          <i className="fa-solid fa-skull-crossbones"></i> <GlitchText text="When The Network Attacks" speed={0.5} />
         </h2>
         <div className="grid-3">
           <div className="glass-panel stagger d-2" style={{ borderTop: '4px solid var(--emerald)', textAlign: 'center' }}>
@@ -804,7 +806,7 @@ export const slides = [
           <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--emerald)' }}></i>
         </div>
         <h1 className="title-massive text-gradient grad-emerald stagger d-2" style={{ fontFamily: '"JetBrains Mono"', fontSize: '6rem' }}>
-          HTTP 200 OK
+          <DecryptedText text="HTTP 200 OK" speed={100} maxIterations={20} />
         </h1>
         <p className="stagger d-3" style={{ color: 'var(--text-main)', maxWidth: '900px', fontSize: '1.5rem', marginTop: '2rem' }}>
           The connection is established. You now understand what happens under the hood.
