@@ -810,7 +810,7 @@ export const slides = [
   // Slide 24: Final 200 OK
   {
     color: "emerald",
-    component: ({ active }) => (
+    component: ({ active, onTerminate }) => (
       <Slide active={active} color="emerald" alignCenter>
         <div className="stagger d-1" style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--emerald)' }}></i>
@@ -822,9 +822,21 @@ export const slides = [
           The connection is established. You now understand what happens under the hood.
         </p>
         <div className="stagger d-4" style={{ marginTop: '3rem' }}>
-          <a href="#" className="glass-panel" style={{ display: 'inline-block', padding: '1rem 3rem', textDecoration: 'none', color: '#fff', borderColor: 'var(--emerald)' }}>
+          <button
+            onClick={onTerminate}
+            className="glass-panel"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
+              padding: '1rem 3rem', color: 'var(--rose)',
+              borderColor: 'rgba(244, 63, 94, 0.4)',
+              background: 'rgba(244, 63, 94, 0.08)',
+              fontFamily: '"JetBrains Mono", monospace',
+              fontSize: '1rem', cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
             <i className="fa-solid fa-power-off"></i> Terminate Session
-          </a>
+          </button>
         </div>
       </Slide>
     )

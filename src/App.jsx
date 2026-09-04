@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { config } from './config.js';
 import { slides } from './presentations/Networking.jsx';
 import SystemInitIntro from './components/SystemInitIntro.jsx';
+import ShutdownSequence from './components/ShutdownSequence.jsx';
+import ConfirmShutdown from './components/ConfirmShutdown.jsx';
 
 function App() {
   const totalSlides = slides.length;
@@ -18,6 +20,9 @@ function App() {
     const initial = saved ? parseInt(saved, 10) : 0;
     return initial > 0;
   });
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [shutdownActive, setShutdownActive] = useState(false);
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [orbPositions, setOrbPositions] = useState({ p1x: 50, p1y: 50, p2x: 50, p2y: 50 });
@@ -119,14 +124,32 @@ function App() {
     };
   }, [isAnimating, currentSlide, totalSlides, introFinished]);
 
+  const handleShutdownComplete = () => {
+    localStorage.removeItem("networking_slide_index");
+    setShutdownActive(false);
+    setCurrentSlide(0);
+    setIntroFinished(false);
+  };
+
   const progress = ((currentSlide + 1) / totalSlides) * 100;
-  
   const currentSlideObj = slides[currentSlide] || slides[0];
   const themeColor = config.theme.colors[currentSlideObj.color] || config.theme.colors.cyan;
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
+      {/* System Init Intro (boot screen) */}
       {!introFinished && <SystemInitIntro onComplete={() => setIntroFinished(true)} />}
+
+      {/* Shutdown confirmation modal */}
+      {showConfirm && (
+        <ConfirmShutdown
+          onConfirm={() => { setShowConfirm(false); setShutdownActive(true); }}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+
+      {/* Shutdown sequence overlay */}
+      {shutdownActive && <ShutdownSequence onComplete={handleShutdownComplete} />}
 
       {/* Ambient Background */}
       <div className="ambient-bg">
@@ -150,7 +173,14 @@ function App() {
       <div id="deck">
         {slides.map((slideObj, index) => {
           const SlideComponent = slideObj.component;
-          return <SlideComponent key={index} active={index === currentSlide} />;
+          const isLast = index === slides.length - 1;
+          return (
+            <SlideComponent
+              key={index}
+              active={index === currentSlide}
+              {...(isLast ? { onTerminate: () => setShowConfirm(true) } : {})}
+            />
+          );
         })}
       </div>
     </div>
