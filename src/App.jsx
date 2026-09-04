@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { config } from './config.js';
 import { slides } from './presentations/Networking.jsx';
 
@@ -14,6 +14,7 @@ function App() {
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [orbPositions, setOrbPositions] = useState({ p1x: 50, p1y: 50, p2x: 50, p2y: 50 });
+  const touchStartX = useRef(0);
 
   useEffect(() => {
     localStorage.setItem("networking_slide_index", currentSlide);
@@ -56,15 +57,47 @@ function App() {
         prevSlide();
       }
     };
+
+    const handleTouchStart = (e) => {
+      touchStartX.current = e.changedTouches[0].screenX;
+    };
+
+    const handleTouchEnd = (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX.current - swipeThreshold) {
+        nextSlide();
+      }
+      if (touchEndX > touchStartX.current + swipeThreshold) {
+        prevSlide();
+      }
+    };
+
+    const handleDoubleClick = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(console.error);
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    };
+
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener("touchstart", handleTouchStart, { passive: true });
+    document.addEventListener("touchend", handleTouchEnd, { passive: true });
+    document.addEventListener("dblclick", handleDoubleClick);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("touchend", handleTouchEnd);
+      document.removeEventListener("dblclick", handleDoubleClick);
+    };
   }, [isAnimating, currentSlide, totalSlides]);
 
   const progress = ((currentSlide + 1) / totalSlides) * 100;
   
-  // Extract color from slide markup via dirty hack, or just default to cyan for now
-  // We'll update this in Chunk 2 when we port the slides as objects { color, component }
-  const themeColor = config.theme.colors.cyan;
+  const currentSlideObj = slides[currentSlide] || slides[0];
+  const themeColor = config.theme.colors[currentSlideObj.color] || config.theme.colors.cyan;
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
@@ -88,9 +121,10 @@ function App() {
 
       {/* Presentation Deck */}
       <div id="deck">
-        {slides.map((SlideComponent, index) => (
-          <SlideComponent key={index} active={index === currentSlide} />
-        ))}
+        {slides.map((slideObj, index) => {
+          const SlideComponent = slideObj.component;
+          return <SlideComponent key={index} active={index === currentSlide} />;
+        })}
       </div>
     </div>
   );
