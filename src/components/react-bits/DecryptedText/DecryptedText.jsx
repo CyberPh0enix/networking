@@ -177,11 +177,11 @@ export default function DecryptedText({
     };
 
     intervalRef.current = setInterval(() => {
+      currentIteration++;
       setRevealedIndices(prevRevealed => {
         if (sequential) {
           // Forward
           if (direction === 'forward') {
-            currentIteration++;
             if (prevRevealed.size < text.length) {
               const newRevealed = new Set(prevRevealed);
               if (currentIteration % maxIterations === 0) {
@@ -191,9 +191,6 @@ export default function DecryptedText({
               setDisplayText(shuffleText(text, newRevealed));
               return newRevealed;
             } else {
-              clearInterval(intervalRef.current);
-              setIsAnimating(false);
-              setIsDecrypted(true);
               return prevRevealed;
             }
           }
@@ -221,7 +218,6 @@ export default function DecryptedText({
           // Non-Sequential
           if (direction === 'forward') {
             setDisplayText(shuffleText(text, prevRevealed));
-            currentIteration++;
             if (currentIteration >= maxIterations) {
               clearInterval(intervalRef.current);
               setIsAnimating(false);
@@ -240,7 +236,6 @@ export default function DecryptedText({
             const removeCount = Math.max(1, Math.ceil(text.length / Math.max(1, maxIterations)));
             const nextSet = removeRandomIndices(currentSet, removeCount);
             setDisplayText(shuffleText(text, nextSet));
-            currentIteration++;
             if (nextSet.size === 0 || currentIteration >= maxIterations) {
               clearInterval(intervalRef.current);
               setIsAnimating(false);
@@ -311,6 +306,15 @@ export default function DecryptedText({
     setIsDecrypted(true);
     setDirection('forward');
   }, [text]);
+  useEffect(() => {
+    if (isAnimating && sequential && direction === 'forward' && revealedIndices.size >= text.length) {
+      clearInterval(intervalRef.current);
+      setIsAnimating(false);
+      setIsDecrypted(true);
+      setDisplayText(text);
+    }
+  }, [revealedIndices.size, text.length, isAnimating, sequential, direction, text]);
+
 
   /* View Observer */
   useEffect(() => {
