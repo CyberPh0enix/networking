@@ -26,9 +26,9 @@ export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active =
     const typeInterval = setInterval(() => {
       setTypedCmd(cmd.substring(0, i + 1));
       
-      // Play typing sound throttled and slightly randomized (about every 2-3 chars depending on speed)
+      // Play typing sound throttled and slightly randomized
       const now = performance.now();
-      if (now - lastTickTime.current > 70 && Math.random() > 0.2) {
+      if (now - lastTickTime.current > 50 && Math.random() > 0.4) {
         audio.playTypingTick();
         lastTickTime.current = now;
       }

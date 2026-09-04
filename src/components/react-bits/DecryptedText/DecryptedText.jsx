@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { motion } from 'motion/react';
+import { audio } from '../../../utils/audioEngine';
 
 const styles = {
   wrapper: {
@@ -178,6 +179,9 @@ export default function DecryptedText({
     };
 
     intervalRef.current = setInterval(() => {
+      if (currentIteration % 2 === 0) {
+        audio.playDecryptTick();
+      }
       currentIteration++;
       setRevealedIndices(prevRevealed => {
         if (sequential) {
@@ -224,6 +228,7 @@ export default function DecryptedText({
               setIsAnimating(false);
               setDisplayText(text);
               setIsDecrypted(true);
+              audio.playDecryptDone();
             }
             return prevRevealed;
           }
@@ -313,6 +318,7 @@ export default function DecryptedText({
       setIsAnimating(false);
       setIsDecrypted(true);
       setDisplayText(text);
+      audio.playDecryptDone();
     }
   }, [revealedIndices.size, text.length, isAnimating, sequential, direction, text]);
 
