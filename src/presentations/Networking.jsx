@@ -197,7 +197,7 @@ export const slides = [
         </div>
       </Slide>
     )
-  }
+  },
   // Slide 8: Interfaces & Ports
   {
     color: "emerald",
@@ -317,6 +317,354 @@ export const slides = [
             <h3 style={{ color: 'var(--amber)', margin: 0 }}>
               <i className="fa-solid fa-mobile-screen"></i> Connect via 5G now!
             </h3>
+          </div>
+        </div>
+      </Slide>
+    )
+  }
+,
+
+  // Slide 11: LIVE LAB: Minecraft Port Bypass
+  {
+    color: "emerald",
+    component: ({ active }) => (
+      <Slide active={active} color="emerald">
+        <h2 className="slide-title text-gradient grad-emerald stagger d-1">
+          <i className="fa-solid fa-cubes"></i> LIVE LAB: Minecraft Port Bypass
+        </h2>
+        <p className="stagger d-2" style={{ textAlign: 'center', color: '#fff', fontSize: '1.5rem', marginBottom: '2rem' }}>
+          Bypassing CGNAT to host a TCP Game Server on Port 25565
+        </p>
+
+        <div className="grid-2">
+          <Terminal cmd="java -jar purpur.jar" staggerClass="stagger d-3" fontSize="0.85rem">
+            <div style={{ color: 'var(--text-muted)' }}>[Server thread/INFO]: Starting minecraft server version 1.20.4</div>
+            <div style={{ color: 'var(--emerald)' }}>[Server thread/INFO]: Done (4.123s)! For help, type "help"</div>
+            <div style={{ color: 'var(--rose)', marginTop: '1.5rem' }}>// Running locally on 0.0.0.0:25565</div>
+            <div style={{ color: 'var(--rose)' }}>// Cannot be joined via Local IP on 5G.</div>
+          </Terminal>
+
+          <Terminal cmd="cloudflared tunnel --tcp localhost:25565" staggerClass="stagger d-4" fontSize="0.85rem">
+            <div style={{ color: 'var(--text-muted)' }}>2026-09-02T19:05:16Z INF Requesting new TCP Tunnel...</div>
+            <div style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>+-------------------------------------------+</div>
+            <div style={{ color: 'var(--text-muted)' }}>
+              |<span className="hl-cyan" style={{ fontWeight: 'bold', fontSize: '1rem' }}>mc.random-words.trycloudflare.com</span>|
+            </div>
+            <div style={{ color: 'var(--text-muted)' }}>+-------------------------------------------+</div>
+            <div style={{ color: 'var(--emerald)', marginTop: '1.5rem', fontWeight: 'bold' }}>
+              // Audience: Add this server address now!
+            </div>
+          </Terminal>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 12: Network Quality Metrics
+  {
+    color: "purple",
+    component: ({ active }) => (
+      <Slide active={active} color="purple">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
+          <i className="fa-solid fa-chart-line"></i> Network Quality Metrics
+        </h2>
+        <div className="grid-2">
+          <ul className="sleek-list stagger d-2">
+            <li>
+              <i className="fa-solid fa-water" style={{ color: 'var(--cyan)' }}></i>
+              <strong style={{ color: '#fff' }}>Bandwidth & Throughput:</strong> Highway width vs actual cars passing.
+            </li>
+            <li>
+              <i className="fa-solid fa-stopwatch" style={{ color: 'var(--emerald)' }}></i>
+              <strong style={{ color: '#fff' }}>Latency & Ping:</strong> The time it takes for 1 car to do a round trip.
+            </li>
+            <li>
+              <i className="fa-solid fa-bolt" style={{ color: 'var(--amber)' }}></i>
+              <strong style={{ color: '#fff' }}>Jitter:</strong> The variance/unpredictability in latency (Rubberbanding).
+            </li>
+            <li>
+              <i className="fa-solid fa-box-open" style={{ color: 'var(--rose)' }}></i>
+              <strong style={{ color: '#fff' }}>Packet Loss:</strong> Packets dropped by overloaded routers.
+            </li>
+          </ul>
+
+          <div className="glass-panel stagger d-3" style={{ textAlign: 'center', borderColor: 'var(--purple)' }}>
+            <h3 style={{ color: 'var(--purple)', fontSize: '2.5rem', marginBottom: '1rem' }}>
+              <i className="fa-solid fa-stopwatch"></i> Activity Time
+            </h3>
+            <p style={{ color: '#fff', fontSize: '1.5rem' }}>Open <strong>fast.com</strong> on your phone.</p>
+            <p>Click "Show more info". Look at your <strong>Loaded Latency (Bufferbloat)</strong>.<br />Compare College Wi-Fi vs your 5G Network.</p>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 13: Meme Break
+  {
+    color: "amber",
+    component: ({ active }) => (
+      <Slide active={active} color="amber" alignCenter>
+        <h2 className="slide-title text-gradient grad-amber stagger d-1" style={{ justifyContent: 'center' }}>
+          <i className="fa-solid fa-face-laugh-squint"></i> When the Network Goes Down...
+        </h2>
+        <div className="grid-2" style={{ width: '100%', maxWidth: '1200px' }}>
+          <div className="glass-panel stagger d-2" style={{ padding: '3rem', textAlign: 'center', borderTop: '4px solid var(--rose)' }}>
+            <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--rose)' }}></i>
+            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>The Corporate Excuse:</h3>
+            <h4 style={{ fontSize: '1.8rem', color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>
+              "It was not a network issue. It was not a firewall issue. It was DNS."
+            </h4>
+            <p style={{ color: 'var(--rose)', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
+              It's ALWAYS DNS.
+            </p>
+          </div>
+          <div className="glass-panel stagger d-3" style={{ padding: '3rem', textAlign: 'center', borderTop: '4px solid var(--emerald)' }}>
+            <i className="fa-solid fa-masks-theater icon-massive" style={{ color: 'var(--emerald)' }}></i>
+            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>The Free VPN Reality:</h3>
+            <h4 style={{ fontSize: '1.8rem', color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>
+              "Jor jor se bolke sabko scheme bata de!"
+            </h4>
+            <p style={{ color: 'var(--emerald)', fontWeight: 'bold', fontSize: '1.5rem', marginTop: '2rem' }}>
+              (When your free VPN leaks your unencrypted DNS requests directly to your ISP)
+            </p>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 14: VPNs & Privacy
+  {
+    color: "rose",
+    component: ({ active }) => (
+      <Slide active={active} color="rose">
+        <h2 className="slide-title text-gradient grad-rose stagger d-1">
+          <i className="fa-solid fa-user-secret"></i> VPNs & The Privacy Paradox
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap">
+            <div className="glass-panel stagger d-2" style={{ borderLeft: '4px solid var(--cyan)' }}>
+              <h3>WireGuard vs OpenVPN</h3>
+              <p>
+                <strong>OpenVPN:</strong> Old, user-space, heavy.<br />
+                <strong>WireGuard:</strong> Next-gen, in-kernel, stealthy.
+              </p>
+            </div>
+            <div className="glass-panel stagger d-3" style={{ borderLeft: '4px solid var(--rose)' }}>
+              <h3>The Egress Risk</h3>
+              <p>VPNs act as your new ISP. They see all DNS and TLS SNI metadata.</p>
+            </div>
+          </div>
+
+          <div className="stagger d-4">
+            <h3 style={{ color: '#fff' }}>
+              <i className="fa-solid fa-spider" style={{ color: 'var(--purple)' }}></i> Web Tracking Escapes VPNs
+            </h3>
+            <p>Tracking relies on parameters, not just IP addresses.</p>
+            <Terminal>
+              <div style={{ color: '#fff' }}>GET /post/123 HTTP/3</div>
+              <div style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>URL Parameters:</div>
+              <div className="hl-amber">?utm_source=networking</div>
+              <div className="hl-amber">?igsh=YzcxN2Q2NzE0...</div>
+              <div style={{ color: 'var(--rose)', marginTop: '1rem' }}>// igsh maps social graphs regardless of IP.</div>
+            </Terminal>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 15: DDoS
+  {
+    color: "amber",
+    component: ({ active }) => (
+      <Slide active={active} color="amber">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
+          <i className="fa-solid fa-burst"></i> Exploits: DoS vs DDoS
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap">
+            <div className="glass-panel stagger d-2" style={{ borderLeft: '4px solid var(--amber)' }}>
+              <h3>Denial of Service (DoS)</h3>
+              <p>A single machine sends malformed packets (like a SYN Flood) to crash a server's network stack. Easily blocked by IP rules.</p>
+            </div>
+            <div className="glass-panel stagger d-3" style={{ borderLeft: '4px solid var(--rose)' }}>
+              <h3>Distributed (DDoS) & Botnets</h3>
+              <p>100,000 infected IoT devices (smart fridges, cameras) coordinate to send valid traffic simultaneously. The server legitimately runs out of bandwidth.</p>
+            </div>
+          </div>
+          <div className="stagger d-4">
+            <h3 style={{ color: '#fff', marginBottom: '1rem' }}>The SYN Flood</h3>
+            <Terminal cmd="hping3 -S --flood -V -p 80 target.com">
+              <div style={{ color: 'var(--text-muted)' }}>HPING target.com (eth0 192.168.1.100): S set, 40 headers + 0 data bytes</div>
+              <div style={{ color: 'var(--text-muted)' }}>hping in flood mode, no replies will be shown</div>
+              <div style={{ color: 'var(--rose)', marginTop: '1rem' }}>// Sending SYN...</div>
+              <div style={{ color: 'var(--rose)' }}>// Sending SYN...</div>
+              <div style={{ color: 'var(--rose)' }}>// Server allocates memory waiting for ACKs that never come.</div>
+            </Terminal>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 16: BGP
+  {
+    color: "cyan",
+    component: ({ active }) => (
+      <Slide active={active} color="cyan">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
+          <i className="fa-solid fa-project-diagram"></i> BGP & The Backbone
+        </h2>
+        <div className="grid-2">
+          <div className="glass-panel stagger d-2" style={{ borderColor: 'var(--cyan)' }}>
+            <h3 style={{ color: 'var(--cyan)', fontSize: '2.5rem' }}>Border Gateway Protocol</h3>
+            <p style={{ color: '#fff' }}>The postal service of the internet.</p>
+            <p>Routers don't know the entire internet. They only know their neighbors. BGP is how massive ISPs announce: <em>"I know the shortest path to YouTube's IPs!"</em></p>
+          </div>
+          <div className="flex-col-gap">
+            <div className="glass-panel stagger d-3" style={{ borderLeft: '4px solid var(--amber)' }}>
+              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>BGP Hijacking</h3>
+              <p style={{ margin: 0 }}>A rogue ISP falsely announces a shorter route, stealing traffic meant for another country.</p>
+            </div>
+            <div className="glass-panel stagger d-4" style={{ borderLeft: '4px solid var(--rose)' }}>
+              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>BGP Blackholing</h3>
+              <p style={{ margin: 0 }}>ISPs advertise false routes for IPs to drop DDoS traffic into a void before it hits the target.</p>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 17: Rogue Appliance Riddle
+  {
+    color: "rose",
+    component: ({ active }) => (
+      <Slide active={active} color="rose" alignCenter>
+        <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
+          <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Rogue Appliance
+        </h2>
+        <div className="glass-panel stagger d-2" style={{ maxWidth: '900px', padding: '4rem', borderTop: '4px solid var(--rose)' }}>
+          <i className="fa-solid fa-tv icon-massive" style={{ color: 'var(--rose)' }}></i>
+          <h3 style={{ color: '#fff', fontSize: '2.5rem', marginBottom: '2rem' }}>The Dilemma</h3>
+          <p style={{ fontSize: '1.5rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+            You bought a Smart TV. It has no app store, and you <strong>cannot</strong> install an adblocker on it. 
+            However, it is secretly sending your viewing habits to <span className="mono text-gradient grad-rose">trackers.smart-tv.com</span> every 5 seconds.
+          </p>
+          <p style={{ fontWeight: 'bold', marginTop: '3rem', fontSize: '2rem', color: '#fff' }}>
+            Based on everything we've covered... how do you stop it?
+          </p>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 18: Pi-hole Reveal
+  {
+    color: "emerald",
+    component: ({ active }) => (
+      <Slide active={active} color="emerald">
+        <h2 className="slide-title text-gradient grad-emerald stagger d-1">
+          <i className="fa-solid fa-shield-halved"></i> The Reveal: DNS Sinkholing
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap stagger d-2">
+            <div className="glass-panel" style={{ borderTop: '4px solid var(--cyan)' }}>
+              <h3 style={{ color: 'var(--cyan)' }}>Control the Network</h3>
+              <p style={{ fontSize: '1.2rem', lineHeight: 1.6 }}>If you can't control the device, you control the infrastructure it relies on. By poisoning your own DNS using <strong>Pi-hole</strong> or <strong>AdGuard Home</strong>, you can blind any device on your Wi-Fi.</p>
+            </div>
+            <Terminal cmd="nslookup trackers.smart-tv.com" staggerClass="stagger d-3" fontSize="1.1rem">
+              <div style={{ color: 'var(--text-muted)' }}>Server:     192.168.1.2 (Pi-hole)</div>
+              <br />
+              <div style={{ color: 'var(--emerald)', fontWeight: 'bold' }}>Name:       trackers.smart-tv.com</div>
+              <div style={{ color: 'var(--rose)', fontWeight: 'bold' }}>Address:    0.0.0.0</div>
+            </Terminal>
+          </div>
+          <div className="flex-col-gap stagger d-4">
+            <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center', borderColor: 'var(--purple)', height: '100%' }}>
+              <i className="fa-solid fa-tv" style={{ fontSize: '3rem', color: 'var(--text-muted)', marginBottom: '1rem' }}></i>
+              <p className="mono" style={{ margin: 0, color: '#fff', fontSize: '1.2rem' }}>"Where is trackers.com?"</p>
+              <i className="fa-solid fa-arrow-down" style={{ fontSize: '2rem', color: 'var(--text-muted)', margin: '1rem 0' }}></i>
+              <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1.5rem', border: '1px solid var(--emerald)', borderRadius: '8px' }}>
+                <i className="fa-solid fa-server" style={{ fontSize: '3rem', color: 'var(--emerald)', marginBottom: '1rem' }}></i>
+                <p className="mono" style={{ color: 'var(--emerald)', fontWeight: 'bold', margin: 0, fontSize: '1.5rem' }}>Pi-hole (192.168.1.2)</p>
+              </div>
+              <i className="fa-solid fa-arrow-down" style={{ fontSize: '2rem', color: 'var(--text-muted)', margin: '1rem 0' }}></i>
+              <p className="mono" style={{ margin: 0, fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--rose)' }}>0.0.0.0 (Nowhere)</p>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 19: TOR & P2P
+  {
+    color: "purple",
+    component: ({ active }) => (
+      <Slide active={active} color="purple">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
+          <i className="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P
+        </h2>
+        <div className="grid-2">
+          <div className="stagger d-2">
+            <h3 style={{ color: 'var(--cyan)', fontSize: '2.5rem' }}>TOR (Onion Routing)</h3>
+            <p>3 Layers of Encryption separating identity from destination.</p>
+            <div className="flex-col-gap" style={{ marginTop: '2rem' }}>
+              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--rose)' }}>
+                <strong className="mono" style={{ fontSize: '1.1rem' }}>Guard</strong>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows YOU, not Dest.</span>
+              </div>
+              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--amber)' }}>
+                <strong className="mono" style={{ fontSize: '1.1rem' }}>Middle</strong>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows nothing.</span>
+              </div>
+              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--emerald)' }}>
+                <strong className="mono" style={{ fontSize: '1.1rem' }}>Exit</strong>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows Dest, not YOU.</span>
+              </div>
+            </div>
+          </div>
+          <div className="stagger d-3">
+            <h3 style={{ color: 'var(--emerald)', fontSize: '2.5rem' }}>Torrents (P2P DHT)</h3>
+            <div className="glass-panel">
+              <h4 style={{ color: '#fff' }}>Decentralized Swarm</h4>
+              <p>Download tiny chunks from 50 strangers globally simultaneously. Unkillable.</p>
+              <h4 style={{ color: '#fff', marginTop: '1.5rem' }}>Kademlia DHT</h4>
+              <p style={{ margin: 0 }}>Distributed hash tables (XOR metric) discover peers without central trackers.</p>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 20: The Trust System (TLS, HTTPS, Certificates)
+  {
+    color: "cyan",
+    component: ({ active }) => (
+      <Slide active={active} color="cyan">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
+          <i className="fa-solid fa-lock"></i> Cryptography: TLS & Certificates
+        </h2>
+        <div className="grid-2">
+          <div className="flex-col-gap stagger d-2">
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--emerald)' }}>
+              <h3 style={{ color: 'var(--emerald)' }}>HTTPS & TLS</h3>
+              <p>
+                <strong>Asymmetric Encryption:</strong> The server gives you a Public Key to lock data. Only the server holds the Private Key to unlock it.
+              </p>
+            </div>
+            <div className="glass-panel" style={{ borderLeft: '4px solid var(--cyan)' }}>
+              <h3 style={{ color: 'var(--cyan)' }}>HSTS (Strict Transport Security)</h3>
+              <p>
+                A header telling your browser: <em>"Never talk to me over unencrypted HTTP again."</em> Prevents hackers from silently downgrading your connection on public Wi-Fi.
+              </p>
+            </div>
+          </div>
+          
+          <div className="glass-panel stagger d-3" style={{ borderColor: 'var(--purple)' }}>
+            <h3 style={{ color: 'var(--purple)', fontSize: '2rem' }}>Certificate Authorities</h3>
+            <p>How do you know the Public Key actually belongs to Google, and not a hacker intercepting your traffic?</p>
+            <div style={{ background: 'rgba(168, 85, 247, 0.1)', padding: '1.5rem', borderRadius: '8px', border: '1px solid var(--purple)', marginTop: '1.5rem' }}>
+              <h4 style={{ color: '#fff', marginBottom: '0.5rem' }}><i className="fa-solid fa-stamp" style={{ color: 'var(--amber)' }}></i> The Root of Trust</h4>
+              <p style={{ margin: 0 }}>
+                Your OS is pre-installed with root certificates from trusted authorities (like <strong>Let's Encrypt</strong>). These CAs verify domains and cryptographically sign their keys.
+              </p>
+            </div>
           </div>
         </div>
       </Slide>
