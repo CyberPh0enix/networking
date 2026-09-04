@@ -169,20 +169,22 @@ function App() {
         <button className="control-btn" id="btn-next" onClick={nextSlide}><i className="fa-solid fa-chevron-right"></i></button>
       </div>
 
-      {/* Presentation Deck */}
-      <div id="deck">
-        {slides.map((slideObj, index) => {
-          const SlideComponent = slideObj.component;
-          const isLast = index === slides.length - 1;
-          return (
-            <SlideComponent
-              key={index}
-              active={index === currentSlide}
-              {...(isLast ? { onTerminate: () => setShowConfirm(true) } : {})}
-            />
-          );
-        })}
-      </div>
+      {/* Presentation Deck — only mount after intro so IntersectionObserver fires correctly */}
+      {introFinished && (
+        <div id="deck">
+          {slides.map((slideObj, index) => {
+            const SlideComponent = slideObj.component;
+            const isLast = index === slides.length - 1;
+            return (
+              <SlideComponent
+                key={index}
+                active={index === currentSlide}
+                {...(isLast ? { onTerminate: () => setShowConfirm(true) } : {})}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
