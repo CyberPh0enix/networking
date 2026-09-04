@@ -4,15 +4,16 @@ import { audio } from '../../utils/audioEngine';
 import './FloatingToolkit.css';
 import WhiteboardCanvas from './WhiteboardCanvas';
 import MagicTimer from './MagicTimer';
+import FocusSpotlight from './FocusSpotlight';
 
 const BUTTON_SIZE = 60;
 const MARGIN = 20;
 const RADIUS = 80; // Distance of tools from main button
 
 const TOOLS = [
-  { id: 'whiteboard', icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' }, // Pen
-  { id: 'timer', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' }, // Clock
-  { id: 'focus', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2 12h4 M18 12h4 M12 2v4 M12 18v4' }, // Target/Crosshair
+  { id: 'whiteboard', label: 'Whiteboard', icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' },
+  { id: 'timer', label: 'Magic Timer', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { id: 'focus', label: 'Spotlight', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2 12h4 M18 12h4 M12 2v4 M12 18v4' },
 ];
 
 export default function FloatingToolkit({ currentSlide }) {
@@ -20,7 +21,8 @@ export default function FloatingToolkit({ currentSlide }) {
   const [snapEdge, setSnapEdge] = useState('left');
   
   // Active tool states
-  const [activeTool, setActiveTool] = useState(null);
+  const [activeTool, setActiveTool] = useState(null); // whiteboard, focus
+  const [isTimerOpen, setIsTimerOpen] = useState(false);
 
   const x = useMotionValue(MARGIN);
   const y = useMotionValue(0);
@@ -44,10 +46,14 @@ export default function FloatingToolkit({ currentSlide }) {
 
   const handleToolClick = (toolId) => {
     audio.playClick();
-    if (activeTool === toolId) {
-      setActiveTool(null); // toggle off
+    if (toolId === 'timer') {
+      setIsTimerOpen(!isTimerOpen);
     } else {
-      setActiveTool(toolId);
+      if (activeTool === toolId) {
+        setActiveTool(null); // toggle off
+      } else {
+        setActiveTool(toolId);
+      }
     }
     setIsOpen(false); // Close menu when a tool is selected
   };
@@ -132,10 +138,11 @@ export default function FloatingToolkit({ currentSlide }) {
         <AnimatePresence>
           {isOpen && TOOLS.map((tool, index) => {
             const pos = getToolPosition(index, TOOLS.length);
+            const isActive = tool.id === 'timer' ? isTimerOpen : activeTool === tool.id;
             return (
               <motion.button
                 key={tool.id}
-                className={`toolkit-tool-btn ${activeTool === tool.id ? 'active' : ''}`}
+                className={`toolkit-tool-btn ${isActive ? 'active' : ''}`}
                 initial={{ opacity: 0, x: 0, y: 0, scale: 0 }}
                 animate={{ opacity: 1, x: pos.x, y: pos.y, scale: 1 }}
                 exit={{ opacity: 0, x: 0, y: 0, scale: 0 }}
@@ -145,6 +152,7 @@ export default function FloatingToolkit({ currentSlide }) {
                 whileTap={{ scale: 0.9 }}
                 onHoverStart={() => audio.playHover()}
               >
+                <div className="tooltip">{tool.label}</div>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d={tool.icon} />
                 </svg>
@@ -170,9 +178,9 @@ export default function FloatingToolkit({ currentSlide }) {
                   </motion.g>
                 ) : (
                   <motion.g key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
-                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    <circle cx="12" cy="12" r="10" strokeDasharray="15 45" strokeWidth="2" />
-                    <path d="M12 8l4 4-4 4" />
+                    {/* Clean Command Node Icon */}
+                    <polygon points="12 2 20.66 7 20.66 17 12 22 3.34 17 3.34 7" strokeDasharray="60" strokeDashoffset="0" />
+                    <circle cx="12" cy="12" r="3" />
                   </motion.g>
                 )}
               </AnimatePresence>
@@ -191,9 +199,16 @@ export default function FloatingToolkit({ currentSlide }) {
           />
         )}
         
-        {activeTool === 'timer' && (
+        {isTimerOpen && (
           <MagicTimer 
             key="timer"
+            onClose={() => { setIsTimerOpen(false); audio.playSweep(false); }} 
+          />
+        )}
+        
+        {activeTool === 'focus' && (
+          <FocusSpotlight 
+            key="focus"
             onClose={() => { setActiveTool(null); audio.playSweep(false); }} 
           />
         )}

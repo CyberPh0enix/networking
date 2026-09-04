@@ -6,12 +6,12 @@ import './MagicTimer.css';
 const DEFAULT_TIME = 60; // 60 seconds
 
 export default function MagicTimer({ onClose }) {
+  const [totalTime, setTotalTime] = useState(DEFAULT_TIME);
   const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME);
   const [isActive, setIsActive] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   
   const circumference = 2 * Math.PI * 45;
-  const strokeDashoffset = circumference - (timeLeft / DEFAULT_TIME) * circumference;
 
   useEffect(() => {
     let interval = null;
@@ -49,7 +49,14 @@ export default function MagicTimer({ onClose }) {
   const handleReset = () => {
     audio.playSnap();
     setIsActive(false);
-    setTimeLeft(DEFAULT_TIME);
+    setTimeLeft(totalTime);
+  };
+
+  const setPreset = (seconds) => {
+    audio.playClick();
+    setIsActive(false);
+    setTotalTime(seconds);
+    setTimeLeft(seconds);
   };
 
   const formatTime = (seconds) => {
@@ -57,6 +64,8 @@ export default function MagicTimer({ onClose }) {
     const s = seconds % 60;
     return `${m}:${s.toString().padStart(2, '0')}`;
   };
+
+  const strokeDashoffset = circumference - (timeLeft / totalTime) * circumference;
 
   return (
     <motion.div 
@@ -93,11 +102,17 @@ export default function MagicTimer({ onClose }) {
             />
           </svg>
           
-          <div className={`timer-text ${timeLeft <= 10 ? 'urgent' : ''}`}>
+          <div className={`timer-text ${timeLeft <= 10 && isActive ? 'urgent' : ''}`}>
             {formatTime(timeLeft)}
           </div>
         </div>
         
+        <div className="timer-presets">
+          {[10, 15, 30, 45, 60].map(p => (
+            <button key={p} className="timer-preset-btn" onClick={() => setPreset(p)}>{p}s</button>
+          ))}
+        </div>
+
         <div className="timer-controls">
           <button className="timer-btn" onClick={handleReset}>Reset</button>
         </div>

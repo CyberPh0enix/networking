@@ -102,6 +102,47 @@
   color: #fff;
 }
 
+.wb-tool-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #a0a0a5;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.wb-tool-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.wb-tool-btn.active {
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.1);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.wb-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 10px;
+}
+
+.wb-action-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.eraser-mode {
+  cursor: crosshair;
+}
+
 .wb-action-btn.close:hover {
   color: #ff0055;
 }

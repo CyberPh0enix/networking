@@ -72,6 +72,44 @@ export class AudioEngine {
       console.warn("AudioEngine: Error playing sweep", e);
     }
   }
+
+  playSlideChange(isNext = true) {
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(isNext ? 80 : 70, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.3);
+      
+      gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+      
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.3);
+    } catch(e) {}
+  }
+
+  playTypingTick() {
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      const freq = 1000 + Math.random() * 400; // Randomize pitch slightly
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+      
+      gain.gain.setValueAtTime(0.02, this.ctx.currentTime); // Very soft
+      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.03); // Very short
+      
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.03);
+    } catch(e) {}
+  }
 }
 
 export const audio = new AudioEngine();

@@ -70,6 +70,30 @@
   100% { transform: scale(1); }
 }
 
+.timer-presets {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.timer-preset-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0a0a5;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timer-preset-btn:hover {
+  background: rgba(0, 240, 255, 0.15);
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
 .timer-controls {
   margin-top: 15px;
 }

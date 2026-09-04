@@ -5,6 +5,7 @@ import SystemInitIntro from './components/SystemInitIntro.jsx';
 import ShutdownSequence from './components/ShutdownSequence.jsx';
 import ConfirmShutdown from './components/ConfirmShutdown.jsx';
 import FloatingToolkit from './components/Toolkit/FloatingToolkit.jsx';
+import { audio } from './utils/audioEngine';
 
 function App() {
   const totalSlides = slides.length;
@@ -46,6 +47,8 @@ function App() {
   const nextSlide = () => {
     if (isAnimating) return;
     if (currentSlide < totalSlides - 1) {
+      audio.init();
+      audio.playSlideChange(true);
       setIsAnimating(true);
       setCurrentSlide(s => s + 1);
     }
@@ -54,6 +57,8 @@ function App() {
   const prevSlide = () => {
     if (isAnimating) return;
     if (currentSlide > 0) {
+      audio.init();
+      audio.playSlideChange(false);
       setIsAnimating(true);
       setCurrentSlide(s => s - 1);
     }

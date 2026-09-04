@@ -88,3 +88,25 @@
   background: rgba(0, 240, 255, 0.1);
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
 }
+
+.tooltip {
+  position: absolute;
+  top: -30px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.2s, transform 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toolkit-tool-btn:hover .tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}

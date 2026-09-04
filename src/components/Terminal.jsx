@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { config } from '../config.js';
+import { audio } from '../utils/audioEngine';
 
 export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active = true, children }) => {
   const [typedCmd, setTypedCmd] = useState('');
   const [showOutput, setShowOutput] = useState(false);
   const promptText = config.presentation.terminalPrompt || "[px@archlinux ~]$";
+  const lastTickTime = useRef(0);
 
   useEffect(() => {
     // Reset state on unmount or when slide becomes inactive/active
@@ -23,6 +25,14 @@ export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active =
     let i = 0;
     const typeInterval = setInterval(() => {
       setTypedCmd(cmd.substring(0, i + 1));
+      
+      // Play typing sound throttled and slightly randomized (about every 2-3 chars depending on speed)
+      const now = performance.now();
+      if (now - lastTickTime.current > 70 && Math.random() > 0.2) {
+        audio.playTypingTick();
+        lastTickTime.current = now;
+      }
+      
       i++;
       if (i >= cmd.length) {
         clearInterval(typeInterval);
