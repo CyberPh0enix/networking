@@ -4,6 +4,7 @@ import { slides } from './presentations/Networking.jsx';
 import SystemInitIntro from './components/SystemInitIntro.jsx';
 import ShutdownSequence from './components/ShutdownSequence.jsx';
 import ConfirmShutdown from './components/ConfirmShutdown.jsx';
+import FloatingToolkit from './components/Toolkit/FloatingToolkit.jsx';
 
 function App() {
   const totalSlides = slides.length;
@@ -185,6 +186,9 @@ function App() {
           })}
         </div>
       )}
+      
+      {/* Interactive Toolkit (Assistive Touch) */}
+      {introFinished && <FloatingToolkit currentSlide={currentSlide} />}
     </div>
   );
 }

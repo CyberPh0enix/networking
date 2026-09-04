@@ -1,0 +1,107 @@
+.whiteboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999; /* Just below the toolkit button (10000) */
+  pointer-events: auto;
+  cursor: crosshair;
+}
+
+.whiteboard-canvas {
+  width: 100%;
+  height: 100%;
+  touch-action: none; /* Prevents zooming/scrolling while drawing on touch devices */
+}
+
+.whiteboard-toolbar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(10, 10, 12, 0.9);
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.wb-colors {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wb-color-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.wb-color-btn:hover {
+  transform: scale(1.2);
+}
+
+.wb-color-btn.active {
+  border-color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 10px currentColor;
+}
+
+.wb-color-picker-wrapper {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.wb-color-picker {
+  width: 40px; /* Oversize to hide default styling borders */
+  height: 40px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.wb-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-left: 20px;
+}
+
+.wb-action-btn {
+  background: transparent;
+  border: none;
+  color: #a0a0a5;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.wb-action-btn:hover {
+  color: #fff;
+}
+
+.wb-action-btn.close:hover {
+  color: #ff0055;
+}

@@ -1,0 +1,90 @@
+.floating-toolkit-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none; /* Disable pointer events on container */
+}
+
+/* Base button styles */
+.toolkit-btn, .toolkit-tool-btn {
+  border-radius: 50%;
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  outline: none;
+  touch-action: none;
+}
+
+.toolkit-btn {
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: #00f0ff;
+  cursor: grab;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.05);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.toolkit-btn:active {
+  cursor: grabbing;
+}
+
+.toolkit-btn:hover {
+  border-color: rgba(0, 240, 255, 0.8);
+  box-shadow: 0 4px 25px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+.toolkit-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolkit-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Tool Buttons (Radial) */
+.toolkit-tool-btn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a0a0a5;
+  cursor: pointer;
+  position: absolute;
+  /* Center underneath the main button before animating out */
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.toolkit-tool-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.toolkit-tool-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.toolkit-tool-btn.active {
+  color: #00f0ff;
+  border-color: rgba(0, 240, 255, 0.5);
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+}
