@@ -35,7 +35,7 @@ export const slides = [
           <div className="flex-col-gap stagger d-2">
             <div className="glass-panel" style={{ borderLeft: '4px solid var(--purple)' }}>
               <h3 style={{ color: 'var(--purple)' }}>What is a Domain?</h3>
-              <p>Humans can't memorize IPs like <span className="mono">142.250.190.46</span>. Domains act as aliases in a global phonebook.</p>
+              <p>Humans can't memorize IPs like <span className="mono">142.250.190.46</span>. Domains act as aliases.</p>
             </div>
             <div className="glass-panel" style={{ borderLeft: '4px solid var(--emerald)' }}>
               <h3 style={{ color: 'var(--emerald)' }}>ICANN</h3>
@@ -79,7 +79,57 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 4: DNS Hierarchy & Traceroute
+  // Slide 4: The Global Phonebook (DNS Core)
+  {
+    color: "purple",
+    component: ({ active }) => (
+      <Slide active={active} color="purple">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
+          <i className="fa-solid fa-address-book"></i> The Global Phonebook
+        </h2>
+        <div className="diagram-flex stagger d-2">
+          <div className="node" style={{ borderColor: 'var(--purple)', boxShadow: '0 0 20px rgba(168, 85, 247, 0.2)' }}>
+            <i className="fa-solid fa-laptop-code" style={{ color: 'var(--purple)' }}></i>
+            <h3 className="node-title">Browser</h3>
+            <div className="mono node-sub">google.com</div>
+          </div>
+          <div className="arrow"><i className="fa-solid fa-arrow-right-arrow-left"></i></div>
+          <div className="node" style={{ borderColor: 'var(--cyan)', boxShadow: '0 0 20px rgba(0, 242, 254, 0.2)' }}>
+            <i className="fa-solid fa-server" style={{ color: 'var(--cyan)' }}></i>
+            <h3 className="node-title">DNS (1.1.1.1)</h3>
+            <div className="mono node-sub">UDP Port 53</div>
+          </div>
+          <div className="arrow"><i className="fa-solid fa-arrow-right"></i></div>
+          <div className="node" style={{ borderColor: 'var(--emerald)', boxShadow: '0 0 20px rgba(16, 185, 129, 0.2)' }}>
+            <i className="fa-solid fa-globe" style={{ color: 'var(--emerald)' }}></i>
+            <h3 className="node-title">Target Server</h3>
+            <div className="mono node-sub">142.250.190.46</div>
+          </div>
+        </div>
+        <div className="grid-2" style={{ marginTop: '2rem' }}>
+          <div className="glass-panel stagger d-3">
+            <h3 style={{ color: 'var(--purple)' }}>DNS Resolution</h3>
+            <p>Translates aliases (google.com) to routable network coordinates.</p>
+            <h3 style={{ color: 'var(--cyan)', marginTop: '1.5rem' }}>Distributed Registry</h3>
+            <p>No single server holds every domain. The query bounces across servers globally to find the answer.</p>
+          </div>
+          <div className="glass-panel stagger d-4" style={{ borderLeft: '4px solid var(--amber)' }}>
+            <h3 style={{ color: 'var(--amber)' }}><i className="fa-solid fa-flask"></i> Micro-Lab: nslookup</h3>
+            <p>Let's unmask the IP behind a domain right now.</p>
+            <Terminal cmd="nslookup discord.com" staggerClass="stagger d-5" fontSize="0.9rem">
+              <div style={{ color: 'var(--text-muted)' }}>Server:     1.1.1.1</div>
+              <div style={{ color: 'var(--text-muted)' }}>Address:    1.1.1.1#53</div>
+              <br />
+              <div style={{ color: 'var(--text-muted)' }}>Non-authoritative answer:</div>
+              <div style={{ color: 'var(--emerald)' }}>Name:   discord.com</div>
+              <div style={{ color: 'var(--rose)' }}>Address: 162.159.136.232</div>
+            </Terminal>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 5: DNS Hierarchy & Traceroute
   {
     color: "cyan",
     component: ({ active }) => (
@@ -124,7 +174,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 5: The IPv4 vs IPv6 Paradox
+  // Slide 6: The IPv4 vs IPv6 Paradox
   {
     color: "amber",
     component: ({ active }) => (
@@ -152,7 +202,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 6: Riddle: The Connection Timeout
+  // Slide 7: Riddle: The Connection Timeout
   {
     color: "rose",
     component: ({ active }) => (
@@ -176,7 +226,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 7: The Reveal: Private IP Illusion
+  // Slide 8: The Reveal: Private IP Illusion
   {
     color: "emerald",
     component: ({ active }) => (
@@ -198,7 +248,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 8: Interfaces & Ports
+  // Slide 9: Interfaces & Ports
   {
     color: "emerald",
     component: ({ active }) => (
@@ -250,7 +300,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 9: The ISP Trap
+  // Slide 10: The ISP Trap
   {
     color: "rose",
     component: ({ active }) => (
@@ -291,7 +341,47 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 10: LIVE LAB: HTTP Tunnel
+  // Slide 11: Censorship & DPI
+  {
+    color: "cyan",
+    component: ({ active }) => (
+      <Slide active={active} color="cyan">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
+          <i className="fa-solid fa-gavel"></i> Censorship & DPI
+        </h2>
+        <p className="stagger d-2" style={{ color: '#fff', fontSize: '1.8rem', marginBottom: '2rem' }}>
+          How does an ISP enforce an app ban?
+        </p>
+
+        <div className="flex-col-gap">
+          <div className="glass-panel stagger d-3" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '2rem' }}>
+            <h1 className="num-massive" style={{ color: 'var(--purple)' }}>1</h1>
+            <div>
+              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>DNS Spoofing</h3>
+              <p style={{ margin: 0 }}>You ask for <span className="mono text-gradient grad-purple">telegram.org</span>. ISP returns <span className="mono">0.0.0.0</span>.</p>
+            </div>
+          </div>
+
+          <div className="glass-panel stagger d-4" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '2rem' }}>
+            <h1 className="num-massive" style={{ color: 'var(--rose)' }}>2</h1>
+            <div>
+              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>SNI Filtering (DPI)</h3>
+              <p style={{ margin: 0 }}>Firewall reads plain text "Server Name", and injects a <strong>TCP RST</strong> packet to kill it.</p>
+            </div>
+          </div>
+
+          <div className="glass-panel stagger d-5" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '2rem' }}>
+            <h1 className="num-massive" style={{ color: 'var(--amber)' }}>3</h1>
+            <div>
+              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>BGP Blackholing</h3>
+              <p style={{ margin: 0 }}>ISPs advertise false routes for IPs, dropping traffic into a void.</p>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 12: LIVE LAB: HTTP Tunnel
   {
     color: "cyan",
     component: ({ active }) => (
@@ -321,10 +411,8 @@ export const slides = [
         </div>
       </Slide>
     )
-  }
-,
-
-  // Slide 11: LIVE LAB: Minecraft Port Bypass
+  },
+  // Slide 13: LIVE LAB: Minecraft Port Bypass
   {
     color: "emerald",
     component: ({ active }) => (
@@ -359,7 +447,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 12: Network Quality Metrics
+  // Slide 14: Network Quality Metrics
   {
     color: "purple",
     component: ({ active }) => (
@@ -398,7 +486,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 13: Meme Break
+  // Slide 15: Meme Break
   {
     color: "amber",
     component: ({ active }) => (
@@ -431,7 +519,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 14: VPNs & Privacy
+  // Slide 16: VPNs & Privacy
   {
     color: "rose",
     component: ({ active }) => (
@@ -471,7 +559,40 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 15: DDoS
+  // Slide 17: Supply Chain & Attacks
+  {
+    color: "amber",
+    component: ({ active }) => (
+      <Slide active={active} color="amber">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
+          <i className="fa-solid fa-skull-crossbones"></i> When The Network Attacks
+        </h2>
+        <div className="grid-3">
+          <div className="glass-panel stagger d-2" style={{ borderTop: '4px solid var(--emerald)', textAlign: 'center' }}>
+            <i className="fa-brands fa-linux icon-massive" style={{ color: 'var(--emerald)' }}></i>
+            <h3 style={{ color: '#fff' }}>XZ-Utils Hack</h3>
+            <div className="mono" style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.9rem' }}>CVE-2024-3094</div>
+            <p>A 4-line network backdoor injected into Linux SSH for remote access.</p>
+          </div>
+
+          <div className="glass-panel stagger d-3" style={{ borderTop: '4px solid var(--cyan)', textAlign: 'center' }}>
+            <i className="fa-solid fa-box-open icon-massive" style={{ color: 'var(--cyan)' }}></i>
+            <h3 style={{ color: '#fff' }}>AUR Typosquatting</h3>
+            <div className="mono" style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.9rem' }}>chrome-fix vs google-chrome</div>
+            <p>Malicious packages relying on users blindly copying commands.</p>
+          </div>
+
+          <div className="glass-panel stagger d-4" style={{ borderTop: '4px solid var(--amber)', textAlign: 'center' }}>
+            <i className="fa-solid fa-people-arrows icon-massive" style={{ color: 'var(--amber)' }}></i>
+            <h3 style={{ color: '#fff' }}>ClickFix</h3>
+            <div className="mono" style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.9rem' }}>Social Engineering</div>
+            <p>"Browser needs update, paste this in terminal." Bypasses firewalls entirely.</p>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 18: DDoS
   {
     color: "amber",
     component: ({ active }) => (
@@ -504,7 +625,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 16: BGP
+  // Slide 19: BGP
   {
     color: "cyan",
     component: ({ active }) => (
@@ -524,15 +645,15 @@ export const slides = [
               <p style={{ margin: 0 }}>A rogue ISP falsely announces a shorter route, stealing traffic meant for another country.</p>
             </div>
             <div className="glass-panel stagger d-4" style={{ borderLeft: '4px solid var(--rose)' }}>
-              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>BGP Blackholing</h3>
-              <p style={{ margin: 0 }}>ISPs advertise false routes for IPs to drop DDoS traffic into a void before it hits the target.</p>
+              <h3 style={{ color: '#fff', marginBottom: '0.25rem' }}>BGP Leak</h3>
+              <p style={{ margin: 0 }}>Misconfigured routers accidentally advertise they can route all of Google's traffic, instantly causing a global outage.</p>
             </div>
           </div>
         </div>
       </Slide>
     )
   },
-  // Slide 17: Rogue Appliance Riddle
+  // Slide 20: Rogue Appliance Riddle
   {
     color: "rose",
     component: ({ active }) => (
@@ -554,7 +675,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 18: Pi-hole Reveal
+  // Slide 21: Pi-hole Reveal
   {
     color: "emerald",
     component: ({ active }) => (
@@ -592,47 +713,7 @@ export const slides = [
       </Slide>
     )
   },
-  // Slide 19: TOR & P2P
-  {
-    color: "purple",
-    component: ({ active }) => (
-      <Slide active={active} color="purple">
-        <h2 className="slide-title text-gradient grad-purple stagger d-1">
-          <i className="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P
-        </h2>
-        <div className="grid-2">
-          <div className="stagger d-2">
-            <h3 style={{ color: 'var(--cyan)', fontSize: '2.5rem' }}>TOR (Onion Routing)</h3>
-            <p>3 Layers of Encryption separating identity from destination.</p>
-            <div className="flex-col-gap" style={{ marginTop: '2rem' }}>
-              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--rose)' }}>
-                <strong className="mono" style={{ fontSize: '1.1rem' }}>Guard</strong>
-                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows YOU, not Dest.</span>
-              </div>
-              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--amber)' }}>
-                <strong className="mono" style={{ fontSize: '1.1rem' }}>Middle</strong>
-                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows nothing.</span>
-              </div>
-              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--emerald)' }}>
-                <strong className="mono" style={{ fontSize: '1.1rem' }}>Exit</strong>
-                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows Dest, not YOU.</span>
-              </div>
-            </div>
-          </div>
-          <div className="stagger d-3">
-            <h3 style={{ color: 'var(--emerald)', fontSize: '2.5rem' }}>Torrents (P2P DHT)</h3>
-            <div className="glass-panel">
-              <h4 style={{ color: '#fff' }}>Decentralized Swarm</h4>
-              <p>Download tiny chunks from 50 strangers globally simultaneously. Unkillable.</p>
-              <h4 style={{ color: '#fff', marginTop: '1.5rem' }}>Kademlia DHT</h4>
-              <p style={{ margin: 0 }}>Distributed hash tables (XOR metric) discover peers without central trackers.</p>
-            </div>
-          </div>
-        </div>
-      </Slide>
-    )
-  },
-  // Slide 20: The Trust System (TLS, HTTPS, Certificates)
+  // Slide 22: Cryptography: TLS & Certificates (Moved to before the end)
   {
     color: "cyan",
     component: ({ active }) => (
@@ -666,6 +747,72 @@ export const slides = [
               </p>
             </div>
           </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 23: TOR & P2P (EXPANDED)
+  {
+    color: "purple",
+    component: ({ active }) => (
+      <Slide active={active} color="purple">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
+          <i className="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P
+        </h2>
+        <div className="grid-2">
+          <div className="stagger d-2">
+            <h3 style={{ color: 'var(--cyan)', fontSize: '2.5rem' }}>TOR (The Onion Router)</h3>
+            <p>Your traffic is bounced through 3 random volunteer nodes globally. Each node only peels one layer of encryption.</p>
+            <div className="flex-col-gap" style={{ marginTop: '2rem' }}>
+              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--rose)' }}>
+                <strong className="mono" style={{ fontSize: '1.1rem' }}>1. Entry Guard</strong>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows YOU, but not Destination.</span>
+              </div>
+              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--amber)' }}>
+                <strong className="mono" style={{ fontSize: '1.1rem' }}>2. Middle Relay</strong>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows nothing (only sees encrypted blob).</span>
+              </div>
+              <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderLeft: '4px solid var(--emerald)' }}>
+                <strong className="mono" style={{ fontSize: '1.1rem' }}>3. Exit Node</strong>
+                <span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>Knows Destination, but not YOU.</span>
+              </div>
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--rose)', fontStyle: 'italic' }}>*Warning: Exit nodes can see unencrypted HTTP traffic. Always use HTTPS.</p>
+            </div>
+          </div>
+          
+          <div className="stagger d-3">
+            <h3 style={{ color: 'var(--emerald)', fontSize: '2.5rem' }}>Torrents (P2P DHT)</h3>
+            <div className="glass-panel" style={{ borderTop: '4px solid var(--emerald)' }}>
+              <h4 style={{ color: '#fff', fontSize: '1.3rem' }}>Decentralized Swarm</h4>
+              <p>Instead of downloading a 10GB file from a single server (which can be shut down), you download thousands of tiny chunks from 50 strangers globally simultaneously. It is mathematically unkillable.</p>
+              <h4 style={{ color: 'var(--amber)', marginTop: '1.5rem', fontSize: '1.3rem' }}>Kademlia DHT</h4>
+              <p style={{ margin: 0 }}>Distributed hash tables (using an XOR metric distance algorithm) allow nodes to discover peers mathematically without a central tracking server.</p>
+            </div>
+          </div>
+        </div>
+      </Slide>
+    )
+  },
+  // Slide 24: Final 200 OK
+  {
+    color: "emerald",
+    component: ({ active }) => (
+      <Slide active={active} color="emerald" alignCenter>
+        <div className="stagger d-1" style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--emerald)' }}></i>
+        </div>
+        <h1 className="title-massive text-gradient grad-emerald stagger d-2" style={{ fontFamily: '"JetBrains Mono"', fontSize: '6rem' }}>
+          HTTP 200 OK
+        </h1>
+        <p className="stagger d-3" style={{ color: 'var(--text-main)', maxWidth: '900px', fontSize: '1.5rem', marginTop: '2rem' }}>
+          The connection is established. You now understand what happens under the hood.
+        </p>
+        <div className="stagger d-4" style={{ marginTop: '3rem' }}>
+          <a href="#" className="glass-panel" style={{ display: 'inline-block', padding: '1rem 3rem', textDecoration: 'none', color: '#fff', borderColor: 'var(--emerald)' }}>
+            <i className="fa-solid fa-power-off"></i> Terminate Session
+          </a>
         </div>
       </Slide>
     )
