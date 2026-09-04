@@ -8,7 +8,7 @@ export const config = {
     title: "Under The Hood",
     subtitle:
       "The chaotic, patched-together, entirely practical reality of the Internet.",
-    footerText: "/dev/tty1 // packets routed",
+    footerText: "SYS.NET // Masterclass",
     terminalPrompt: "[px@archlinux ~]$",
   },
   theme: {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { config } from '../config.js';
 
 export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active = true, children }) => {
@@ -41,7 +42,7 @@ export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active =
       </div>
       <div className="term-body" style={{ padding: '1.5rem', fontSize }}>
         {cmd && (
-          <div className="cmd" style={{ marginBottom: showOutput ? '1rem' : '0' }}>
+          <div className="cmd" style={{ marginBottom: showOutput ? '1rem' : '0', transition: 'margin 0.3s ease' }}>
             <span style={{ color: 'var(--emerald)', fontWeight: 'bold', marginRight: '8px' }}>
               {promptText}
             </span>
@@ -50,18 +51,25 @@ export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active =
           </div>
         )}
         
-        {/* Render children only if we finished typing or there's no command */}
-        {showOutput && children}
-
-        {/* Show a blinking cursor on a new empty prompt line after execution */}
-        {showOutput && (
-          <div style={{ marginTop: '1rem' }}>
-            <span style={{ color: 'var(--emerald)', fontWeight: 'bold', marginRight: '8px' }}>
-              {promptText}
-            </span>
-            <span className="cursor">_</span>
-          </div>
-        )}
+        <AnimatePresence>
+          {showOutput && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              style={{ overflow: 'hidden' }}
+            >
+              {children}
+              <div style={{ marginTop: '1rem' }}>
+                <span style={{ color: 'var(--emerald)', fontWeight: 'bold', marginRight: '8px' }}>
+                  {promptText}
+                </span>
+                <span className="cursor">_</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
