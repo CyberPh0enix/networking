@@ -63,8 +63,13 @@ export default function SystemInitIntro({ onComplete }) {
       if (e.type === 'keydown' && ![' ', 'Enter', 'ArrowRight', 'PageDown'].includes(e.key)) {
         return;
       }
-
+      if (e.type === 'keydown' && e.repeat) return; // Prevent key hold from skipping
       if (e.type === 'keydown') e.preventDefault();
+
+      // Auto fullscreen on first interaction
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
 
       setStatus(prev => {
         if (prev === 'waiting_to_start') return 'running';
@@ -125,7 +130,7 @@ export default function SystemInitIntro({ onComplete }) {
             </div>
           )}
 
-          {(status === 'running' || status === 'waiting_to_advance') && (
+          {(status === 'running' || status === 'waiting_to_advance' || status === 'transitioning') && (
             <div style={{ width: '100%', maxWidth: '850px', lineHeight: '1.6' }}>
               {displayedLogs.map((log, i) => (
                 <div key={i} style={{ minHeight: '1.6rem', whiteSpace: 'pre-wrap' }}>
@@ -135,7 +140,7 @@ export default function SystemInitIntro({ onComplete }) {
               {status === 'running' && (
                  <span className="blinking-cursor">_</span>
               )}
-              {status === 'waiting_to_advance' && (
+              {(status === 'waiting_to_advance' || status === 'transitioning') && (
                 <div style={{ marginTop: '3rem', opacity: 0.7, color: 'var(--cyan)' }}>
                   <i className="fa-solid fa-terminal" style={{ marginRight: '10px' }}></i>
                   [ Session Ready. Press Space to execute. ] <span className="blinking-cursor">_</span>
