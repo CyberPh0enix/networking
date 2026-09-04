@@ -27,3 +27,6 @@ dist-ssr
 # Legacy / Migration Backups
 .backup
 .backup/
+
+# Vite cache
+.vite/

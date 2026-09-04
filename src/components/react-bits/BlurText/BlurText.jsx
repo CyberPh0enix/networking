@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState, useMemo } from 'react';
 
