@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { config } from '../config.js';
 
-export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', children }) => {
+export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', active = true, children }) => {
   const [typedCmd, setTypedCmd] = useState('');
   const [showOutput, setShowOutput] = useState(false);
   const promptText = config.presentation.terminalPrompt || "[px@archlinux ~]$";
 
   useEffect(() => {
-    // Reset state on unmount or cmd change
+    // Reset state on unmount or when slide becomes inactive/active
     setTypedCmd('');
     setShowOutput(false);
+
+    // Only start typing if the slide is active
+    if (!active) return;
 
     if (!cmd) {
       setShowOutput(true);
@@ -27,7 +30,7 @@ export const Terminal = ({ cmd, staggerClass = '', fontSize = '0.9rem', children
     }, 40); // 40ms per char
 
     return () => clearInterval(typeInterval);
-  }, [cmd]);
+  }, [cmd, active]);
 
   return (
     <div className={`terminal ${staggerClass}`}>

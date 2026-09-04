@@ -4,19 +4,28 @@ import { Terminal } from '../components/Terminal.jsx';
 import { config } from '../config.js';
 import DecryptedText from '../components/react-bits/DecryptedText/DecryptedText.jsx';
 import GlitchText from '../components/react-bits/GlitchText/GlitchText.jsx';
+import FuzzyText from '../components/react-bits/FuzzyText/FuzzyText.jsx';
+import BlurText from '../components/react-bits/BlurText/BlurText.jsx';
 
 export const slides = [
   // Slide 1: Title
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide active={active} color="cyan" alignCenter>
+      <Slide color="cyan" alignCenter>
         <div className="speaker-badge stagger d-1" style={{ marginBottom: '2rem' }}>
           <div className="speaker-avatar"><i className={`fa-solid ${config.speaker.avatarIcon}`}></i></div>
           {config.speaker.role} // {config.speaker.name}
         </div>
         <h1 className="title-massive text-gradient grad-cyan stagger d-2">{config.presentation.title}</h1>
-        <p className="stagger d-3" style={{ maxWidth: '900px', fontSize: '2rem' }}>{config.presentation.subtitle}</p>
+        <BlurText
+          text={config.presentation.subtitle}
+          delay={50}
+          animateBy="words"
+          direction="bottom"
+          className="stagger d-3"
+          style={{ maxWidth: '900px', fontSize: '2rem' }}
+        />
         <div className="glass-panel stagger d-4" style={{ padding: '1rem 2rem', borderRadius: '50px', marginTop: '2rem' }}>
           <span className="mono" style={{ color: 'var(--cyan)', fontSize: '1rem' }}>
             [ <i className="fa-solid fa-network-wired"></i> systemctl start networking.service ]
@@ -29,7 +38,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide active={active} color="purple">
+      <Slide color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-address-book"></i> The Domain Market
         </h2>
@@ -58,7 +67,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide active={active} color="rose" alignCenter>
+      <Slide color="rose" alignCenter>
         <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-earth-americas"></i> The Domain Hack: .ai
         </h2>
@@ -85,7 +94,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide active={active} color="purple">
+      <Slide color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-address-book"></i> The Global Phonebook
         </h2>
@@ -118,7 +127,7 @@ export const slides = [
           <div className="glass-panel stagger d-4" style={{ borderLeft: '4px solid var(--amber)' }}>
             <h3 style={{ color: 'var(--amber)' }}><i className="fa-solid fa-flask"></i> Micro-Lab: nslookup</h3>
             <p>Let's unmask the IP behind a domain right now.</p>
-            <Terminal cmd="nslookup discord.com" staggerClass="stagger d-5" fontSize="0.9rem">
+            <Terminal active={active} cmd="nslookup discord.com" staggerClass="stagger d-5" fontSize="0.9rem">
               <div style={{ color: 'var(--text-muted)' }}>Server:     1.1.1.1</div>
               <div style={{ color: 'var(--text-muted)' }}>Address:    1.1.1.1#53</div>
               <br />
@@ -135,7 +144,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide active={active} color="cyan">
+      <Slide color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-sitemap"></i> DNS Resolution Hierarchy
         </h2>
@@ -166,7 +175,7 @@ export const slides = [
           <div className="glass-panel stagger d-4" style={{ borderLeft: '4px solid var(--amber)' }}>
             <h3 style={{ color: 'var(--amber)' }}><i className="fa-solid fa-route"></i> Live Lab: Traceroute</h3>
             <p style={{ marginBottom: '1rem' }}>Let's see the physical path your packets take.</p>
-            <Terminal cmd="traceroute 1.1.1.1" staggerClass="stagger d-5">
+            <Terminal active={active} cmd="traceroute 1.1.1.1" staggerClass="stagger d-5">
               <div style={{ color: 'var(--text-muted)' }}>1  192.168.1.1 (Router)  2.1ms</div>
               <div style={{ color: 'var(--text-muted)' }}>2  10.32.4.1 (ISP Gateway)  14.3ms</div>
               <div style={{ color: 'var(--emerald)' }}>3  1.1.1.1 (Cloudflare)  18.5ms</div>
@@ -180,7 +189,7 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide active={active} color="amber">
+      <Slide color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-infinity"></i> The IPv4 vs IPv6 Paradox
         </h2>
@@ -208,7 +217,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide active={active} color="rose" alignCenter>
+      <Slide color="rose" alignCenter>
         <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Connection Timeout
         </h2>
@@ -232,7 +241,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide active={active} color="emerald" alignCenter>
+      <Slide color="emerald" alignCenter>
         <h2 className="slide-title text-gradient grad-emerald stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-house-lock"></i> The Reveal: Private IP Illusion
         </h2>
@@ -254,7 +263,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide active={active} color="emerald">
+      <Slide color="emerald">
         <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-door-open"></i> Interfaces & Ports
         </h2>
@@ -306,7 +315,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide active={active} color="rose">
+      <Slide color="rose">
         <h2 className="slide-title text-gradient grad-rose stagger d-1">
           <i className="fa-solid fa-box-archive"></i> The ISP Trap: CGNAT
         </h2>
@@ -347,7 +356,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide active={active} color="cyan">
+      <Slide color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-gavel"></i> Censorship & DPI
         </h2>
@@ -387,14 +396,14 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide active={active} color="cyan">
+      <Slide color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-terminal"></i> LIVE LAB: Web Server Bypass
         </h2>
         <p className="stagger d-2" style={{ textAlign: 'center', color: '#fff', fontSize: '1.8rem', marginBottom: '2rem' }}>
           Since inbound is blocked, we punch a hole <strong>OUT</strong>.
         </p>
-        <Terminal cmd="python3 -m http.server 8080" staggerClass="stagger d-3">
+        <Terminal active={active} cmd="python3 -m http.server 8080" staggerClass="stagger d-3">
           <div style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Serving HTTP on 0.0.0.0 port 8080 ...</div>
           <div className="cmd">cloudflared tunnel --url http://localhost:8080</div>
           <div style={{ color: 'var(--text-muted)' }}>2026-09-02T19:05:16Z INF Requesting new quick Tunnel...</div>
@@ -418,7 +427,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide active={active} color="emerald">
+      <Slide color="emerald">
         <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-cubes"></i> LIVE LAB: Minecraft Port Bypass
         </h2>
@@ -427,14 +436,14 @@ export const slides = [
         </p>
 
         <div className="grid-2">
-          <Terminal cmd="java -jar purpur.jar" staggerClass="stagger d-3" fontSize="0.85rem">
+          <Terminal active={active} cmd="java -jar purpur.jar" staggerClass="stagger d-3" fontSize="0.85rem">
             <div style={{ color: 'var(--text-muted)' }}>[Server thread/INFO]: Starting minecraft server version 1.20.4</div>
             <div style={{ color: 'var(--emerald)' }}>[Server thread/INFO]: Done (4.123s)! For help, type "help"</div>
             <div style={{ color: 'var(--rose)', marginTop: '1.5rem' }}>// Running locally on 0.0.0.0:25565</div>
             <div style={{ color: 'var(--rose)' }}>// Cannot be joined via Local IP on 5G.</div>
           </Terminal>
 
-          <Terminal cmd="cloudflared tunnel --tcp localhost:25565" staggerClass="stagger d-4" fontSize="0.85rem">
+          <Terminal active={active} cmd="cloudflared tunnel --tcp localhost:25565" staggerClass="stagger d-4" fontSize="0.85rem">
             <div style={{ color: 'var(--text-muted)' }}>2026-09-02T19:05:16Z INF Requesting new TCP Tunnel...</div>
             <div style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>+-------------------------------------------+</div>
             <div style={{ color: 'var(--text-muted)' }}>
@@ -453,7 +462,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide active={active} color="purple">
+      <Slide color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-chart-line"></i> Network Quality Metrics
         </h2>
@@ -492,9 +501,9 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide active={active} color="amber" alignCenter>
+      <Slide color="amber" alignCenter>
         <h2 className="slide-title text-gradient grad-amber stagger d-1" style={{ justifyContent: 'center' }}>
-          <i className="fa-solid fa-face-laugh-squint"></i> When the Network Goes Down...
+          <i className="fa-solid fa-face-laugh-squint"></i> <FuzzyText color="var(--amber)" fontSize="3rem" fontWeight="bold">It's Always DNS.</FuzzyText>
         </h2>
         <div className="grid-2" style={{ width: '100%', maxWidth: '1200px' }}>
           <div className="glass-panel stagger d-2" style={{ padding: '3rem', textAlign: 'center', borderTop: '4px solid var(--rose)' }}>
@@ -525,7 +534,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide active={active} color="rose">
+      <Slide color="rose">
         <h2 className="slide-title text-gradient grad-rose stagger d-1">
           <i className="fa-solid fa-user-secret"></i> VPNs & The Privacy Paradox
         </h2>
@@ -549,7 +558,7 @@ export const slides = [
               <i className="fa-solid fa-spider" style={{ color: 'var(--purple)' }}></i> Web Tracking Escapes VPNs
             </h3>
             <p>Tracking relies on parameters, not just IP addresses.</p>
-            <Terminal>
+            <Terminal active={active}>
               <div style={{ color: '#fff' }}>GET /post/123 HTTP/3</div>
               <div style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>URL Parameters:</div>
               <div className="hl-amber">?utm_source=networking</div>
@@ -565,9 +574,9 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide active={active} color="amber">
+      <Slide color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
-          <i className="fa-solid fa-skull-crossbones"></i> <GlitchText text="When The Network Attacks" speed={0.5} />
+          <i className="fa-solid fa-skull-crossbones"></i> <GlitchText speed={0.5} enableOnHover={false}>When The Network Attacks</GlitchText>
         </h2>
         <div className="grid-3">
           <div className="glass-panel stagger d-2" style={{ borderTop: '4px solid var(--emerald)', textAlign: 'center' }}>
@@ -598,7 +607,7 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide active={active} color="amber">
+      <Slide color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-burst"></i> Exploits: DoS vs DDoS
         </h2>
@@ -615,7 +624,7 @@ export const slides = [
           </div>
           <div className="stagger d-4">
             <h3 style={{ color: '#fff', marginBottom: '1rem' }}>The SYN Flood</h3>
-            <Terminal cmd="hping3 -S --flood -V -p 80 target.com">
+            <Terminal active={active} cmd="hping3 -S --flood -V -p 80 target.com">
               <div style={{ color: 'var(--text-muted)' }}>HPING target.com (eth0 192.168.1.100): S set, 40 headers + 0 data bytes</div>
               <div style={{ color: 'var(--text-muted)' }}>hping in flood mode, no replies will be shown</div>
               <div style={{ color: 'var(--rose)', marginTop: '1rem' }}>// Sending SYN...</div>
@@ -631,7 +640,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide active={active} color="cyan">
+      <Slide color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-project-diagram"></i> BGP & The Backbone
         </h2>
@@ -659,7 +668,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide active={active} color="rose" alignCenter>
+      <Slide color="rose" alignCenter>
         <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Rogue Appliance
         </h2>
@@ -681,7 +690,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide active={active} color="emerald">
+      <Slide color="emerald">
         <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-shield-halved"></i> The Reveal: DNS Sinkholing
         </h2>
@@ -691,7 +700,7 @@ export const slides = [
               <h3 style={{ color: 'var(--cyan)' }}>Control the Network</h3>
               <p style={{ fontSize: '1.2rem', lineHeight: 1.6 }}>If you can't control the device, you control the infrastructure it relies on. By poisoning your own DNS using <strong>Pi-hole</strong> or <strong>AdGuard Home</strong>, you can blind any device on your Wi-Fi.</p>
             </div>
-            <Terminal cmd="nslookup trackers.smart-tv.com" staggerClass="stagger d-3" fontSize="1.1rem">
+            <Terminal active={active} cmd="nslookup trackers.smart-tv.com" staggerClass="stagger d-3" fontSize="1.1rem">
               <div style={{ color: 'var(--text-muted)' }}>Server:     192.168.1.2 (Pi-hole)</div>
               <br />
               <div style={{ color: 'var(--emerald)', fontWeight: 'bold' }}>Name:       trackers.smart-tv.com</div>
@@ -719,7 +728,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide active={active} color="cyan">
+      <Slide color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-lock"></i> Cryptography: TLS & Certificates
         </h2>
@@ -757,7 +766,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide active={active} color="purple">
+      <Slide color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P
         </h2>
@@ -801,7 +810,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide active={active} color="emerald" alignCenter>
+      <Slide color="emerald" alignCenter>
         <div className="stagger d-1" style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--emerald)' }}></i>
         </div>
