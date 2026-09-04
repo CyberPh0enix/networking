@@ -17,7 +17,7 @@ export const slides = [
         <p className="stagger d-3" style={{ maxWidth: '900px', fontSize: '2rem' }}>{config.presentation.subtitle}</p>
         <div className="glass-panel stagger d-4" style={{ padding: '1rem 2rem', borderRadius: '50px', marginTop: '2rem' }}>
           <span className="mono" style={{ color: 'var(--cyan)', fontSize: '1rem' }}>
-            [ <i className="fa-solid fa-network-wired"></i> Masterclass Session Init ]
+            [ <i className="fa-solid fa-network-wired"></i> systemctl start networking.service ]
           </span>
         </div>
       </Slide>

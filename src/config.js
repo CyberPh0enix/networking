@@ -8,7 +8,7 @@ export const config = {
     title: "Under The Hood",
     subtitle:
       "The chaotic, patched-together, entirely practical reality of the Internet.",
-    footerText: "Networking Masterclass",
+    footerText: "/dev/tty1 // packets routed",
   },
   theme: {
     colors: {
