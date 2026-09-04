@@ -54,6 +54,19 @@ function App() {
   };
 
   useEffect(() => {
+    const initFullscreen = () => {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      document.removeEventListener('click', initFullscreen);
+      document.removeEventListener('keydown', initFullscreen);
+      document.removeEventListener('touchstart', initFullscreen);
+    };
+
+    document.addEventListener('click', initFullscreen);
+    document.addEventListener('keydown', initFullscreen);
+    document.addEventListener('touchstart', initFullscreen);
+
     const handleKeyDown = (e) => {
       if (!introFinished) return;
       if (["ArrowRight", " ", "PageDown"].includes(e.key)) {
@@ -96,6 +109,9 @@ function App() {
     document.addEventListener("dblclick", handleDoubleClick);
 
     return () => {
+      document.removeEventListener('click', initFullscreen);
+      document.removeEventListener('keydown', initFullscreen);
+      document.removeEventListener('touchstart', initFullscreen);
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("touchstart", handleTouchStart);
       document.removeEventListener("touchend", handleTouchEnd);

@@ -67,11 +67,6 @@ export default function SystemInitIntro({ onComplete }) {
       if (e.type === 'keydown' && e.repeat) return; // Prevent key hold from skipping
       if (e.type === 'keydown') e.preventDefault();
 
-      // Auto fullscreen on first interaction
-      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      }
-
       setStatus(prev => {
         if (prev === 'waiting_to_start') return 'running';
         if (prev === 'waiting_to_advance') return 'transitioning';
@@ -94,7 +89,7 @@ export default function SystemInitIntro({ onComplete }) {
     if (status === 'transitioning') {
       const timer = setTimeout(() => {
         onComplete();
-      }, 1000); // 1s transition out
+      }, 1500); // 1.5s transition out
       return () => clearTimeout(timer);
     }
   }, [status, onComplete]);
@@ -103,9 +98,9 @@ export default function SystemInitIntro({ onComplete }) {
     <AnimatePresence>
       {status !== 'transitioning' && (
         <motion.div 
-          initial={{ opacity: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, filter: 'blur(10px)' }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          initial={{ opacity: 1, filter: 'blur(0px)', scale: 1 }}
+          exit={{ opacity: 0, filter: 'blur(20px)', scale: 1.05 }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }} // smooth cinematic cubic-bezier
           style={{
             position: 'fixed',
             top: 0,
