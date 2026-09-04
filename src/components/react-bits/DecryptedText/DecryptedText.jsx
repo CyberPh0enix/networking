@@ -181,10 +181,13 @@ export default function DecryptedText({
         if (sequential) {
           // Forward
           if (direction === 'forward') {
+            currentIteration++;
             if (prevRevealed.size < text.length) {
-              const nextIndex = getNextIndex(prevRevealed);
               const newRevealed = new Set(prevRevealed);
-              newRevealed.add(nextIndex);
+              if (currentIteration % maxIterations === 0) {
+                const nextIndex = getNextIndex(prevRevealed);
+                newRevealed.add(nextIndex);
+              }
               setDisplayText(shuffleText(text, newRevealed));
               return newRevealed;
             } else {
