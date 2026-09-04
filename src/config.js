@@ -8,8 +8,8 @@ export const config = {
     title: "Under The Hood",
     subtitle:
       "The chaotic, patched-together, entirely practical reality of the Internet.",
-    footerText: "SYS.NET // Masterclass",
-    terminalPrompt: "[px@archlinux ~]$",
+    footerText: "[OK] System Online",
+    terminalPrompt: "[desktop@archlinux ~]$",
   },
   theme: {
     colors: {
