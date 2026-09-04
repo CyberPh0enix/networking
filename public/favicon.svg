@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer rounded-square shell -->
+  <rect x="2" y="2" width="28" height="28" rx="7" fill="#0a0a0c" stroke="url(#g)" stroke-width="1.5"/>
+  <!-- Top terminal bar dots -->
+  <circle cx="8" cy="9" r="1.2" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="12" cy="9" r="1.2" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="16" cy="9" r="1.2" fill="#10b981" opacity="0.85"/>
+  <!-- Divider line under bar -->
+  <line x1="4" y1="13" x2="28" y2="13" stroke="url(#g)" stroke-width="0.75" opacity="0.4"/>
+  <!-- Prompt chevron -->
+  <polyline points="7,18 10,21 7,24" stroke="#00f2fe" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Blinking cursor block -->
+  <rect x="12" y="18.5" width="4" height="5" rx="0.8" fill="url(#g)" opacity="0.9"/>
+  <!-- Subtle signal rings top-right -->
+  <path d="M24.5 16 Q26 14 24.5 12" stroke="#a855f7" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.7"/>
+  <path d="M26.5 17 Q29 14 26.5 11" stroke="#a855f7" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.4"/>
+</svg>
