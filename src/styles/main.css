@@ -92,6 +92,8 @@ html {
 
 .glow-orb {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 50vw;
   height: 50vw;
   border-radius: 50%;
@@ -119,6 +121,8 @@ html {
 
 .slide {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   padding: 3rem 4rem;
@@ -254,6 +258,8 @@ p {
 .glass-panel::before {
   content: "";
   position: absolute;
+  top: 0;
+  left: 0;
   inset: 0;
   z-index: -1;
   border-radius: inherit;
@@ -350,6 +356,8 @@ p {
 }
 .sleek-list li i {
   position: absolute;
+  top: 0;
+  left: 0;
   left: 0;
   top: 4px;
   font-size: 1.5rem;
@@ -607,3 +615,4 @@ p {
   opacity: 0.5;
   margin: 0;
 }
+#root { width: 100%; height: 100%; }
