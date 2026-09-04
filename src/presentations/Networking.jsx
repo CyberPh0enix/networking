@@ -12,7 +12,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide color="cyan" alignCenter>
+      <Slide active={active} color="cyan" alignCenter>
         <div className="speaker-badge stagger d-1" style={{ marginBottom: '2rem' }}>
           <div className="speaker-avatar"><i className={`fa-solid ${config.speaker.avatarIcon}`}></i></div>
           {config.speaker.role} // {config.speaker.name}
@@ -38,7 +38,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide color="purple">
+      <Slide active={active} color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-address-book"></i> The Domain Market
         </h2>
@@ -67,7 +67,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide color="rose" alignCenter>
+      <Slide active={active} color="rose" alignCenter>
         <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-earth-americas"></i> The Domain Hack: .ai
         </h2>
@@ -94,7 +94,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide color="purple">
+      <Slide active={active} color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-address-book"></i> The Global Phonebook
         </h2>
@@ -144,7 +144,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide color="cyan">
+      <Slide active={active} color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-sitemap"></i> DNS Resolution Hierarchy
         </h2>
@@ -189,7 +189,7 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide color="amber">
+      <Slide active={active} color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-infinity"></i> The IPv4 vs IPv6 Paradox
         </h2>
@@ -217,7 +217,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide color="rose" alignCenter>
+      <Slide active={active} color="rose" alignCenter>
         <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Connection Timeout
         </h2>
@@ -241,7 +241,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide color="emerald" alignCenter>
+      <Slide active={active} color="emerald" alignCenter>
         <h2 className="slide-title text-gradient grad-emerald stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-house-lock"></i> The Reveal: Private IP Illusion
         </h2>
@@ -263,7 +263,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide color="emerald">
+      <Slide active={active} color="emerald">
         <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-door-open"></i> Interfaces & Ports
         </h2>
@@ -315,7 +315,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide color="rose">
+      <Slide active={active} color="rose">
         <h2 className="slide-title text-gradient grad-rose stagger d-1">
           <i className="fa-solid fa-box-archive"></i> The ISP Trap: CGNAT
         </h2>
@@ -356,7 +356,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide color="cyan">
+      <Slide active={active} color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-gavel"></i> Censorship & DPI
         </h2>
@@ -396,7 +396,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide color="cyan">
+      <Slide active={active} color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-terminal"></i> LIVE LAB: Web Server Bypass
         </h2>
@@ -427,7 +427,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide color="emerald">
+      <Slide active={active} color="emerald">
         <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-cubes"></i> LIVE LAB: Minecraft Port Bypass
         </h2>
@@ -462,7 +462,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide color="purple">
+      <Slide active={active} color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-chart-line"></i> Network Quality Metrics
         </h2>
@@ -501,7 +501,7 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide color="amber" alignCenter>
+      <Slide active={active} color="amber" alignCenter>
         <h2 className="slide-title text-gradient grad-amber stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-face-laugh-squint"></i> <FuzzyText color="var(--amber)" fontSize="3rem" fontWeight="bold">It's Always DNS.</FuzzyText>
         </h2>
@@ -534,7 +534,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide color="rose">
+      <Slide active={active} color="rose">
         <h2 className="slide-title text-gradient grad-rose stagger d-1">
           <i className="fa-solid fa-user-secret"></i> VPNs & The Privacy Paradox
         </h2>
@@ -574,7 +574,7 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide color="amber">
+      <Slide active={active} color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-skull-crossbones"></i> <GlitchText speed={0.5} enableOnHover={false}>When The Network Attacks</GlitchText>
         </h2>
@@ -607,7 +607,7 @@ export const slides = [
   {
     color: "amber",
     component: ({ active }) => (
-      <Slide color="amber">
+      <Slide active={active} color="amber">
         <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-burst"></i> Exploits: DoS vs DDoS
         </h2>
@@ -640,7 +640,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide color="cyan">
+      <Slide active={active} color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-project-diagram"></i> BGP & The Backbone
         </h2>
@@ -668,7 +668,7 @@ export const slides = [
   {
     color: "rose",
     component: ({ active }) => (
-      <Slide color="rose" alignCenter>
+      <Slide active={active} color="rose" alignCenter>
         <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Rogue Appliance
         </h2>
@@ -690,7 +690,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide color="emerald">
+      <Slide active={active} color="emerald">
         <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-shield-halved"></i> The Reveal: DNS Sinkholing
         </h2>
@@ -728,7 +728,7 @@ export const slides = [
   {
     color: "cyan",
     component: ({ active }) => (
-      <Slide color="cyan">
+      <Slide active={active} color="cyan">
         <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-lock"></i> Cryptography: TLS & Certificates
         </h2>
@@ -766,7 +766,7 @@ export const slides = [
   {
     color: "purple",
     component: ({ active }) => (
-      <Slide color="purple">
+      <Slide active={active} color="purple">
         <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P
         </h2>
@@ -810,7 +810,7 @@ export const slides = [
   {
     color: "emerald",
     component: ({ active }) => (
-      <Slide color="emerald" alignCenter>
+      <Slide active={active} color="emerald" alignCenter>
         <div className="stagger d-1" style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--emerald)' }}></i>
         </div>
