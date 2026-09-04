@@ -70,8 +70,10 @@ const BlurText = ({
   const totalDuration = stepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
 
+  const containerClass = className.replace(/stagger|d-\d+/g, '').trim();
+
   return (
-    <p ref={ref} className={className} style={{ display: 'flex', flexWrap: 'wrap', ...style }}>
+    <p ref={ref} className={containerClass} style={{ display: 'flex', flexWrap: 'wrap', ...style }}>
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 

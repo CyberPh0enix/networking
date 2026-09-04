@@ -1,7 +1,6 @@
 import React from 'react';
 import { Slide } from '../components/Slide.jsx';
 import { Terminal } from '../components/Terminal.jsx';
-import { AnimatedTitle } from '../components/AnimatedTitle.jsx';
 import { config } from '../config.js';
 import DecryptedText from '../components/react-bits/DecryptedText/DecryptedText.jsx';
 import BlurText from '../components/react-bits/BlurText/BlurText.jsx';
@@ -16,9 +15,9 @@ export const slides = [
           <div className="speaker-avatar"><i className={`fa-solid ${config.speaker.avatarIcon}`}></i></div>
           {config.speaker.role} // {config.speaker.name}
         </div>
-        <AnimatedTitle active={active} className="title-massive text-gradient grad-cyan stagger d-2">
+        <h1 className="title-massive text-gradient grad-cyan stagger d-2">
           {config.presentation.title}
-        </AnimatedTitle>
+        </h1>
         <BlurText
           key={active ? 'active' : 'inactive'}
           text={config.presentation.subtitle}
@@ -28,11 +27,11 @@ export const slides = [
           className="stagger d-3"
           style={{ maxWidth: '900px', fontSize: '2rem' }}
         />
-        <AnimatedTitle active={active} className="glass-panel stagger d-4" style={{ padding: '1rem 2rem', borderRadius: '50px', marginTop: '2rem' }}>
+        <div className="glass-panel stagger d-4" style={{ padding: '1rem 2rem', borderRadius: '50px', marginTop: '2rem' }}>
           <span className="mono" style={{ color: 'var(--cyan)', fontSize: '1rem' }}>
             [ <i className="fa-solid fa-network-wired"></i> systemctl start networking.service ]
           </span>
-        </AnimatedTitle>
+        </div>
       </Slide>
     )
   },
@@ -41,9 +40,9 @@ export const slides = [
     color: "purple",
     component: ({ active }) => (
       <Slide active={active} color="purple">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-purple stagger d-1">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-address-book"></i> The Domain Market
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="flex-col-gap stagger d-2">
             <div className="glass-panel" style={{ borderLeft: '4px solid var(--purple)' }}>
@@ -70,9 +69,9 @@ export const slides = [
     color: "rose",
     component: ({ active }) => (
       <Slide active={active} color="rose" alignCenter>
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
+        <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-earth-americas"></i> The Domain Hack: .ai
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2" style={{ width: '100%', maxWidth: '1200px', marginTop: '2rem' }}>
           <div className="glass-panel stagger d-2" style={{ padding: '3rem', textAlign: 'center', borderTop: '4px solid var(--emerald)' }}>
             <i className="fa-solid fa-umbrella-beach icon-massive" style={{ color: 'var(--emerald)' }}></i>
@@ -97,9 +96,9 @@ export const slides = [
     color: "purple",
     component: ({ active }) => (
       <Slide active={active} color="purple">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-purple stagger d-1">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-address-book"></i> The Global Phonebook
-        </AnimatedTitle>
+        </h2>
         <div className="diagram-flex stagger d-2">
           <div className="node" style={{ borderColor: 'var(--purple)', boxShadow: '0 0 20px rgba(168, 85, 247, 0.2)' }}>
             <i className="fa-solid fa-laptop-code" style={{ color: 'var(--purple)' }}></i>
@@ -147,9 +146,9 @@ export const slides = [
     color: "cyan",
     component: ({ active }) => (
       <Slide active={active} color="cyan">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-cyan stagger d-1">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-sitemap"></i> DNS Resolution Hierarchy
-        </AnimatedTitle>
+        </h2>
         <div className="diagram-flex stagger d-2" style={{ marginBottom: '3rem' }}>
           <div className="node" style={{ borderColor: 'var(--purple)', boxShadow: '0 0 20px rgba(168,85,247,0.2)' }}>
             <i className="fa-solid fa-server" style={{ color: 'var(--purple)' }}></i>
@@ -192,9 +191,9 @@ export const slides = [
     color: "amber",
     component: ({ active }) => (
       <Slide active={active} color="amber">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-amber stagger d-1">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-infinity"></i> The IPv4 vs IPv6 Paradox
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="glass-panel stagger d-2" style={{ borderColor: 'rgba(244, 63, 94, 0.4)' }}>
             <div><div className="concept-badge" style={{ color: 'var(--rose)' }}>1990s Band-Aid</div></div>
@@ -220,9 +219,9 @@ export const slides = [
     color: "rose",
     component: ({ active }) => (
       <Slide active={active} color="rose" alignCenter>
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
+        <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Connection Timeout
-        </AnimatedTitle>
+        </h2>
         <div className="glass-panel stagger d-2" style={{ maxWidth: '900px', padding: '4rem', borderTop: '4px solid var(--rose)' }}>
           <i className="fa-solid fa-cubes icon-massive" style={{ color: 'var(--rose)' }}></i>
           <h3 style={{ color: '#fff', fontSize: '2.5rem', marginBottom: '2rem' }}>The Dilemma</h3>
@@ -244,9 +243,9 @@ export const slides = [
     color: "emerald",
     component: ({ active }) => (
       <Slide active={active} color="emerald" alignCenter>
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-emerald stagger d-1" style={{ justifyContent: 'center' }}>
+        <h2 className="slide-title text-gradient grad-emerald stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-house-lock"></i> The Reveal: Private IP Illusion
-        </AnimatedTitle>
+        </h2>
         <div className="glass-panel stagger d-2" style={{ maxWidth: '900px', padding: '4rem', borderTop: '4px solid var(--emerald)' }}>
           <h3 style={{ color: '#fff', fontSize: '2.5rem', marginBottom: '2rem' }}>It's a Local Address</h3>
           <p style={{ fontSize: '1.5rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
@@ -266,9 +265,9 @@ export const slides = [
     color: "emerald",
     component: ({ active }) => (
       <Slide active={active} color="emerald">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-emerald stagger d-1">
+        <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-door-open"></i> Interfaces & Ports
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2" style={{ alignItems: 'center' }}>
           <ul className="sleek-list stagger d-2">
             <li>
@@ -318,9 +317,9 @@ export const slides = [
     color: "rose",
     component: ({ active }) => (
       <Slide active={active} color="rose">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-rose stagger d-1">
+        <h2 className="slide-title text-gradient grad-rose stagger d-1">
           <i className="fa-solid fa-box-archive"></i> The ISP Trap: CGNAT
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="glass-panel stagger d-2" style={{ borderColor: 'rgba(244, 63, 94, 0.4)' }}>
             <h3>Carrier-Grade NAT</h3>
@@ -359,9 +358,9 @@ export const slides = [
     color: "cyan",
     component: ({ active }) => (
       <Slide active={active} color="cyan">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-cyan stagger d-1">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-gavel"></i> Censorship & DPI
-        </AnimatedTitle>
+        </h2>
         <p className="stagger d-2" style={{ color: '#fff', fontSize: '1.8rem', marginBottom: '2rem' }}>
           How does an ISP enforce an app ban?
         </p>
@@ -399,9 +398,9 @@ export const slides = [
     color: "cyan",
     component: ({ active }) => (
       <Slide active={active} color="cyan">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-cyan stagger d-1">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-terminal"></i> LIVE LAB: Web Server Bypass
-        </AnimatedTitle>
+        </h2>
         <p className="stagger d-2" style={{ textAlign: 'center', color: '#fff', fontSize: '1.8rem', marginBottom: '2rem' }}>
           Since inbound is blocked, we punch a hole <strong>OUT</strong>.
         </p>
@@ -430,9 +429,9 @@ export const slides = [
     color: "emerald",
     component: ({ active }) => (
       <Slide active={active} color="emerald">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-emerald stagger d-1">
+        <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-cubes"></i> LIVE LAB: Minecraft Port Bypass
-        </AnimatedTitle>
+        </h2>
         <p className="stagger d-2" style={{ textAlign: 'center', color: '#fff', fontSize: '1.5rem', marginBottom: '2rem' }}>
           Bypassing CGNAT to host a TCP Game Server on Port 25565
         </p>
@@ -465,9 +464,9 @@ export const slides = [
     color: "purple",
     component: ({ active }) => (
       <Slide active={active} color="purple">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-purple stagger d-1">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-chart-line"></i> Network Quality Metrics
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <ul className="sleek-list stagger d-2">
             <li>
@@ -504,9 +503,9 @@ export const slides = [
     color: "amber",
     component: ({ active }) => (
       <Slide active={active} color="amber" alignCenter>
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-amber stagger d-1" style={{ justifyContent: 'center' }}>
+        <h2 className="slide-title text-gradient grad-amber stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-face-laugh-squint"></i> It's Always DNS.
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2" style={{ width: '100%', maxWidth: '1200px' }}>
           <div className="glass-panel stagger d-2" style={{ padding: '3rem', textAlign: 'center', borderTop: '4px solid var(--rose)' }}>
             <i className="fa-solid fa-server icon-massive" style={{ color: 'var(--rose)' }}></i>
@@ -537,9 +536,9 @@ export const slides = [
     color: "rose",
     component: ({ active }) => (
       <Slide active={active} color="rose">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-rose stagger d-1">
+        <h2 className="slide-title text-gradient grad-rose stagger d-1">
           <i className="fa-solid fa-user-secret"></i> VPNs & The Privacy Paradox
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="flex-col-gap">
             <div className="glass-panel stagger d-2" style={{ borderLeft: '4px solid var(--cyan)' }}>
@@ -577,9 +576,9 @@ export const slides = [
     color: "amber",
     component: ({ active }) => (
       <Slide active={active} color="amber">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-amber stagger d-1">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-skull-crossbones"></i> When The Network Attacks
-        </AnimatedTitle>
+        </h2>
         <div className="grid-3">
           <div className="glass-panel stagger d-2" style={{ borderTop: '4px solid var(--emerald)', textAlign: 'center' }}>
             <i className="fa-brands fa-linux icon-massive" style={{ color: 'var(--emerald)' }}></i>
@@ -610,9 +609,9 @@ export const slides = [
     color: "amber",
     component: ({ active }) => (
       <Slide active={active} color="amber">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-amber stagger d-1">
+        <h2 className="slide-title text-gradient grad-amber stagger d-1">
           <i className="fa-solid fa-burst"></i> Exploits: DoS vs DDoS
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="flex-col-gap">
             <div className="glass-panel stagger d-2" style={{ borderLeft: '4px solid var(--amber)' }}>
@@ -643,9 +642,9 @@ export const slides = [
     color: "cyan",
     component: ({ active }) => (
       <Slide active={active} color="cyan">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-cyan stagger d-1">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-project-diagram"></i> BGP & The Backbone
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="glass-panel stagger d-2" style={{ borderColor: 'var(--cyan)' }}>
             <h3 style={{ color: 'var(--cyan)', fontSize: '2.5rem' }}>Border Gateway Protocol</h3>
@@ -671,9 +670,9 @@ export const slides = [
     color: "rose",
     component: ({ active }) => (
       <Slide active={active} color="rose" alignCenter>
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
+        <h2 className="slide-title text-gradient grad-rose stagger d-1" style={{ justifyContent: 'center' }}>
           <i className="fa-solid fa-puzzle-piece"></i> Riddle: The Rogue Appliance
-        </AnimatedTitle>
+        </h2>
         <div className="glass-panel stagger d-2" style={{ maxWidth: '900px', padding: '4rem', borderTop: '4px solid var(--rose)' }}>
           <i className="fa-solid fa-tv icon-massive" style={{ color: 'var(--rose)' }}></i>
           <h3 style={{ color: '#fff', fontSize: '2.5rem', marginBottom: '2rem' }}>The Dilemma</h3>
@@ -693,9 +692,9 @@ export const slides = [
     color: "emerald",
     component: ({ active }) => (
       <Slide active={active} color="emerald">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-emerald stagger d-1">
+        <h2 className="slide-title text-gradient grad-emerald stagger d-1">
           <i className="fa-solid fa-shield-halved"></i> The Reveal: DNS Sinkholing
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="flex-col-gap stagger d-2">
             <div className="glass-panel" style={{ borderTop: '4px solid var(--cyan)' }}>
@@ -731,9 +730,9 @@ export const slides = [
     color: "cyan",
     component: ({ active }) => (
       <Slide active={active} color="cyan">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-cyan stagger d-1">
+        <h2 className="slide-title text-gradient grad-cyan stagger d-1">
           <i className="fa-solid fa-lock"></i> Cryptography: TLS & Certificates
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="flex-col-gap stagger d-2">
             <div className="glass-panel" style={{ borderLeft: '4px solid var(--emerald)' }}>
@@ -769,9 +768,9 @@ export const slides = [
     color: "purple",
     component: ({ active }) => (
       <Slide active={active} color="purple">
-        <AnimatedTitle active={active} className="slide-title text-gradient grad-purple stagger d-1">
+        <h2 className="slide-title text-gradient grad-purple stagger d-1">
           <i className="fa-solid fa-masks-theater"></i> The Underground: TOR & P2P
-        </AnimatedTitle>
+        </h2>
         <div className="grid-2">
           <div className="stagger d-2">
             <h3 style={{ color: 'var(--cyan)', fontSize: '2.5rem' }}>TOR (The Onion Router)</h3>
