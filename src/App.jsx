@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { config } from './config.js';
 import { slides } from './presentations/Networking.jsx';
+import SystemInitIntro from './components/SystemInitIntro.jsx';
 
 function App() {
   const totalSlides = slides.length;
@@ -10,6 +11,12 @@ function App() {
     let initial = saved ? parseInt(saved, 10) : 0;
     if (initial >= totalSlides) initial = 0;
     return initial;
+  });
+
+  const [introFinished, setIntroFinished] = useState(() => {
+    const saved = localStorage.getItem("networking_slide_index");
+    const initial = saved ? parseInt(saved, 10) : 0;
+    return initial > 0;
   });
 
   const [isAnimating, setIsAnimating] = useState(false);
@@ -48,6 +55,7 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (!introFinished) return;
       if (["ArrowRight", " ", "PageDown"].includes(e.key)) {
         e.preventDefault();
         nextSlide();
@@ -63,6 +71,7 @@ function App() {
     };
 
     const handleTouchEnd = (e) => {
+      if (!introFinished) return;
       const touchEndX = e.changedTouches[0].screenX;
       const swipeThreshold = 50;
       if (touchEndX < touchStartX.current - swipeThreshold) {
@@ -92,7 +101,7 @@ function App() {
       document.removeEventListener("touchend", handleTouchEnd);
       document.removeEventListener("dblclick", handleDoubleClick);
     };
-  }, [isAnimating, currentSlide, totalSlides]);
+  }, [isAnimating, currentSlide, totalSlides, introFinished]);
 
   const progress = ((currentSlide + 1) / totalSlides) * 100;
   
@@ -101,6 +110,8 @@ function App() {
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
+      {!introFinished && <SystemInitIntro onComplete={() => setIntroFinished(true)} />}
+
       {/* Ambient Background */}
       <div className="ambient-bg">
         <div className="glow-orb" id="orb1" style={{ background: themeColor.glow, transform: `translate3d(${orbPositions.p1x}vw, ${orbPositions.p1y}vh, 0)` }}></div>
